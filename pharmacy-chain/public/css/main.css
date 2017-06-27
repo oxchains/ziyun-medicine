@@ -1,0 +1,160 @@
+
+/* ==== GENERAL ==== */
+
+body {
+    font-family: Helvetica, Arial, "Microsoft Yahei", "微软雅黑", STXihei, "华文细黑", sans-serif;
+    font-size: 14px;
+    color: #6c6c6c;;
+    /*background: #f5f5f5;*/
+}
+
+.box-shadow {
+    box-shadow: 0px 0px 3px #ccc;
+}
+
+.btn-primary {
+    /*background-color: #a82ed3;*/
+    background-color: #9e29cd;
+    border-color: #6f2e8f;
+}
+
+.btn-primary:hover {
+    background-color: #6f2e8f;
+    /*background-color: #5f297e;*/
+}
+
+a:link, a:visited {
+    color: #9e29cd;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #6f2e8f;
+}
+
+/* ==== LAYOUT ==== */
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #3e4249;
+    color: white;
+    padding: 20px 0 10px;
+    font-size: 12px;
+}
+
+.content-wrapper {
+    margin-bottom: 40px;
+}
+
+/* ==== HEADER ==== */
+
+.site-header .title {
+    font-size: 40px;
+}
+.site-header .sub-title {
+    font-size: 18px;
+}
+
+.site-header>section {
+    background: url('../img/hero-bg.jpg') 50% 0 repeat fixed;
+    min-height: 270px;
+    position: relative;
+    display: table;
+    width: 100%;
+    padding: 40px 0;
+    color: white;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizelegibility;
+}
+
+.navbar-wrapper {
+    transform: translate(0 ,-50%);
+}
+
+.navbar .collapse {
+    width: 100%;
+    text-align: center;
+}
+
+.navbar-nav {
+    display: inline-block;
+    text-align: center;
+    float: none;
+    border: 1px solid #e7e7e7;
+    border-radius: 4px;
+    box-shadow: 0px 0px 3px #ccc;
+    background-color: white;
+}
+
+.navbar-nav > li {
+    float: none;
+    display: inline-block;
+}
+
+.navbar-default {
+    background-color: transparent;
+    border: transparent;
+}
+
+.navbar-nav>li>a {
+    padding: 20px 40px;
+}
+
+.navbar-nav>li:first-child>a {
+    padding-left: 50px;
+}
+
+.navbar-nav>li:last-child>a {
+    padding-right: 50px;
+}
+
+
+
+/* ==== ALLIANCE ==== */
+
+.alliance {
+    padding: 25px;
+}
+
+.alliance .alliance-header {
+    font-size: 16px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+}
+
+.alliance ul {
+    list-style: none;
+    padding: 0;
+}
+
+.alliance li {
+    border-bottom: 1px solid #eee;
+    padding: 14px 0;
+}
+
+.alliance li:last-child {
+    border: none;
+}
+
+.alliance li i {
+    margin-right: 8px;
+}
+
+
+/* LOGIN */
+
+.login-box {
+    width: 360px;
+    margin: 20px auto;
+}
+
+.login-box-msg {
+    margin: 0;
+    text-align: center;
+    font-size: 20px;
+    padding: 0 20px 20px 20px;
+}

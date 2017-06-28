@@ -12,6 +12,8 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom'
 import { signinAction } from '../../actions/auth'
+import AllianceList from '../alliance_list';
+import cssSignin from '../css/signin.css';
 
 class Signin extends Component {
 
@@ -41,37 +43,41 @@ class Signin extends Component {
   render() {
     const { handleSubmit} = this.props;
     const { from } = this.props.location.state || { from: { pathname: '/' } };
-    console.log(from);
 
     if(this.props.loggedIn) {
       return <Redirect to={from}/>;
     }
 
     return (
-      <div>
+      <div className="container">
         <section className="content">
-        <div className="login-box">
-          <div className="login-logo">
-          </div>
-          <div className="login-box-body">
-            <p className="login-box-msg" style={{fontSize: 24+'px'}}>OXCHAIN</p>
 
-            {this.renderAlert()}
+          <div className="row">
+            <div className="col-md-3"><AllianceList/></div>
+              <div className="col-md-9 text-center">
+                <div className="login-box">
+                <div className="login-box-body">
+                  <p className="login-box-msg" style={{fontSize: 24+'px'}}>欢迎,请登录</p>
 
-            <form className="form-signin" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-            <Field name="username" component={this.renderField} type="text"  label="用户名" icon="envelope" />
-            <Field name="password" component={this.renderField} type="password" label="密码" icon="lock" />
-              <div className="row">
-                <div className="col-xs-8">
-                </div>
-                <div className="col-xs-4">
-                  <button type="submit" className="btn btn-primary btn-block btn-flat">登录</button>
+                  {this.renderAlert()}
+
+                  <form className="form-signin" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+                  <Field name="username" component={this.renderField} type="text"  label="用户名" icon="user" />
+                  <Field name="password" component={this.renderField} type="password" label="密码" icon="lock" />
+                    <div className="row margin-b-10">
+                      <div className="col-xs-12">
+                        <button type="submit" className="btn btn-primary btn-block btn-flat">登录</button>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-xs-6"><a href="/signup" className="pull-left">立即注册</a></div>
+                      <div className="col-xs-6"><a href="#" className="text-gray pull-right">忘记密码?</a></div>
+                    </div>
+                  </form>
                 </div>
               </div>
-
-            </form>
+            </div>
           </div>
-        </div>
         </section>
       </div>
     );

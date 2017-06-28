@@ -1,0 +1,13 @@
+/* LOGIN */
+
+.login-box {
+    width: 320px;
+    margin: 20px auto;
+}
+
+.login-box-msg {
+    margin: 0;
+    text-align: center;
+    font-size: 20px;
+    padding: 0 20px 20px 20px;
+}

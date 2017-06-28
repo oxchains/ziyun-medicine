@@ -36,7 +36,7 @@ ReactDOM.render(
           <Switch>
             <Route path="/signout" component={Signout} />
             <Route path="/signin" component={Signin} />
-            <Route path="/" component={Welcome} />
+            <PrivateRoute path="/" component={Welcome} />
           </Switch>
         </div>
         <Footer/>

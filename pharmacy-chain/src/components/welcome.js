@@ -26,7 +26,6 @@ class Welcome extends  Component {
               <h3>欢迎您, {this.renderUserInfo()}</h3>
               <p>现在时间是: <Moment locale="zh-cn" format="lll"></Moment></p>
               <p>请点击上方导航栏开始使用</p>
-              <p>或者点击此处<Link to="/signout">退出登录</Link></p>
             </div>
           </div>
         </section>

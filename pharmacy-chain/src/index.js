@@ -14,6 +14,7 @@ import Header from './components/common/header';
 import Footer from './components/common/footer';
 import Signout from './components/auth/signout';
 import Signin from './components/auth/signin';
+import Alliance from './components/alliance';
 
 const createStoreWithMiddleware = compose(
   applyMiddleware(reduxThunk),
@@ -36,6 +37,7 @@ ReactDOM.render(
           <Switch>
             <Route path="/signout" component={Signout} />
             <Route path="/signin" component={Signin} />
+            <PrivateRoute path="/alliance" component={Alliance} />
             <PrivateRoute path="/" component={Welcome} />
           </Switch>
         </div>

@@ -7,7 +7,13 @@ import {
 } from './types';
 
 
-// 登录
+/**
+ * 登录
+ * @param username
+ * @param password
+ * @param callback
+ * @returns {Function}
+ */
 export function signinAction({ username, password }, callback) {
   return function(dispatch) {
     //axios.post(`${ROOT_URL}/user/token`, { username, password })
@@ -43,7 +49,10 @@ export function authError(error) {
   };
 }
 
-// 登出
+/**
+ * 登出
+ * @returns {{type}}
+ */
 export function signoutUser() {
   localStorage.removeItem('token');
   localStorage.removeItem('user');

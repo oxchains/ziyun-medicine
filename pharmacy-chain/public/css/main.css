@@ -187,37 +187,3 @@ footer {
 
 
 
-/* ==== ALLIANCE ==== */
-
-.alliance {
-    padding: 25px;
-}
-
-.alliance .alliance-header {
-    font-size: 16px;
-    text-align: center;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 14px;
-    margin-bottom: 14px;
-}
-
-.alliance ul {
-    list-style: none;
-    padding: 0;
-}
-
-.alliance li {
-    border-bottom: 1px solid #eee;
-    padding: 14px 0;
-}
-
-.alliance li:last-child {
-    border: none;
-}
-
-.alliance li i {
-    margin-right: 8px;
-}
-
-
-

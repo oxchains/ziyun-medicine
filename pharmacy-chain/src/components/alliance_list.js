@@ -7,29 +7,45 @@
  *
  */
 
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchAllianceList } from '../actions/alliance';
+import css from './css/alliance.css';
 
-export default () => {
-  return (
-    <div className="alliance box-shadow">
-      <div className="alliance-header"><i className="fa fa-group"></i> 联盟成员名单</div>
-      <ul>
-        <li><i className="fa fa-circle"></i> 华润医药商业集团</li>
-        <li><i className="fa fa-circle"></i> 上药控股</li>
-        <li><i className="fa fa-circle"></i> 九州通医药集团</li>
-        <li><i className="fa fa-circle"></i> 国药集团物流有限公司</li>
-        <li><i className="fa fa-circle"></i> 湖南建行常德分行</li>
-        <li><i className="fa fa-circle"></i> 河南紫云云计算股份有限公司</li>
-        <li><i className="fa fa-circle"></i> 浙江英特物流有限公司</li>
-        <li><i className="fa fa-circle"></i> 华润医药商业集团</li>
-        <li><i className="fa fa-circle"></i> 上药控股</li>
-        <li><i className="fa fa-circle"></i> 九州通医药集团</li>
-        <li><i className="fa fa-circle"></i> 国药集团物流有限公司</li>
-        <li><i className="fa fa-circle"></i> 湖南建行常德分行</li>
-        <li><i className="fa fa-circle"></i> 河南紫云云计算股份有限公司</li>
-        <li><i className="fa fa-circle"></i> 浙江英特物流有限公司</li>
-        <li><i className="fa fa-circle"></i> 河南紫云云计算股份有限公司</li>
-        <li><i className="fa fa-circle"></i> 浙江英特物流有限公司</li>
-      </ul>
-    </div>);
-};
+class AllianceList extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillMount() {
+    this.props.fetchAllianceList();
+  }
+
+  renderRows() {
+    return this.props.all.map((row, idx) => {
+      return <li key={idx}><i className="fa fa-circle"></i> {row.name}</li>;
+    });
+  }
+
+  render() {
+    if(this.props.all===null) {
+      return <div><section className="content"><h1>Loading...</h1></section></div>
+    }
+
+    return (
+      <div className="alliance box-shadow">
+        <div className="alliance-header"><i className="fa fa-group"></i> 联盟成员名单</div>
+        <ul>
+          {this.renderRows()}
+        </ul>
+      </div>)
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    all: state.alliance.all
+  };
+}
+
+export default connect(mapStateToProps, { fetchAllianceList })(AllianceList);

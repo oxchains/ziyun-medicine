@@ -9,7 +9,7 @@ export const REQUEST_ERROR = 'request_error';                         //http请�
 
 export const FETCH_ALLIANCE_LIST = 'fetch_alliance_list';             //获取联盟成员列表
 
-
+export const FETCH_STAT_DATA = 'fetch_stat_data';                     //获取链上统计数据
 
 
 

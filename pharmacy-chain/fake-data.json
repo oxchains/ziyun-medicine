@@ -145,5 +145,14 @@
         }
 
       ]
+    },
+  "stat": {
+    "status": 1,
+    "message": "success",
+    "data": {
+      "shipping": "3333",
+      "stock_in": "2345",
+      "stock_out": "2222"
     }
+  }
 }

@@ -116,6 +116,16 @@ paths:
           in: formData
           required: true
           type: string
+        - name: company
+          in: formData
+          required: true
+          type: string
+          description: 公司名称
+        - name: representative
+          description: 法定代表人
+          in: formData
+          type: string
+          required: true
       responses:
         '200':
           description: 注册成功
@@ -289,6 +299,8 @@ definitions:
   User:
     type: object
     properties:
+      representative:
+        type: string
       username:
         type: string
       email:
@@ -298,6 +310,18 @@ definitions:
       company:
         type: string
       phone:
+        type: string
+      license:
+        description: 营业执照
+        type: string
+      idfront:
+        description: 身份证人像面
+        type: string
+      idback:
+        description: 身份证国徽面
+        type: string
+      applydate:
+        description: 申请日期
         type: string
 
   UserListData:
@@ -344,7 +368,6 @@ definitions:
         properties:
           data:
             $ref: '#/definitions/Peer'
-
 
   ActionRequest:
     type: object

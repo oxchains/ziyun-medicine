@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import {createStore, applyMiddleware, compose} from 'redux';
-import {Route, BrowserRouter, Switch} from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import reduxThunk from 'redux-thunk';
 
 import reducers from './reducers';
-import {AUTH_USER} from './actions/types';
+import { AUTH_USER } from './actions/types';
 
 import PrivateRoute from './components/auth/private_route';
 import Welcome from './components/welcome';
@@ -16,6 +16,7 @@ import Signout from './components/auth/signout';
 import Signin from './components/auth/signin';
 import Signup from './components/signup';
 import Alliance from './components/alliance';
+import Stat from './components/stat';
 
 const createStoreWithMiddleware = compose(
   applyMiddleware(reduxThunk),
@@ -26,7 +27,7 @@ const store = createStoreWithMiddleware(reducers);
 const token = localStorage.getItem('token');
 // If token exist, singin automatic
 if (token) {
-  store.dispatch({type: AUTH_USER});
+  store.dispatch({ type: AUTH_USER });
 }
 
 ReactDOM.render(
@@ -36,11 +37,12 @@ ReactDOM.render(
         <Header />
         <div className="content-wrapper">
           <Switch>
-            <Route path="/signout" component={Signout}/>
-            <Route path="/signin" component={Signin}/>
+            <Route path="/signout" component={Signout} />
+            <Route path="/signin" component={Signin} />
             <Route path="/signup" component={Signup}/>
-            <PrivateRoute path="/alliance" component={Alliance}/>
-            <PrivateRoute path="/" component={Welcome}/>
+            <PrivateRoute path="/alliance" component={Alliance} />
+            <PrivateRoute path="/stat" component={Stat} />
+            <PrivateRoute path="/" component={Welcome} />
           </Switch>
         </div>
         <Footer/>

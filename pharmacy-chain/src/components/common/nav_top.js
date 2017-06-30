@@ -12,8 +12,33 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 export class NavTop extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {current:''};
+
+    this.renderLink = this.renderLink.bind(this);
+  }
+
+  handleLinkClick(e) {
+    this.setState({current: e.target.id });
+  }
+
+  renderLink({path, title}) {
+    return (<li key={path} className={window.location.pathname==path?'active':''}
+                onClick={this.handleLinkClick.bind(this)}>
+      <Link id={path} to={path}>{title}</Link>
+    </li>)
+  }
 
   render() {
+    const links = [
+      {path:'/', title:'平台首页'},
+      {path:'/alliance', title:'联盟动态'},
+      {path:'/node', title:'节点管理'},
+      {path:'/query', title:'追溯查证'},
+      {path:'/stat', title:'链上统计'}
+    ];
+
     return (
       <div className="navbar-wrapper">
         <div className="navbar navbar-default" role="navigation">
@@ -28,11 +53,7 @@ export class NavTop extends Component {
             </div>
             <div className="navbar-collapse collapse">
               <ul className="nav navbar-nav">
-                <li className="active"><a href="/">平台首页</a></li>
-                <li><a href="/alliance">联盟动态</a></li>
-                <li><a href="/node">节点管理</a></li>
-                <li><a href="/query">追溯查证</a></li>
-                <li><a href="/statistics">链上统计</a></li>
+                { links.map(this.renderLink) }
               </ul>
             </div>
           </div>

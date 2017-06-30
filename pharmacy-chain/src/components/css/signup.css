@@ -34,8 +34,8 @@
 .divider {
     height: 1px;
     background-color: rgba(80, 80, 80, .2);
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-right: 26px;
+    margin-bottom: 12px;
 }
 
 p {
@@ -77,4 +77,31 @@ p {
 icon-divider {
     float: right;
     position: relative;
+}
+
+.signup-page3 p {
+    text-align: center;
+}
+
+.signup-page3 h4 {
+    text-align: center;
+}
+
+.signup-page4 p {
+    text-align: center;
+}
+
+.signup-page4 h4 {
+    text-align: center;
+    color: #6f2e8f;
+}
+
+.icon-center {
+    display: flex;
+    display: -webkit-flex; /* Safari */
+    justify-content: center;
+}
+
+.signup-page4 p {
+    text-align: center;
 }

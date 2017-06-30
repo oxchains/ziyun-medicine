@@ -20,7 +20,9 @@ class SignUp extends Component {
       isApplyFileDone: false,
       isImgFileDone: false,
       isIdCardDone: false,
-      isLicenseFileDone: false
+      isLicenseFileDone: false,
+      isFormSubmit: false,
+      isSignUpSuccess: false
     };
 
     this.nextPage = this.nextPage.bind(this);
@@ -78,21 +80,13 @@ class SignUp extends Component {
   nextPage() {
     let {index} = this.state;
     index++;
-    if (index > 2) {
-      index = 2;
+    if (index > 4) {
+      index = 4;
     }
 
     this.setState({
       index
     })
-  }
-
-  handleSelect(e) {
-    console.log(`signType : ${e.target.value}`);
-    // TODO 1. 与服务器做验证码的判断
-    // TODO 2. 是否点击下载了入盟申请书
-
-    this.state.registertype = e.target.value;
   }
 
   prevPage() {
@@ -108,8 +102,18 @@ class SignUp extends Component {
     })
   }
 
+  handleSelect(e) {
+    console.log(`signType : ${e.target.value}`);
+    // TODO 1. 与服务器做验证码的判断
+    // TODO 2. 是否点击下载了入盟申请书
+
+    this.state.registertype = e.target.value;
+  }
+
+
   handleFormSubmit({email, idcode, username, password, repeatpassword, phone, company, person}) {
     if (email && idcode && username && password && repeatpassword && phone && company && person) {
+      console.log(`email : ${email}  idcode : ${idcode} username : ${password}  repeatpassword: ${repeatpassword} phone: ${phone} company: ${company} person : ${person}`);
       let {isImgFileDone, isIdCardDone, isLicenseFileDone, isApplyFileDone} = this.state;
       if (isImgFileDone && isIdCardDone && isLicenseFileDone && isApplyFileDone) {
         let applyOFile = this.applyFileInput.files[0];
@@ -136,6 +140,10 @@ class SignUp extends Component {
         });
       }
     }
+    this.setState({
+      isFormSubmit: true,
+      index: 3
+    })
   }
 
 
@@ -156,11 +164,14 @@ class SignUp extends Component {
             <div className="col-sm-1-5">
               <div>
                 <div className="row-header">
-                  <div className={`icon-circle ${this.state.index == 0 ? 'icon-circle-purple' : ''}`}>1
+                  <div className="row-title">
+                    <div className={`icon-circle ${this.state.index == 0 ? 'icon-circle-purple' : ''}`}>1
+                    </div>
+                    <span className="glyphicon glyphicon-arrow-right pull-right"></span>
                   </div>
                   <h4 className={`${this.state.index == 0 ? 'h4-purple' : ''}`}>申请入盟</h4>
-                  <span className="glyphicon glyphicon-arrow-right icon-divider"></span>
                 </div>
+                <div className="divider"></div>
                 <p>
                   下载入盟申请表
                 </p>
@@ -175,10 +186,13 @@ class SignUp extends Component {
 
             <div className="col-sm-1-5">
               <div className="row-header">
-                <div className={`icon-circle ${this.state.index == 1 ? 'icon-circle-purple' : ''}`}>2</div>
+                <div className="row-title">
+                  <div className={`icon-circle ${this.state.index == 1 ? 'icon-circle-purple' : ''}`}>2</div>
+                  <span className="glyphicon glyphicon-arrow-right pull-right"></span>
+                </div>
                 <h4 className={`${this.state.index == 1 ? 'h4-purple' : ''}`}>设置账号密码</h4>
-                <span className="glyphicon glyphicon-arrow-right"></span>
               </div>
+              <div className="divider"></div>
               <p>
                 下载入盟申请表
               </p>
@@ -192,10 +206,13 @@ class SignUp extends Component {
 
             <div className="col-sm-1-5">
               <div className="row-header">
-                <div className={`icon-circle ${this.state.index == 2 ? 'icon-circle-purple' : ''}`}>3</div>
+                <div className="row-title">
+                  <div className={`icon-circle ${this.state.index == 2 ? 'icon-circle-purple' : ''}`}>3</div>
+                  <span className="glyphicon glyphicon-arrow-right pull-right"></span>
+                </div>
                 <h4 className={`${this.state.index == 2 ? 'h4-purple' : ''}`}>设置公司信息</h4>
-                <span className="glyphicon glyphicon-arrow-right"></span>
               </div>
+              <div className="divider"></div>
               <p>
                 下载入盟申请表
               </p>
@@ -209,10 +226,13 @@ class SignUp extends Component {
 
             <div className="col-sm-1-5">
               <div className="row-header">
-                <div className={`icon-circle ${this.state.index == 3 ? 'icon-circle-purple' : ''}`}>4</div>
+                <div className="row-title">
+                  <div className={`icon-circle ${this.state.index == 3 ? 'icon-circle-purple' : ''}`}>4</div>
+                  <span className="glyphicon glyphicon-arrow-right pull-right"></span>
+                </div>
                 <h4 className={`${this.state.index == 3 ? 'h4-purple' : ''}`}>等待审核</h4>
-                <span className="glyphicon glyphicon-arrow-right"></span>
               </div>
+              <div className="divider"></div>
               <p>
                 下载入盟申请表
               </p>
@@ -226,9 +246,12 @@ class SignUp extends Component {
 
             <div className="col-sm-1-5">
               <div className="row-header">
-                <div className={`icon-circle ${this.state.index == 4 ? 'icon-circle-purple' : ''}`}>5</div>
-                <h4 className={`${this.state.index == 4 ? 'h4-purple' : ''}`}>成功注册</h4>
+                <div className="row-title">
+                  <div className={`icon-circle ${this.state.index == 4 ? 'icon-circle-purple' : ''}`}>5</div>
+                  <h4 className={`${this.state.index == 4 ? 'h4-purple' : ''}`}>成功注册</h4>
+                </div>
               </div>
+              <div className="divider"></div>
               <p>
                 下载入盟申请表
               </p>
@@ -245,7 +268,7 @@ class SignUp extends Component {
         <div className="signup-content">
           <form className="form-horizontal" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
             {/*  第一页  */}
-            <div className={`sign-page0 ${this.state.index === 0 ? "show" : "hidden"}`}>
+            <div className={`sign-page0 ${this.state.index == 0 ? "show" : "hidden"}`}>
 
               <div className="row  margin-b-15 ">
                 <label className="col-sm-4 control-label"><strong>下载入盟申请表</strong></label>
@@ -297,7 +320,7 @@ class SignUp extends Component {
             {/*  第一页  */}
 
             {/*  第二页  */}
-            <div className={`sign-page1 ${this.state.index === 1 ? "show" : "hidden"}`}>
+            <div className={`sign-page1 ${this.state.index == 1 ? "show" : "hidden"}`}>
               <Field name="username" component={this.renderField} type="text" label="用户名"/>
               <Field name="password" component={this.renderField} type="password" label="密码"/>
               <Field name="repeatpassword" component={this.renderField} type="password" label="重新输入密码"/>
@@ -327,12 +350,12 @@ class SignUp extends Component {
             {/*  第二页  */}
 
             {/*  第三页  */}
-            <div className={`sign-page2 ${this.state.index === 2 ? "show" : "hidden"}`}>
+            <div className={`sign-page2 ${this.state.index == 2 ? "show" : "hidden"}`}>
               <Field name="company" component={this.renderField} type="text" label="公司名称"/>
               <div className="row margin-b-15">
                 <label className="col-sm-4 control-label"><strong>上传营业执照</strong></label>
                 <div className="col-sm-8">
-                  <input className="" type="file" accept="image/png,image/gif" value="license"
+                  <input className="" type="file" accept="image/png,image/gif"
                          onChange={this.handleLicenseFile} ref={(input) => this.licenseInput = input}/>
                 </div>
               </div>
@@ -342,7 +365,7 @@ class SignUp extends Component {
               <div className="row margin-b-15">
                 <label className="col-sm-4 control-label"><strong>上传身份证</strong></label>
                 <div className="col-sm-8">
-                  <input className="" type="file" accept="image/png,image/gif" value="identity"
+                  <input className="" type="file" accept="image/png,image/gif"
                          onChange={this.handleIdCard} ref={(input) => this.idCardInput = input}/>
                 </div>
               </div>
@@ -363,22 +386,28 @@ class SignUp extends Component {
             {/*  第三页  */}
           </form>
 
+          <div className={`${this.state.isFormSubmit ? "show margin-t-88" : "hidden"} `}>
+            <div className="signup-page3 row">
+              <div className="icon-center">
+                <span>!</span>
+              </div>
+              <h4 className="margin-b-15"><strong>审核提示</strong></h4>
+              <p className="center-block">3个工作日发送审核结果至注册邮箱</p>
+              <p className="center-block">如果未通过审核，请与15个工作日完成修改并提交。逾期未提交，申请失效</p>
+            </div>
+          </div>
 
-          <div className={`${this.props.index === 3 ? "show" : "hidden"}`}>
-            <div>
-              <span>切图占位</span>
-              <h2><strong>审核提示</strong></h2>
-              <p>3个工作日发送审核结果至注册邮箱</p>
-              <p>如果未通过审核，请与15个工作日完成修改并提交。逾期未提交，申请失效</p>
+          <div className={`${this.state.isSignUpSuccess ? "show margin-t-88" : "hidden"}`}>
+            <div className="signup-page4 row">
+              <div className="icon-center">
+                <span className="glyphicon glyphicon-ok"></span>
+              </div>
+
+              <h4 className="center-block margin-b-15"><strong>恭喜你注册成功！</strong></h4>
+              <p className="center-block">五秒后跳转到登录页面</p>
             </div>
           </div>
-          <div className={`${this.props.index === 4 ? "show" : "hidden"}`}>
-            <div>
-              <span>切图占位</span>
-              <p>恭喜您注册成功</p>
-              <p>五秒后跳转到登录页面</p>
-            </div>
-          </div>
+
         </div>
       </div>
     )

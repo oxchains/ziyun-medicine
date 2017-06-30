@@ -1,7 +1,5 @@
 package com.oxchains.pharmacy_console.domain;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,17 +24,31 @@ public class User {
     private String company;
     private String license;
     private String person;
-    private String identity;
+    private String identityface;
+    private String identityback;
+    private String status;
 
-    private Date createtime = new Date();
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
+    public String getIdentityback() {
+		return identityback;
+	}
+    public void setIdentityback(String identityback) {
+		this.identityback = identityback;
+	}
+    
+    public String getIdentityface() {
+		return identityface;
+	}
+    public void setIdentityface(String identityface) {
+		this.identityface = identityface;
+	}
+    
+    public String getStatus() {
+		return status;
+	}
+    
+    public void setStatus(String status) {
+		this.status = status;
+	}
 
     public String getUsername() {
         return username;
@@ -126,11 +138,4 @@ public class User {
 		this.person = person;
 	}
 
-	public String getIdentity() {
-		return identity;
-	}
-
-	public void setIdentity(String identity) {
-		this.identity = identity;
-	}
 }

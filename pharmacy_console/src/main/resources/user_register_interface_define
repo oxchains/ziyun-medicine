@@ -1,0 +1,55 @@
+1、提交申请(POST)
+uri: /user/apply
+request: {"applyfile":"File","registertype":"string","email":"string","validatecode":"string",
+"username":"string","password":"string","repeatpassword":"string","phone":"string","logo":"File",
+"company":"string","license":"File","person":"string","identityface":"File","identityback":"File"}
+response:{"status":1,"message":"string"}
+
+2、返回验证码(GET)
+uri: /code/getCode
+request:{}
+response:{"status":1,"message":"string","data":"Image"}
+
+3、校验验证码(GET)
+uri: /code/checkCode
+request:{"inputcode":"string"}
+response:{"status":1,"message":"string"}
+
+4、下载入盟申请表(注册页面)(GET)
+uri: /user/download
+request:{}
+response{"status":1,"message":"string","data":"File"}
+
+５、下载入盟申请表(审核页面)(GET)
+uri: /user/download/{username}
+request:{}
+response{"status":1,"message":"string","data":"File"}
+
+6、用户审核(GET)
+uri: /user/audit
+request:{"username":"string","status":"string"}
+response:{"status":1,"message":"string"}
+
+7、查询审核列表(GET)
+uri: /user/auditlist
+request:{}
+response:{"status":1,"message":"string",data:[{"id":"long","username":"string","applydate":"date"}]}
+
+8、查看详情(GET)
+uri: /user/auditlist/{username}
+request:{"username":"string"}
+response:{"status":1,"message":"string",data:[{"id":"long","applyfile":"File","registertype":"string","email":"string",
+"username":"string","password":"string","phone":"string","logo":"string","status":"1",
+"company":"string","license":"string","person":"string","identityface":"string","identityback":"string"}]}
+
+9、查询注册类型(GET)
+uri: /user/registertype
+request:{}
+response:{"status":1,"message":"string",data:[{"code":"1","name":"公司注册"}]}
+
+
+##############################3
+审核状态
+1=待审核
+2=审核通过
+3=审核未通过

@@ -13,6 +13,19 @@ import { fetchAllianceList } from '../actions/alliance';
 import AMap from './amap';
 import css from './css/alliance.css';
 
+const fakeData = [
+    { "lat": 39.942131, "lng": 116.40825 },
+    { "lat": 22.687483, "lng": 114.380001 },
+    { "lat": 31.190012, "lng": 121.563775 },
+    { "lat": 39.918058, "lng": 116.397026 },
+    { "lat": 29.04177,  "lng": 111.693665 },
+    { "lat": 22.746781, "lng": 114.134808 },
+    { "lat": 30.263842, "lng": 120.123077 },
+    { "lat": 30.37075, "lng": 120.166337 },
+    { "lat": 22.736781, "lng": 114.034808 },
+    { "lat": 39.902895, "lng": 116.427915 }
+  ];
+
 class AllianceMap extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +42,8 @@ class AllianceMap extends Component {
 
     return (
       <div className="box-shadow">
-        <AMap markers={this.props.all} />
+        {/*this.props.all*/}
+        <AMap markers={ fakeData } />
       </div>)
   }
 }

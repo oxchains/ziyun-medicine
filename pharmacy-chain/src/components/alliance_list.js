@@ -23,7 +23,7 @@ class AllianceList extends Component {
 
   renderRows() {
     return this.props.all.map((row, idx) => {
-      return <li key={idx}><i className="fa fa-circle"></i> {row.name}</li>;
+      return <li key={idx}><i className="fa fa-circle"></i> {row.username}</li>;
     });
   }
 

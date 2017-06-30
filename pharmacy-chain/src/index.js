@@ -16,7 +16,9 @@ import Signout from './components/auth/signout';
 import Signin from './components/auth/signin';
 import Signup from './components/signup';
 import Alliance from './components/alliance';
+import PeerInfo from './components/peer_info';
 import Stat from './components/stat';
+import Query from './components/query';
 
 const createStoreWithMiddleware = compose(
   applyMiddleware(reduxThunk),
@@ -41,6 +43,8 @@ ReactDOM.render(
             <Route path="/signin" component={Signin} />
             <Route path="/signup" component={Signup}/>
             <PrivateRoute path="/alliance" component={Alliance} />
+            <PrivateRoute path="/peer" component={PeerInfo} />
+            <PrivateRoute path="/query" component={Query} />
             <PrivateRoute path="/stat" component={Stat} />
             <PrivateRoute path="/" component={Welcome} />
           </Switch>

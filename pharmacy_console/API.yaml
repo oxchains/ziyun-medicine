@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   title: 医药流通行业联盟区块链
 
-host: 10.8.47.4:12306
+host: 127.0.0.1:12306
 basePath: /
 
 produces:
@@ -35,25 +35,20 @@ paths:
           description: 获取成功
           schema:
             $ref: '#/definitions/SuccessResponse'
-    head:
-      summary: 校验验证码
+
+  /user/simple:
+    get:
+      summary: 联盟成员简表
       tags:
-        - code
-      parameters:
-        - name: session
-          description: session id
-          type: string
-          required: true
-          in: header
+        - user
       responses:
         '200':
-          description: 校验通过
+          description: 获取成功
           schema:
-            $ref: '#/definitions/SuccessResponse'
-
+            $ref: '#/definitions/GpsListData'
   /user:
     get:
-      summary: 联盟成员列表
+      summary: 联盟成员详细列表
       tags:
         - user
       security:
@@ -126,12 +121,17 @@ paths:
           in: formData
           type: string
           required: true
+        - name: vcode
+          type: string
+          description: 验证码
+          in: formData
+          required: true
       responses:
         '200':
           description: 注册成功
           schema:
             $ref: '#/definitions/SuccessResponse'
-  /usertype:
+  /user/type:
       get:
         summary: 用户注册类型
         tags:
@@ -340,6 +340,25 @@ definitions:
         properties:
           data:
             $ref: '#/definitions/User'
+  GpsCompany:
+    type: object
+    properties:
+      company:
+        type: string
+      longtitude:
+        type: string
+      latitude:
+        type: string
+  GpsListData:
+    allOf:
+      - $ref: '#/definitions/SuccessResponse'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/definitions/GpsCompany'
+
 
   Peer:
     type: object

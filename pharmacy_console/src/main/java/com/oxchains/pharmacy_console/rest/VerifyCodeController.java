@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,13 +24,13 @@ public class VerifyCodeController {
 	/**
 	 * 获取验证码图片和文本(验证码文本会保存在HttpSession中)
 	 */
-	@RequestMapping("/getCode")
+	@GetMapping("/getCode")
 	public RestResp getVerifyCodeImage(HttpServletRequest request, HttpServletResponse response){
 		try {
 			response.setHeader("Pragma", "no-cache");
 			response.setHeader("Cache-Control", "no-cache");
 			response.setDateHeader("Expires", 0);
-			String verifyCode = VerifyCodeUtil.generateTextCode(VerifyCodeUtil.TYPE_ALL_MIXED, 4, null);
+			String verifyCode = VerifyCodeUtil.generateTextCode(VerifyCodeUtil.TYPE_NUM_LOWER, 4, null);
 			request.getSession().setAttribute("verifyCode", verifyCode);
 			log.debug("===verifyCode==="+verifyCode);
 			response.setContentType("image/jpeg");
@@ -43,7 +44,7 @@ public class VerifyCodeController {
 		return RestResp.fail("服务器内部错误");
 	}
 
-	@RequestMapping("/checkCode")
+	@GetMapping("/checkCode")
 	public RestResp doCheckVerifyCodeImage(HttpServletRequest request) {
 		try{
 			String verifyCode = (String) request.getSession().getAttribute("verifyCode");

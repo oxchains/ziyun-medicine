@@ -14,6 +14,7 @@ import Header from './components/common/header';
 import Footer from './components/common/footer';
 import Signout from './components/auth/signout';
 import Signin from './components/auth/signin';
+import Signup from './components/signup';
 import Alliance from './components/alliance';
 import Stat from './components/stat';
 
@@ -38,6 +39,7 @@ ReactDOM.render(
           <Switch>
             <Route path="/signout" component={Signout} />
             <Route path="/signin" component={Signin} />
+            <Route path="/signup" component={Signup}/>
             <PrivateRoute path="/alliance" component={Alliance} />
             <PrivateRoute path="/stat" component={Stat} />
             <PrivateRoute path="/" component={Welcome} />

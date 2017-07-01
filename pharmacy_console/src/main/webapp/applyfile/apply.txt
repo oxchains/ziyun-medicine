@@ -1,5 +1,0 @@
-user
-aa
-bb
-cc
-dd

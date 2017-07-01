@@ -1,0 +1,495 @@
+swagger: '2.0'
+info:
+  description: 医药流通行业联盟区块链后台 API
+  version: 1.0.0
+  title: 医药流通行业联盟区块链
+
+host: 127.0.0.1:12306
+basePath: /
+
+produces:
+  - application/json
+
+tags:
+  - name: code
+    description: 验证码
+  - name: user
+    description: 用户信息相关
+  - name: peer
+    description: 记账节点
+  - name: contract
+    description: 联盟合约
+
+schemes:
+  - http
+
+paths:
+  /vcode:
+    get:
+      summary: 获取验证码
+      description: 联盟注册时需做验证码校验, 防止恶意注册
+      tags:
+        - code
+      responses:
+        '200':
+          description: 获取成功
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+
+  /token:
+    post:
+      summary: 登入获取 token
+      tags:
+        - user
+      parameters:
+        - name: loginRequest
+          description: 用户名, 密码
+          in: body
+          schema:
+            $ref: '#/definitions/LoginRequest'
+      responses:
+        '200':
+          description: 登陆成功
+          schema:
+            $ref: '#/definitions/TokenResponse'
+
+  /user/simple:
+    get:
+      summary: 联盟成员简表
+      tags:
+        - user
+      responses:
+        '200':
+          description: 获取成功
+          schema:
+            $ref: '#/definitions/GpsListData'
+  /user:
+    get:
+      summary: 联盟成员详细列表
+      tags:
+        - user
+      security:
+        - Bearer: []
+      parameters:
+        - name: authenticated
+          description: 是否已审核通过
+          in: query
+          type: boolean
+          required: false
+      responses:
+        '200':
+          description: 获取成功
+          schema:
+            $ref: '#/definitions/UserListData'
+    post:
+      summary: 注册联盟成员
+      tags:
+        - user
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: application
+          in: formData
+          type: file
+          required: true
+        - name: license
+          in: formData
+          required: true
+          type: file
+        - name: idfront
+          in: formData
+          required: true
+          type: file
+        - name: idback
+          in: formData
+          required: true
+          type: file
+        - name: logo
+          in: formData
+          required: true
+          type: file
+        - name: phone
+          in: formData
+          type: string
+          required: true
+        - name: type
+          in: formData
+          type: string
+          required: true
+        - name: email
+          in: formData
+          type: string
+          required: true
+        - name: password
+          in: formData
+          required: true
+          type: string
+        - name: username
+          in: formData
+          required: true
+          type: string
+        - name: company
+          in: formData
+          required: true
+          type: string
+          description: 公司名称
+        - name: representative
+          description: 法定代表人
+          in: formData
+          type: string
+          required: true
+        - name: vcode
+          type: string
+          description: 验证码
+          in: formData
+          required: true
+      responses:
+        '200':
+          description: 注册成功
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+  /user/type:
+      get:
+        summary: 用户注册类型
+        tags:
+          - user
+        responses:
+          '200':
+            description: 请求成功
+            schema:
+              $ref: '#/definitions/UserTypeData'
+
+  /user/application:
+    get:
+      summary: 下载入盟申请表
+      tags:
+        - user
+      responses:
+        '200':
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+
+  /user/{uid}/application:
+    get:
+      summary: 下载成员已填写的入盟申请表
+      tags:
+        - user
+      security:
+        - Bearer: []
+      parameters:
+        - name: uid
+          description: 成员 uid
+          type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+  /user/{uid}:
+    get:
+      summary: 联盟成员信息
+      tags:
+        - user
+      security:
+        - Bearer: []
+      parameters:
+        - name: uid
+          description: 成员 uid, 用于获取成员详情
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 获取成功
+          schema:
+            $ref: '#/definitions/UserData'
+  /user/{uid}/authentication:
+    put:
+      summary: 更新联盟成员审核状态
+      description: 无论审核通过与否, 成员将被短信或邮件告知
+      tags:
+        - user
+      security:
+        - Bearer: []
+      parameters:
+        - name: uid
+          description: 成员 uid
+          type: string
+          in: path
+          required: true
+        - name: operation
+          in: body
+          schema:
+            $ref: '#/definitions/ActionRequest'
+      responses:
+        '200':
+          description: 更新成功
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+
+  /peer:
+    get:
+      summary: 获取节点状态
+      tags:
+        - peer
+      security:
+        - Bearer: []
+      responses:
+        '200':
+          description: 成功获取节点信息
+          schema:
+            $ref: '#/definitions/PeerDataList'
+
+  /contract/sensor:
+    get:
+      summary: 根据合约获取传感器信息
+      tags:
+        - contract
+      security:
+        - Bearer: []
+      parameters:
+        - name: equipment
+          description: 设备编号, 与传感器序列号二者必填其一
+          in: query
+          required: false
+          type: string
+        - name: serial
+          description: 传感器序列号, 与设备编号二者必填其一
+          in: query
+          required: false
+          type: string
+        - name: start
+          description: 查询开始时间, 时间戳长度与Date.now()一致
+          in: query
+          required: true
+          type: number
+        - name: end
+          description: 查询开始时间, 时间戳长度与Date.now()一致
+          in: query
+          required: true
+          type: number
+      responses:
+        '200':
+          description: 成功获取传感器信息
+          schema:
+            $ref: '#/definitions/SensorDataList'
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+
+definitions:
+
+  FailureResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+        enum:
+          - -1
+      message:
+        type: string
+
+  SuccessResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+        enum:
+          - 1
+      message:
+        type: string
+
+  UserTypeData:
+    allOf:
+      - $ref: '#/definitions/SuccessResponse'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/definitions/UserType'
+
+  UserType:
+    type: object
+    properties:
+      code:
+        type: integer
+      name:
+        type: string
+
+  User:
+    type: object
+    properties:
+      representative:
+        type: string
+      username:
+        type: string
+      email:
+        type: string
+      logo:
+        type: string
+      company:
+        type: string
+      phone:
+        type: string
+      license:
+        description: 营业执照
+        type: string
+      idfront:
+        description: 身份证人像面
+        type: string
+      idback:
+        description: 身份证国徽面
+        type: string
+      applydate:
+        description: 申请日期
+        type: string
+
+  UserListData:
+    allOf:
+      - $ref: '#/definitions/SuccessResponse'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+  UserData:
+    allOf:
+      - $ref: '#/definitions/SuccessResponse'
+      - type: object
+        properties:
+          data:
+            $ref: '#/definitions/User'
+  GpsCompany:
+    type: object
+    properties:
+      company:
+        type: string
+      longtitude:
+        type: string
+      latitude:
+        type: string
+  GpsListData:
+    allOf:
+      - $ref: '#/definitions/SuccessResponse'
+      - type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/definitions/GpsCompany'
+
+
+  Peer:
+    type: object
+    properties:
+      id:
+        type: string
+      endpoint:
+        type: string
+      status:
+        type: string
+      affiliation:
+        type: string
+      chaincodes:
+        type: array
+        items:
+          type: string
+      chains:
+        type: array
+        items:
+          type: string
+
+  SensorData:
+    type: object
+    properties:
+        SensorNumber:
+          type: string
+        SensorType:
+          type: string
+        EquipmentNumber:
+          type: string
+        EquipmentType:
+          type: string
+        Time:
+          type: string
+        Temperature:
+          type: array
+          items:
+            type: number
+        Humidity:
+          type: array
+          items:
+            type: number
+        GPSLongitude:
+          type: number
+        GPSLatitude:
+          type: number
+        Address:
+          type: string
+  SensorDataList:
+    allOf:
+      - $ref: '#/definitions/SuccessResponse'
+      - type: object
+        properties:
+          data:
+            $ref: '#/definitions/SensorData'
+
+
+  PeerDataList:
+    allOf:
+      - $ref: '#/definitions/SuccessResponse'
+      - type: object
+        properties:
+          data:
+            $ref: '#/definitions/Peer'
+
+  TokenResponse:
+    allOf:
+      - $ref: '#/definitions/SuccessResponse'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              token:
+                type: string
+              createtime:
+                type: string
+
+  LoginRequest:
+    type: object
+    required:
+      - username
+      - password
+    properties:
+      username:
+        description: 用户名
+        type: string
+      password:
+        description: 密码
+        type: string
+
+  ActionRequest:
+    type: object
+    required:
+      - action
+    properties:
+      action:
+        description: '操作结果: 0-拒绝/未通过/禁止, 1-确认/通过/允许'
+        type: integer
+        enum:
+          - 0
+          - 1
+      remark:
+        description: 操作结果为 0 时, 可注明缘由
+        type: string
+
+

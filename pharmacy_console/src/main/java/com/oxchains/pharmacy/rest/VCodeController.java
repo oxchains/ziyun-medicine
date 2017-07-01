@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.concurrent.TimeUnit;
 
 import static com.oxchains.pharmacy.utils.VerifyCodeUtil.*;
 import static java.util.UUID.randomUUID;
@@ -39,7 +38,8 @@ public class VCodeController {
       response.setHeader(CACHE_CONTROL, "no-cache");
       response.setDateHeader(EXPIRES, 0);
       String mockSessionId = randomUUID().toString();
-      response.setHeader(SET_COOKIE, String.format("JSESSIONID=%s;path=/", mockSessionId));
+      response.setHeader(SET_COOKIE, String.format("JSESSIONID=%s;path=/signup;domain=%s:%s",
+          mockSessionId, request.getRemoteHost(), request.getRemotePort()));
       String vcode = generateTextCode(TYPE_NUM_LOWER, 4, null);
       log.debug("vcode for {}: {}", mockSessionId, vcode);
       response.setContentType(IMAGE_JPEG_VALUE);

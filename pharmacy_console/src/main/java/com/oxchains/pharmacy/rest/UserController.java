@@ -24,7 +24,6 @@ import java.nio.file.Path;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.net.HttpHeaders.CONTENT_DISPOSITION;
 import static com.oxchains.pharmacy.Application.userContext;
-import static com.oxchains.pharmacy.rest.VCodeController.VCODE_CACHE;
 import static com.oxchains.pharmacy.rest.common.RestResp.fail;
 import static com.oxchains.pharmacy.rest.common.RestResp.success;
 import static java.net.URLConnection.guessContentTypeFromName;
@@ -53,7 +52,6 @@ public class UserController {
 
   @PostMapping
   public RestResp register(
-      HttpServletRequest request,
       @ModelAttribute @Valid RegisterRequest registerRequest, BindingResult bindingResult) {
 
     if (bindingResult.hasErrors()) {
@@ -62,10 +60,10 @@ public class UserController {
       return fail(err.getField());
     }
 
-    String originalVcode = VCODE_CACHE.getIfPresent(registerRequest.getSession());
-    if (!registerRequest.getVcode().equals(originalVcode)) {
-      return fail("invalid vcode");
-    }
+    //String originalVcode = VCODE_CACHE.getIfPresent(registerRequest.getSession());
+    //if (!registerRequest.getVcode().equals(originalVcode)) {
+    //  return fail("invalid vcode");
+    //}
 
     return userRepo.findByUsername(
         registerRequest.getUsername()
@@ -73,7 +71,7 @@ public class UserController {
         existingUser -> fail("user exist")
     ).orElseGet(
         () -> userTypeRepo.findByCode(registerRequest.getType()).map(
-            userType -> registerRequest.toUser(userType, getClass().getResource("/static/").getPath() + uploadDir).map(
+            userType -> registerRequest.toUser(userType, uploadDir).map(
                 newUser -> {
                   User savedUser = userRepo.save(newUser);
                   log.info("new registration {}({})", savedUser.getUsername(), savedUser.getId());
@@ -96,7 +94,7 @@ public class UserController {
   @GetMapping("/{uid}/application")
   public void downloadFileByUserName(@PathVariable Long uid, HttpServletRequest request, HttpServletResponse response) {
     userRepo.findById(uid).map(user -> {
-      File applicationFile = new File(getClass().getResource("/static/").getPath() + uploadDir + user.getApplication());
+      File applicationFile = new File(uploadDir + user.getApplication());
       if (applicationFile.exists()) {
         try {
           Path filePath = applicationFile.toPath();

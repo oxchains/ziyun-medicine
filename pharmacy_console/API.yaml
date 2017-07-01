@@ -24,7 +24,7 @@ schemes:
   - http
 
 paths:
-  /code:
+  /vcode:
     get:
       summary: 获取验证码
       description: 联盟注册时需做验证码校验, 防止恶意注册
@@ -35,6 +35,23 @@ paths:
           description: 获取成功
           schema:
             $ref: '#/definitions/SuccessResponse'
+
+  /token:
+    post:
+      summary: 登入获取 token
+      tags:
+        - user
+      parameters:
+        - name: loginRequest
+          description: 用户名, 密码
+          in: body
+          schema:
+            $ref: '#/definitions/LoginRequest'
+      responses:
+        '200':
+          description: 登陆成功
+          schema:
+            $ref: '#/definitions/TokenResponse'
 
   /user/simple:
     get:
@@ -235,20 +252,30 @@ paths:
         - Bearer: []
       parameters:
         - name: equipment
-          description: 设备编号
+          description: 设备编号, 与传感器序列号二者必填其一
           in: query
           required: false
           type: string
         - name: serial
-          description: 传感器序列号
+          description: 传感器序列号, 与设备编号二者必填其一
           in: query
           required: false
           type: string
+        - name: start
+          description: 查询开始时间, 时间戳长度与Date.now()一致
+          in: query
+          required: true
+          type: number
+        - name: end
+          description: 查询开始时间, 时间戳长度与Date.now()一致
+          in: query
+          required: true
+          type: number
       responses:
         '200':
           description: 成功获取传感器信息
           schema:
-            $ref: '#/definitions/SuccessResponse'
+            $ref: '#/definitions/SensorDataList'
 
 securityDefinitions:
   Bearer:
@@ -380,6 +407,42 @@ definitions:
         items:
           type: string
 
+  SensorData:
+    type: object
+    properties:
+        SensorNumber:
+          type: string
+        SensorType:
+          type: string
+        EquipmentNumber:
+          type: string
+        EquipmentType:
+          type: string
+        Time:
+          type: string
+        Temperature:
+          type: array
+          items:
+            type: number
+        Humidity:
+          type: array
+          items:
+            type: number
+        GPSLongitude:
+          type: number
+        GPSLatitude:
+          type: number
+        Address:
+          type: string
+  SensorDataList:
+    allOf:
+      - $ref: '#/definitions/SuccessResponse'
+      - type: object
+        properties:
+          data:
+            $ref: '#/definitions/SensorData'
+
+
   PeerDataList:
     allOf:
       - $ref: '#/definitions/SuccessResponse'
@@ -387,6 +450,32 @@ definitions:
         properties:
           data:
             $ref: '#/definitions/Peer'
+
+  TokenResponse:
+    allOf:
+      - $ref: '#/definitions/SuccessResponse'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              token:
+                type: string
+              createtime:
+                type: string
+
+  LoginRequest:
+    type: object
+    required:
+      - username
+      - password
+    properties:
+      username:
+        description: 用户名
+        type: string
+      password:
+        description: 密码
+        type: string
 
   ActionRequest:
     type: object

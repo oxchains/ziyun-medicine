@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
-import static com.oxchains.pharmacy.utils.ResponseUtil.extract;
+import static com.oxchains.pharmacy.utils.ResponseUtil.extractOne;
 import static org.springframework.security.core.context.SecurityContextHolder.getContext;
 
 @Slf4j
@@ -27,7 +27,7 @@ public class Application {
   //TODO any affiliation's token for fabric manager should be saved periodically
   Optional<String> fabricManagerToken(String username, String password, String affiliation) {
     String resp = new RestTemplate().postForObject(uri + enrollPath, new FabricAccount(username, password, affiliation), String.class);
-    Optional<String> tokenOptional = extract(resp, "/data/token");
+    Optional<String> tokenOptional = extractOne(resp, "/data/token");
     return tokenOptional.map(token -> "Bearer " + token);
   }
 

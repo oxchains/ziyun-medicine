@@ -4,12 +4,13 @@ import com.oxchains.pharmacy.auth.JwtService;
 import com.oxchains.pharmacy.data.UserRepo;
 import com.oxchains.pharmacy.data.UserTokenRepo;
 import com.oxchains.pharmacy.domain.UserToken;
+import com.oxchains.pharmacy.rest.common.LoginRequest;
 import com.oxchains.pharmacy.rest.common.RestResp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.oxchains.pharmacy.rest.common.RestResp.fail;
@@ -37,11 +38,11 @@ public class TokenController {
   }
 
   @PostMapping
-  public RestResp token(@RequestParam String username, @RequestParam String password) {
-    return userRepo.findByUsernameAndPassword(username, password)
+  public RestResp token(@RequestBody LoginRequest user) {
+    return userRepo.findByUsernameAndPassword(user.getUsername(), user.getPassword())
         .map(u -> {
           UserToken userToken = new UserToken(jwtService.generate(u));
-          log.info("{} enrolled", username);
+          log.info("{} enrolled", user.getUsername());
           return success(userTokenRepo.save(userToken));
         })
         .orElse(fail());

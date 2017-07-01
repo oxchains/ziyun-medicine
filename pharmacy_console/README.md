@@ -22,8 +22,8 @@
 正式确认审核通过前, 需为成员:
 
   1. 注册 CA 用户
-  2. 注册 fabric client 用户并配置证书, 将 client 用户信息更新至联盟成员的注册信息中, 用以在获取联盟成员的节点信息和调用合约时使用
+  2. 注册 fabric client 用户并配置证书
   3. 注册 peer 并配置证书, 启动 peer
-  4. 获取节点列表和信息时, 直接调用 fabric-manage 相应接口
-
+  4. 为成员登录 [fabric-manage](https://github.com/zkjs/fabric-manage) 并获取 token, 保存在 `fabric_token` 中
+  5. 获取节点列表和合约相关信息时, 直接调用 [fabric-manage](https://github.com/zkjs/fabric-manage) 相应接口
 

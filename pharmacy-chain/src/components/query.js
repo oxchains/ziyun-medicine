@@ -62,7 +62,7 @@ class Query extends Component {
 
   handleEndDateChange(date) {
     this.setState({
-      endDate: date.startOf('day')
+      endDate: date.endOf('day')
     });
   }
 
@@ -96,7 +96,7 @@ class Query extends Component {
                         selected={this.state.startDate}
                         onChange={this.handleStartDateChange.bind(this)}
                         placeholderText="起始时间"
-                        dateFormat="YYYY-MM-DD HH:mm:ss"
+                        dateFormat="YYYY-MM-DD"
                         className="form-control"
                       />
                     </div>
@@ -108,7 +108,7 @@ class Query extends Component {
                         selected={this.state.endDate}
                         onChange={this.handleEndDateChange.bind(this)}
                         placeholderText="截止时间"
-                        dateFormat="YYYY-MM-DD HH:mm:ss"
+                        dateFormat="YYYY-MM-DD"
                         className="form-control"
                       />
                     </div>
@@ -131,9 +131,8 @@ class Query extends Component {
           <div className="box-body">
             <div className="row">
               <div className="col-md-12">
-                <div className="form-horizontal">
                   { this.props.sensor && this.props.sensor.length>0 ?
-                      <table className="table table-bordered table-hover">
+                      <table className="table table-bordered table-hover margin-b-10">
                         <tbody>
                         <tr>
                           <th>传感器编号</th>
@@ -160,8 +159,6 @@ class Query extends Component {
                       <button type="button" onClick={this.hideResult.bind(this)} className="btn btn-primary" style={{width:'210px'}}> 开始新的查询 </button>
                     </div>
                   </div>
-
-                </div>
               </div>
             </div>
           </div>

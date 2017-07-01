@@ -38,7 +38,7 @@ export function signActionCreator({type, payload}) {
  * @param callback
  * @returns {Function}
  */
-export function signUp({registertype, email, username, password, phone, company, person, applyOFile, logoOFile, licenseOFile, idFrontOFile, idBackOFile,vcode}, callback) {
+export function signUp({registertype, email, username, password, phone, company, person, applyOFile, logoOFile, licenseOFile, idFrontOFile, idBackOFile, vcode}, callback) {
   return function (dispatch) {
     let formData = new FormData();
 
@@ -63,12 +63,18 @@ export function signUp({registertype, email, username, password, phone, company,
       headers: {'content-type': 'multipart/form-data'},
       withCredentials: true
     }).then((response) => {
-      if (response.status == 1) {
+      if (response.data.status == 1) {
         console.log(`upload success message: ${response.message}`);
-        callback();
+        callback({
+          status: 1,
+          message: ''
+        });
       } else {
         console.log("upload fail");
-        callback();
+        callback({
+          status: 0,
+          message: response.data.message
+        });
       }
     }).catch(err => {
       callback(err.message);

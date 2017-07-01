@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {fetchDetailAudit, audit} from '../actions/audit';
+import {fetchDetailAudit, audit, fetchImg} from '../actions/audit';
 import {ROOT_URL} from '../actions/types';
 import './css/auditdetail.css';
 import {Link} from 'react-router-dom';
@@ -15,10 +15,42 @@ class AuditDetail extends Component {
 
     this.pass = this.pass.bind(this);
     this.fail = this.fail.bind(this);
+
+    this.state = {
+      img1: null,
+      img2: null,
+      img3: null
+    }
+    this.encodeObjectUrl = this.encodeObjectUrl.bind(this);
   }
 
   componentWillMount() {
-    this.props.fetchDetailAudit({uid: this.props.match.params.uid});
+    this.props.fetchDetailAudit({uid: this.props.match.params.uid}, () => {
+      const {license, identityface, identityback} = this.props.auditDetail;
+      this.props.fetchImg({img1: license, img2: identityface, img3: identityback}, ({res1, res2, res3}) => {
+        this.setState({
+          img1: res1,
+          img2: res2,
+          img3: res3
+        })
+      });
+    });
+  }
+
+  str2ab(str) {
+    var buf = new ArrayBuffer(str.length * 2); // 2 bytes for each char
+    var bufView = new Uint16Array(buf);
+    for (var i = 0, strLen = str.length; i < strLen; i++) {
+      bufView[i] = str.charCodeAt(i);
+    }
+    return buf;
+  }
+
+  encodeObjectUrl(response) {
+    var arrayBufferView = new Uint8Array(response);
+    var blob = new Blob([arrayBufferView], {type: "image/png"});
+    var urlCreator = window.URL || window.webkitURL;
+    return urlCreator.createObjectURL(blob);
   }
 
   pass() {
@@ -74,7 +106,8 @@ class AuditDetail extends Component {
                     <div className={`form-group`}>
                       <label className="col-sm-3 control-label">营业执照</label>
                       <div className="col-sm-9 control-text">
-                        <img src={license ? license : ""} alt="营业执照" style={{width: '200px', height: '120px'}}/>
+                        <img src={this.state.img1 ? this.encodeObjectUrl(this.state.img1.data) : null} alt="营业执照"
+                             style={{width: '200px', height: '120px'}}/>
                       </div>
                     </div>
                     <div className={`form-group`}>
@@ -86,8 +119,9 @@ class AuditDetail extends Component {
                     <div className={`form-group`}>
                       <label className="col-sm-3 control-label">法人正反身份证</label>
                       <div className="col-sm-9 control-text">
-                        <img src={idfront ? idfront : ""} alt="法人正面身份证" style={{width: '173px', height: '104px'}}/>
-                        <img src={idback ? idback : ""} alt="法人反面身份证"
+                        <img src={this.state.img2 ? this.encodeObjectUrl(this.state.img2.data) : null} alt="法人正面身份证"
+                             style={{width: '173px', height: '104px'}}/>
+                        <img src={this.state.img3 ? this.encodeObjectUrl(this.state.img3.data) : null} alt="法人反面身份证"
                              style={{width: '173px', height: '104px', marginLeft: '15px'}}/>
                       </div>
                     </div>
@@ -119,4 +153,4 @@ function mapStateToProp(state) {
   }
 }
 
-export default connect(mapStateToProp, {fetchDetailAudit, audit})(AuditDetail)
+export default connect(mapStateToProp, {fetchDetailAudit, audit, fetchImg})(AuditDetail)

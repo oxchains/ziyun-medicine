@@ -23,7 +23,7 @@ class UnAuditList extends Component {
           <tr key={index}>
             <td>{`${item.company}公司提交了入盟申请`}</td>
             <td>{item.applydate}</td>
-            <td><Link to={`${this.props.match.url}/user/${item.username}`}>查看</Link></td>
+            <td><Link to={`${this.props.match.url}/user/${item.id}`}>查看</Link></td>
           </tr>
         )
       })

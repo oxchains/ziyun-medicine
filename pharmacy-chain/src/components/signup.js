@@ -26,7 +26,8 @@ class SignUp extends Component {
       isLicenseFileDone: false,
       isFormSubmit: false,
       isSignUpSuccess: false,
-      registertype: 1
+      registertype: 1,
+      message: ''
     };
 
     this.nextPage = this.nextPage.bind(this);
@@ -37,6 +38,7 @@ class SignUp extends Component {
     this.handleIdFront = this.handleIdFront.bind(this);
     this.handleIdBack = this.handleIdBack.bind(this);
     this.handleLicenseFile = this.handleLicenseFile.bind(this);
+    this.renderAlert = this.renderAlert.bind(this);
   }
 
   renderField({input, label, type, meta: {touched, error}}) {
@@ -49,6 +51,16 @@ class SignUp extends Component {
         </div>
       </div>
     )
+  }
+
+  renderAlert() {
+    if (this.state.message) {
+      return (
+        <div className="alert alert-danger alert-dismissable">
+          {this.state.message}
+        </div>
+      );
+    }
   }
 
   renderCodeField({input, label, type, meta: {touched, error}}) {
@@ -148,12 +160,20 @@ class SignUp extends Component {
         idFrontOFile,
         idBackOFile,
         vcode
-      }, (err) => {
-        this.setState({
-          isFormSubmit: true,
-          index: 3,
-          spin: false
-        })
+      }, ({message, status}) => {
+
+        if (status == 1) {
+          this.setState({
+            isFormSubmit: true,
+            index: 3,
+            spin: false
+          })
+        } else {
+          this.setState({
+            message: message,
+            spin: false
+          })
+        }
       });
     }
   }
@@ -357,6 +377,9 @@ class SignUp extends Component {
 
             {/*  第三页  */}
             <div className={`sign-page2 ${this.state.index == 2 ? "show" : "hidden"}`}>
+              {
+                this.renderAlert()
+              }
               <Field name="company" component={this.renderField} type="text" label="公司名称"/>
               <div className="row margin-b-15">
                 <label className="col-sm-4 control-label"><strong>上传营业执照</strong></label>

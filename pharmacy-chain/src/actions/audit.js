@@ -3,7 +3,15 @@
  */
 import axios from 'axios';
 
-import {ROOT_URL, DOWNLOAD_USER_FILE, AUDIT, AUDIT_DETAIL, AUDITLISTS, FETCH_NOT_ALLIANCE_LIST} from './types';
+import {
+  ROOT_URL,
+  DOWNLOAD_USER_FILE,
+  AUDIT,
+  AUDIT_DETAIL,
+  AUDITLISTS,
+  FETCH_NOT_ALLIANCE_LIST,
+  getAuthorizedHeader
+} from './types';
 /**
  * 是否审核通过
  * @param username
@@ -14,7 +22,12 @@ import {ROOT_URL, DOWNLOAD_USER_FILE, AUDIT, AUDIT_DETAIL, AUDITLISTS, FETCH_NOT
 export function audit({uid, action}, callback) {
   return function (dispatch) {
     let remark = "";
-    axios.put(`${ROOT_URL}/user/${uid}/authentication`, {action, remark}).then((res => {
+    axios({
+      url: `${ROOT_URL}/user/${uid}/authentication`,
+      method: 'PUT',
+      data: {action, remark},
+      headers: getAuthorizedHeader()
+    }).then((res => {
       if (res.status === 1) {
         callback({isSuccess: true});
       } else {
@@ -33,7 +46,7 @@ export function fetchAuditList({authenticated}) {
     if (authenticated) {
 
     } else {
-      axios.get(`${ROOT_URL}/user`, {params: {authenticated}}).then((res) => {
+      axios.get(`${ROOT_URL}/user`, {params: {authenticated}, headers: getAuthorizedHeader()}).then((res) => {
         if (res.data.status == 1) {
           dispatch({
             type: FETCH_NOT_ALLIANCE_LIST,
@@ -49,15 +62,29 @@ export function fetchAuditList({authenticated}) {
  * @param uid
  * @returns {Function}
  */
-export function fetchDetailAudit({uid}) {
+export function fetchDetailAudit({uid}, callback) {
   return function (dispatch) {
-    axios.get(`${ROOT_URL}/user/${uid}`).then((res) => {
+    axios.get(`${ROOT_URL}/user/${uid}`, {headers: getAuthorizedHeader()}).then((res) => {
       if (res.data.status == 1) {
         dispatch({
           type: AUDIT_DETAIL,
           payload: res.data.data
         })
+
+        callback();
       }
     })
+  }
+}
+
+export function fetchImg({img1, img2, img3}, callback) {
+  return function (dispatch) {
+    let req1 = axios.get(`${ROOT_URL}${img1}`, {headers: getAuthorizedHeader(), responseType: 'arraybuffer'})
+    let req2 = axios.get(`${ROOT_URL}${img2}`, {headers: getAuthorizedHeader(), responseType: 'arraybuffer'})
+    let req3 = axios.get(`${ROOT_URL}${img3}`, {headers: getAuthorizedHeader(), responseType: 'arraybuffer'})
+
+    axios.all([req1, req2, req3]).then(axios.spread((res1, res2, res3) => {
+      callback({res1, res2, res3});
+    }))
   }
 }

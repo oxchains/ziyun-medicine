@@ -59,7 +59,7 @@ class SignUp extends Component {
           <div className="help-block with-errors">{touched && error ? error : ''}</div>
         </div>
         <div className="col-sm-4">
-          <img src={that.props.code ? `${that.props.code}` : ""} alt="code"/>
+          <img src="http://10.8.47.4:12306/vcode" alt="code"/>
         </div>
       </div>
     )
@@ -143,7 +143,7 @@ class SignUp extends Component {
         logoOFile,
         licenseOFile,
         idFrontOFile,
-        idBackOFile
+        idBackOFile,
       }, (err) => {
         this.setState({
           isFormSubmit: true,
@@ -151,7 +151,6 @@ class SignUp extends Component {
           spin: false
         })
       });
-
     }
   }
 
@@ -398,7 +397,7 @@ class SignUp extends Component {
           <div className={`${this.state.isFormSubmit ? "show margin-t-88" : "hidden"} `}>
             <div className="signup-page3 row">
               <div className="icon-center">
-                <span>!</span>
+                <img src="/public/img/wow.png" style={{width: '40px', height: '40px'}} alt="!"/>
               </div>
               <h4 className="margin-b-15"><strong>审核提示</strong></h4>
               <p className="center-block">3个工作日发送审核结果至注册邮箱</p>
@@ -409,7 +408,7 @@ class SignUp extends Component {
           <div className={`${this.state.isSignUpSuccess ? "show margin-t-88" : "hidden"}`}>
             <div className="signup-page4 row">
               <div className="icon-center">
-                <span className="glyphicon glyphicon-ok"></span>
+                <img src="/public/img/complete.png" alt="complete" style={{width: '40px', height: '40px'}}/>
               </div>
 
               <h4 className="center-block margin-b-15"><strong>恭喜你注册成功！</strong></h4>

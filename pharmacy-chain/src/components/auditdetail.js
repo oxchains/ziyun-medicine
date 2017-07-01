@@ -26,7 +26,7 @@ class AuditDetail extends Component {
       if (isSuccess) {
         console.log("accept");
       }
-      this.props.history.replace("/");
+      this.props.history.replace("/unaudit");
     })
   }
 
@@ -35,7 +35,7 @@ class AuditDetail extends Component {
       if (isSuccess) {
         console.log("reject");
       }
-      this.props.history.replace("/");
+      this.props.history.replace("/unaudit");
     })
   }
 

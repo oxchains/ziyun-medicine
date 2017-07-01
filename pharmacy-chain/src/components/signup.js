@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 
+import {ROOT_URL} from '../actions/types';
 import {signActionCreator, signUp, getCode, checkCode, downloadFile, getTypeList} from '../actions/signup';
 
 var that;
@@ -17,9 +18,11 @@ class SignUp extends Component {
     that = this;
     this.state = {
       index: 0,
+      spin: false,
       isApplyFileDone: false,
       isImgFileDone: false,
-      isIdCardDone: false,
+      isIdFrontDone: false,
+      isIdBackDone: false,
       isLicenseFileDone: false,
       isFormSubmit: false,
       isSignUpSuccess: false
@@ -30,7 +33,8 @@ class SignUp extends Component {
     this.handleSelect = this.handleSelect.bind(this);
     this.handleApplyFile = this.handleApplyFile.bind(this);
     this.handleImgFile = this.handleImgFile.bind(this);
-    this.handleIdCard = this.handleIdCard.bind(this);
+    this.handleIdFront = this.handleIdFront.bind(this);
+    this.handleIdBack = this.handleIdBack.bind(this);
     this.handleLicenseFile = this.handleLicenseFile.bind(this);
   }
 
@@ -69,8 +73,12 @@ class SignUp extends Component {
     this.state.isLicenseFileDone = true;
   }
 
-  handleIdCard(e) {
-    this.state.isIdCardDone = true;
+  handleIdFront(e) {
+    this.state.isIdFrontDone = true;
+  }
+
+  handleIdBack(e) {
+    this.state.isIdBackDone = true;
   }
 
   handleImgFile(e) {
@@ -111,39 +119,40 @@ class SignUp extends Component {
   }
 
 
-  handleFormSubmit({email, idcode, username, password, repeatpassword, phone, company, person}) {
-    if (email && idcode && username && password && repeatpassword && phone && company && person) {
-      console.log(`email : ${email}  idcode : ${idcode} username : ${password}  repeatpassword: ${repeatpassword} phone: ${phone} company: ${company} person : ${person}`);
-      let {isImgFileDone, isIdCardDone, isLicenseFileDone, isApplyFileDone} = this.state;
-      if (isImgFileDone && isIdCardDone && isLicenseFileDone && isApplyFileDone) {
-        let applyOFile = this.applyFileInput.files[0];
-        let logoOFile = this.logoFileInput.files[0];
-        let licenseOFile = this.licenseInput.files[0];
-        let idCardOFile = this.idCardInput.files[0];
-        let registertype = this.state.registertype;
-        this.props.signUp({
-          registertype,
-          email,
-          idcode,
-          username,
-          password,
-          repeatpassword,
-          phone,
-          company,
-          person,
-          applyOFile,
-          logoOFile,
-          licenseOFile,
-          idCardOFile
-        }, () => {
-          console.log("signup success");
-        });
-      }
+  handleFormSubmit({email, username, password, phone, company, person}) {
+    if (email && username && password && phone && company && person) {
+      console.log(`email: ${email}  username: ${username} password: ${password}  phone: ${phone}  company: ${company} person: ${person}`);
+      let {isImgFileDone, isIdFrontDone, isLicenseFileDone, isApplyFileDone} = this.state;
+      console.log(`isImgFileDone ${isImgFileDone}  isIdFrontDone: ${isIdFrontDone} isLicenseFileDone: ${isLicenseFileDone} isApplyFileDone: ${isApplyFileDone}`)
+      let applyOFile = this.applyFileInput.files[0];
+      let logoOFile = this.logoFileInput.files[0];
+      let licenseOFile = this.licenseInput.files[0];
+      let idFrontOFile = this.idFrontInput.files[0];
+      let idBackOFile = this.idBackInput.files[0];
+      let registertype = this.state.registertype;
+      this.setState({spin: true});
+      this.props.signUp({
+        registertype,
+        email,
+        username,
+        password,
+        phone,
+        company,
+        person,
+        applyOFile,
+        logoOFile,
+        licenseOFile,
+        idFrontOFile,
+        idBackOFile
+      }, (err) => {
+        this.setState({
+          isFormSubmit: true,
+          index: 3,
+          spin: false
+        })
+      });
+
     }
-    this.setState({
-      isFormSubmit: true,
-      index: 3
-    })
   }
 
 
@@ -151,7 +160,7 @@ class SignUp extends Component {
     // TODO 向服务器请求 1.注册类型 2. 验证码 3. 入盟申请表地址
     // this.props.getCode();
     // this.props.downloadFile();
-    // this.props.getTypeList();
+    this.props.getTypeList();
   }
 
   render() {
@@ -273,7 +282,9 @@ class SignUp extends Component {
               <div className="row  margin-b-15 ">
                 <label className="col-sm-4 control-label"><strong>下载入盟申请表</strong></label>
                 <div className="col-sm-8">
-                  <a className="btn btn-default">点击下载</a>
+                  <a className="btn btn-default"
+                     href={`${ROOT_URL}/user/application`}
+                     download="download">点击下载</a>
                 </div>
               </div>
 
@@ -289,17 +300,11 @@ class SignUp extends Component {
                 <label className="col-sm-4 control-label"><strong>注册类型</strong></label>
                 <div className="col-sm-8">
                   <select className="form-control" name="company-type" onChange={this.handleSelect}>
-                    {/*{*/}
-                    {/*this.props.signTypes ?*/}
-                    {/*this.props.signTypes.map((value, index) => (*/}
-                    {/*<option value={`${value}`}>value</option>*/}
-                    {/*)) : <div></div>*/}
-                    {/*}*/}
-
-                    <option value="value1">value1</option>
-                    <option value="value2">value2</option>
-                    <option value="value3">value3</option>
-                    <option value="value4">value4</option>
+                    {
+                      this.props.types ? this.props.types.map((value, index) => (
+                        <option value={`${value.code}`}>{value.name}</option>
+                      )) : ""
+                    }
                   </select>
                 </div>
               </div>
@@ -363,10 +368,14 @@ class SignUp extends Component {
               <Field name="person" component={this.renderField} type="text" label="法人姓名"/>
 
               <div className="row margin-b-15">
-                <label className="col-sm-4 control-label"><strong>上传身份证</strong></label>
-                <div className="col-sm-8">
+                <label className="col-sm-4 control-label"><strong>上传正反身份证</strong></label>
+                <div className="col-sm-4">
                   <input className="" type="file" accept="image/png,image/gif"
-                         onChange={this.handleIdCard} ref={(input) => this.idCardInput = input}/>
+                         onChange={this.handleIdFront} ref={(input) => this.idFrontInput = input}/>
+                </div>
+                <div className="col-sm-4">
+                  <input className="" type="file" accept="image/png,image/gif"
+                         onChange={this.handleIdBack} ref={(input) => this.idBackInput = input}/>
                 </div>
               </div>
 
@@ -378,7 +387,7 @@ class SignUp extends Component {
                 </div>
                 <div className="col-xs-6">
                   <button type="submit" className="btn btn-primary btn-block btn-flat">
-                    提交申请
+                    <i className={`fa fa-spinner fa-spin ${this.state.spin ? '' : 'hidden'}`}></i>提交申请
                   </button>
                 </div>
               </div>
@@ -463,10 +472,11 @@ const reduxPageForm = reduxForm({
 
 function mapStateToProps(state) {
   return {
-    index: state.sign.index
+    index: state.sign.index,
+    types: state.sign.types
   }
 }
 
-export default connect(mapStateToProps, {signActionCreator, signUp})(reduxPageForm);
+export default connect(mapStateToProps, {signActionCreator, getTypeList, signUp})(reduxPageForm);
 
 

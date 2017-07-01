@@ -1,0 +1,15 @@
+.table-content {
+    margin-top: 60px;
+    margin-left: 12.5%;
+    margin-right: 12.5%;
+    border: 1px solid #a6a6a6;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.item-divider {
+    height: 1px;
+    background: #a6a6a6;
+}

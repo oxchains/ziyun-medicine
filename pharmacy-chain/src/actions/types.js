@@ -1,4 +1,4 @@
-export const ROOT_URL = 'http://10.8.47.4:17173';
+export const ROOT_URL = 'http://10.8.47.4:12306';
 
 export const AUTH_USER = 'auth_user';                                 //登录
 export const UNAUTH_USER = 'unauth_user';                             //退出登录
@@ -13,6 +13,11 @@ export const CHECK_CODE = 'check_code';                               //校验�
 export const DOWNLOAD_FILE = 'download_file';                         //获取入盟申请表
 export const SIGN_TYPE = 'apply_type';                                //注册类别
 
+export const DOWNLOAD_USER_FILE = 'download_user_file';               //下载审核页面申请表
+export const AUDIT = 'audit';                                         //用户审核
+export const AUDITLISTS = 'auditlist';                                //查询审核列表
+export const AUDIT_DETAIL = 'audit_detail';                           //查询审核详情
+
 export const PAGE_INDEX = 'page_index';
 export const DECREASE_PAGE = 'decrease_page';
 
@@ -20,9 +25,9 @@ export const REQUEST_SUCCESS = 'request_success';                     //http请�
 export const REQUEST_ERROR = 'request_error';                         //http请求返回错误
 
 export const FETCH_ALLIANCE_LIST = 'fetch_alliance_list';             //获取联盟成员列表
+export const FETCH_NOT_ALLIANCE_LIST = 'fetch_not_alliance_list';             //获取联盟成员列表
 
 export const FETCH_STAT_DATA = 'fetch_stat_data';                     //获取链上统计数据
-
 
 
 export function requestError(error) {

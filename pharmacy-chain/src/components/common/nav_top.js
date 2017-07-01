@@ -34,7 +34,7 @@ export class NavTop extends Component {
     const links = [
       {path:'/', title:'平台首页'},
       {path:'/alliance', title:'联盟动态'},
-      {path:'/node', title:'节点管理'},
+      {path:'/peer', title:'节点管理'},
       {path:'/query', title:'追溯查证'},
       {path:'/stat', title:'链上统计'}
     ];

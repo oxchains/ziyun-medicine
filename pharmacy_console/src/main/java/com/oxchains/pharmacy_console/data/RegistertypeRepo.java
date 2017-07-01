@@ -3,10 +3,9 @@ package com.oxchains.pharmacy_console.data;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.oxchains.pharmacy_console.domain.User;
-
+import com.oxchains.pharmacy_console.domain.Registertype;
 
 @Repository
-public interface UserRepo extends CrudRepository<User, Long>{
-	User findByUsername(String username);
+public interface RegistertypeRepo extends CrudRepository<Registertype,Long>{
+
 }

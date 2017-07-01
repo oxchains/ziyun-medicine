@@ -19,8 +19,7 @@ import {
  */
 export function fetchAllianceList() {
   return function(dispatch) {
-    //axios.get(`${ROOT_URL}/alliance`)
-    axios.get('http://localhost:3000/alliance-list')
+    axios.get(`${ROOT_URL}/user`)
       .then(response => dispatch({ type: FETCH_ALLIANCE_LIST, payload:response }))
       .catch( err => dispatch(requestError(err.message)) );
   }

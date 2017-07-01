@@ -19,8 +19,8 @@ import {
  */
 export function fetchStat({ startDate, endDate }, callback) {
   return function(dispatch) {
-    //axios.get(`${ROOT_URL}/stat`)
-    axios.get('http://localhost:3000/stat')
+    axios.get(`${ROOT_URL}/stat`)
+    //axios.get('http://localhost:3000/stat')
       .then(response => {
         dispatch({ type: FETCH_STAT_DATA, payload:response });
         callback();

@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import {createStore, applyMiddleware, compose} from 'redux';
-import {Route, BrowserRouter, Switch} from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import reduxThunk from 'redux-thunk';
 
 import reducers from './reducers';
-import {AUTH_USER} from './actions/types';
+import { AUTH_USER } from './actions/types';
 
 import PrivateRoute from './components/auth/private_route';
 import Welcome from './components/welcome';
@@ -18,7 +18,9 @@ import Signup from './components/signup';
 import Unaudit from './components/unaudit';
 import AuditDetail from './components/auditdetail';
 import Alliance from './components/alliance';
+import PeerInfo from './components/peer_info';
 import Stat from './components/stat';
+import Query from './components/query';
 
 const createStoreWithMiddleware = compose(
   applyMiddleware(reduxThunk),
@@ -29,7 +31,7 @@ const store = createStoreWithMiddleware(reducers);
 const token = localStorage.getItem('token');
 // If token exist, singin automatic
 if (token) {
-  store.dispatch({type: AUTH_USER});
+  store.dispatch({ type: AUTH_USER });
 }
 
 ReactDOM.render(
@@ -44,9 +46,11 @@ ReactDOM.render(
             <Route path="/signup" component={Signup}/>
             <Route path="/unaudit/user/:uid" component={AuditDetail}/>
             <PrivateRoute path="/unaudit" component={Unaudit}/>
-            <PrivateRoute path="/alliance" component={Alliance}/>
-            <PrivateRoute path="/stat" component={Stat}/>
-            <PrivateRoute path="/" component={Welcome}/>
+            <PrivateRoute path="/alliance" component={Alliance} />
+            <PrivateRoute path="/peer" component={PeerInfo} />
+            <PrivateRoute path="/query" component={Query} />
+            <PrivateRoute path="/stat" component={Stat} />
+            <PrivateRoute path="/" component={Welcome} />
           </Switch>
         </div>
         <Footer/>

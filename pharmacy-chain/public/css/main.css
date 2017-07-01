@@ -17,7 +17,7 @@ body {
     border-color: #6f2e8f;
 }
 
-.btn-primary:hover, .btn-primary:active, .btn-primary:focus, .btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover {
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus, .btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover,.btn-primary[disabled]:hover {
     background-color: #6f2e8f;
     border-color: #6f2e8f;
     /*background-color: #5f297e;*/
@@ -283,7 +283,7 @@ footer {
 
 #map{
     height: 100%;
-    min-height: 450px;
+    min-height: 550px;
 }
 
 

@@ -25,7 +25,8 @@ class SignUp extends Component {
       isIdBackDone: false,
       isLicenseFileDone: false,
       isFormSubmit: false,
-      isSignUpSuccess: false
+      isSignUpSuccess: false,
+      registertype: 1
     };
 
     this.nextPage = this.nextPage.bind(this);
@@ -55,7 +56,7 @@ class SignUp extends Component {
       <div className={`form-group has-feedback ${touched && error ? 'has-error' : ''}`}>
         <label className="col-sm-4 control-label"><strong>{label}</strong></label>
         <div className="col-sm-4">
-          <input {...input} placeholder={label} type={type} className="form-control"/>
+          <input maxLength="4" {...input} placeholder={label} type={type} className="form-control"/>
           <div className="help-block with-errors">{touched && error ? error : ''}</div>
         </div>
         <div className="col-sm-4">
@@ -112,16 +113,18 @@ class SignUp extends Component {
 
   handleSelect(e) {
     console.log(`signType : ${e.target.value}`);
-    // TODO 1. 与服务器做验证码的判断
-    // TODO 2. 是否点击下载了入盟申请书
-
     this.state.registertype = e.target.value;
   }
 
+  restrickNum(e) {
 
-  handleFormSubmit({email, username, password, phone, company, person}) {
+
+  }
+
+
+  handleFormSubmit({email, username, password, phone, company, person, vcode}) {
     if (email && username && password && phone && company && person) {
-      console.log(`email: ${email}  username: ${username} password: ${password}  phone: ${phone}  company: ${company} person: ${person}`);
+      console.log(`email: ${email}  username: ${username} password: ${password}  phone: ${phone}  company: ${company} person: ${person} vcode: ${vcode}`);
       let {isImgFileDone, isIdFrontDone, isLicenseFileDone, isApplyFileDone} = this.state;
       console.log(`isImgFileDone ${isImgFileDone}  isIdFrontDone: ${isIdFrontDone} isLicenseFileDone: ${isLicenseFileDone} isApplyFileDone: ${isApplyFileDone}`)
       let applyOFile = this.applyFileInput.files[0];
@@ -144,6 +147,7 @@ class SignUp extends Component {
         licenseOFile,
         idFrontOFile,
         idBackOFile,
+        vcode
       }, (err) => {
         this.setState({
           isFormSubmit: true,
@@ -175,7 +179,8 @@ class SignUp extends Component {
                   <div className="row-title">
                     <div className={`icon-circle ${this.state.index == 0 ? 'icon-circle-purple' : ''}`}>1
                     </div>
-                    <span className="glyphicon glyphicon-arrow-right pull-right"></span>
+                    <img className="pull-right" src="/public/img/arrow-r.png"
+                         style={{width: '17px', height: '29px'}}></img>
                   </div>
                   <h4 className={`${this.state.index == 0 ? 'h4-purple' : ''}`}>申请入盟</h4>
                 </div>
@@ -196,19 +201,20 @@ class SignUp extends Component {
               <div className="row-header">
                 <div className="row-title">
                   <div className={`icon-circle ${this.state.index == 1 ? 'icon-circle-purple' : ''}`}>2</div>
-                  <span className="glyphicon glyphicon-arrow-right pull-right"></span>
+                  <img className="pull-right" src="/public/img/arrow-r.png"
+                       style={{width: '17px', height: '29px'}}></img>
                 </div>
                 <h4 className={`${this.state.index == 1 ? 'h4-purple' : ''}`}>设置账号密码</h4>
               </div>
               <div className="divider"></div>
               <p>
-                下载入盟申请表
+                设置用户名
               </p>
               <p>
-                填写申请信息
+                设置密码
               </p>
               <p>
-                提交申请信息
+                设置LOGO
               </p>
             </div>
 
@@ -216,19 +222,20 @@ class SignUp extends Component {
               <div className="row-header">
                 <div className="row-title">
                   <div className={`icon-circle ${this.state.index == 2 ? 'icon-circle-purple' : ''}`}>3</div>
-                  <span className="glyphicon glyphicon-arrow-right pull-right"></span>
+                  <img className="pull-right" src="/public/img/arrow-r.png"
+                       style={{width: '17px', height: '29px'}}></img>
                 </div>
                 <h4 className={`${this.state.index == 2 ? 'h4-purple' : ''}`}>设置公司信息</h4>
               </div>
               <div className="divider"></div>
               <p>
-                下载入盟申请表
+                提交公司信息
               </p>
               <p>
-                填写申请信息
+                提交营业执照
               </p>
               <p>
-                提交申请信息
+                上传身份证明
               </p>
             </div>
 
@@ -236,19 +243,20 @@ class SignUp extends Component {
               <div className="row-header">
                 <div className="row-title">
                   <div className={`icon-circle ${this.state.index == 3 ? 'icon-circle-purple' : ''}`}>4</div>
-                  <span className="glyphicon glyphicon-arrow-right pull-right"></span>
+                  <img className="pull-right" src="/public/img/arrow-r.png"
+                       style={{width: '17px', height: '29px'}}></img>
                 </div>
                 <h4 className={`${this.state.index == 3 ? 'h4-purple' : ''}`}>等待审核</h4>
               </div>
               <div className="divider"></div>
               <p>
-                下载入盟申请表
+                3个工作日审核
               </p>
               <p>
-                填写申请信息
+                15个工作日内修改
               </p>
               <p>
-                提交申请信息
+                过期失效
               </p>
             </div>
 
@@ -261,13 +269,7 @@ class SignUp extends Component {
               </div>
               <div className="divider"></div>
               <p>
-                下载入盟申请表
-              </p>
-              <p>
-                填写申请信息
-              </p>
-              <p>
-                提交申请信息
+                邮件通知
               </p>
             </div>
           </div>
@@ -309,7 +311,7 @@ class SignUp extends Component {
               </div>
 
               <Field name="email" component={this.renderField} type="email" label="注册邮箱"/>
-              <Field name="idcode" component={this.renderCodeField} type="text" label="验证码"/>
+              <Field name="vcode" component={this.renderCodeField} type="text" label="验证码"/>
 
               <div className="row">
                 <div className="col-xs-4">
@@ -333,7 +335,7 @@ class SignUp extends Component {
               <div className="row margin-b-15">
                 <label className="col-sm-4 control-label"><strong>上传LOGO</strong></label>
                 <div className="col-sm-8">
-                  <input className="" type="file" onChange={this.handleImgFile}
+                  <input className="" type="file" onChange={this.handleImgFile} accept="image/png,image/gif,image/jpeg"
                          ref={(input) => this.logoFileInput = input}/>
                 </div>
               </div>
@@ -369,11 +371,11 @@ class SignUp extends Component {
               <div className="row margin-b-15">
                 <label className="col-sm-4 control-label"><strong>上传正反身份证</strong></label>
                 <div className="col-sm-4">
-                  <input className="" type="file" accept="image/png,image/gif"
+                  <input className="" type="file" accept="image/png,image/gif,image/jpeg"
                          onChange={this.handleIdFront} ref={(input) => this.idFrontInput = input}/>
                 </div>
                 <div className="col-sm-4">
-                  <input className="" type="file" accept="image/png,image/gif"
+                  <input className="" type="file" accept="image/png,image/gif,image/jpeg"
                          onChange={this.handleIdBack} ref={(input) => this.idBackInput = input}/>
                 </div>
               </div>

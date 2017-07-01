@@ -38,7 +38,7 @@ export function signActionCreator({type, payload}) {
  * @param callback
  * @returns {Function}
  */
-export function signUp({registertype, email, username, password, phone, company, person, applyOFile, logoOFile, licenseOFile, idFrontOFile, idBackOFile}, callback) {
+export function signUp({registertype, email, username, password, phone, company, person, applyOFile, logoOFile, licenseOFile, idFrontOFile, idBackOFile,vcode}, callback) {
   return function (dispatch) {
     let formData = new FormData();
 
@@ -54,6 +54,8 @@ export function signUp({registertype, email, username, password, phone, company,
     formData.append("license", licenseOFile);
     formData.append("idfront", idFrontOFile);
     formData.append("idback", idBackOFile);
+    formData.append("vcode", vcode);
+    formData.append("session", "session");
     axios({
       method: 'post',
       url: `${ROOT_URL}/user`,

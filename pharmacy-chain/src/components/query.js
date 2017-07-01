@@ -13,9 +13,11 @@ import { Field, reduxForm } from 'redux-form';
 import moment from 'moment';
 import ReactMoment from 'react-moment';
 import DatePicker from 'react-datepicker';
+import Datetime from 'react-datetime';
 import { fetchSensorData } from '../actions/query';
 
 import '../../node_modules/react-datepicker/dist/react-datepicker.css';
+import '../../node_modules/react-datetime/css/react-datetime.css';
 import css from './css/stat.css';
 
 class Query extends Component {
@@ -56,13 +58,13 @@ class Query extends Component {
 
   handleStartDateChange(date) {
     this.setState({
-      startDate: date.startOf('day')
+      startDate: date //date.startOf('day')
     });
   }
 
   handleEndDateChange(date) {
     this.setState({
-      endDate: date.endOf('day')
+      endDate: date //date.endOf('day')
     });
   }
 
@@ -86,37 +88,39 @@ class Query extends Component {
                     <label className="col-sm-3 control-label">{this.state.type==='serial'?'传感器':'设备'}编号</label>
                     <div className="col-md-6">
                       <input name="remark" type="text" className="form-control" placeholder={`请输入${this.state.type==='serial'?'传感器':'设备'}编号`}
-                             value={this.state.serial} style={{width:'210px'}} onChange={e=>this.setState({serial: e.target.value})}/>
+                             value={this.state.serial} onChange={e=>this.setState({serial: e.target.value})}/>
                     </div>
                   </div>
                   <div className={`form-group has-feedback`}>
                     <label className="col-sm-3 control-label">起始时间</label>
                     <div className="col-sm-6">
-                      <DatePicker
-                        selected={this.state.startDate}
+                      <Datetime
+                        defaultValue={this.state.startDate}
                         onChange={this.handleStartDateChange.bind(this)}
                         placeholderText="起始时间"
                         dateFormat="YYYY-MM-DD"
-                        className="form-control"
+                        timeFormat="HH:mm:ss"
                       />
                     </div>
                   </div>
                   <div className={`form-group has-feedback`}>
                     <label className="col-sm-3 control-label">截止时间</label>
                     <div className="col-sm-6">
-                      <DatePicker
-                        selected={this.state.endDate}
+                      <Datetime
+                        defaultValue={this.state.endDate}
                         onChange={this.handleEndDateChange.bind(this)}
                         placeholderText="截止时间"
                         dateFormat="YYYY-MM-DD"
-                        className="form-control"
+                        timeFormat="HH:mm:ss"
+                        isValidDate={current=> current>=this.state.startDate}
                       />
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-md-6 col-md-offset-3">
-                      <button type="button" onClick={this.handleSubmit.bind(this)} disabled={!this.state.serial}
-                              className="btn btn-primary"  style={{width:'210px'}}><i className={`fa fa-spinner fa-spin ${this.state.spin?'':'hidden'}`}></i> 查询 </button>
+                      <button type="button" onClick={this.handleSubmit.bind(this)}
+                              disabled={!this.state.serial || this.state.startDate>this.state.endDate}
+                              className="btn btn-primary"  style={{width:'100%'}}><i className={`fa fa-spinner fa-spin ${this.state.spin?'':'hidden'}`}></i> 查询 </button>
                     </div>
                   </div>
 

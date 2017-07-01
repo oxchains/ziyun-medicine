@@ -26,8 +26,8 @@ class Stat extends Component {
   }
 
   handleSubmit() {
-    const startDate = this.state.startDate.format('YYYY-MM-DD');
-    const endDate = this.state.endDate.format('YYYY-MM-DD');
+    const startDate = this.state.startDate.format('x');
+    const endDate = this.state.endDate.format('x');
     const diff = this.state.endDate.diff(this.state.startDate, 'days');
     console.log(diff)
     if(startDate>endDate) {
@@ -55,7 +55,7 @@ class Stat extends Component {
 
   handleEndDateChange(date) {
     this.setState({
-      endDate: date.startOf('day')
+      endDate: date.endOf('day')
     });
   }
 
@@ -132,7 +132,7 @@ class Stat extends Component {
                   </div>
                   <div className={`form-group`}>
                     <label className="col-sm-2 control-label">时长</label>
-                    <div className="col-sm-10 control-text">{this.state.endDate.diff(this.state.startDate, 'days')+1}</div>
+                    <div className="col-sm-10 control-text">{this.state.endDate.diff(this.state.startDate, 'days')+1}天</div>
                   </div>
                   <div className={`form-group`}>
                     <label className="col-sm-2 control-label">货运单量</label>

@@ -47,7 +47,7 @@ public class User {
     this.password = password;
   }
 
-  @JsonFormat(pattern = "yyy-MM-dd hh:mm:ss")
-  private Date applydate = new Date();
+  @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+  private Date applydate;
 
 }

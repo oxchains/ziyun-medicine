@@ -1,5 +1,6 @@
 package com.oxchains.pharmacy.rest.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oxchains.pharmacy.domain.User;
 import com.oxchains.pharmacy.domain.UserType;
 import lombok.Data;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Optional;
 
 import static java.time.LocalDateTime.now;
@@ -22,6 +24,7 @@ import static java.util.UUID.randomUUID;
  * @author aiet
  */
 @Slf4j
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class RegisterRequest {
 
@@ -36,14 +39,12 @@ public class RegisterRequest {
   @NotNull
   private MultipartFile logo;
 
-  @NotNull
-  private String session;
-
   @Min(0)
   @Max(9)
   private int type;
 
   @Email
+  @NotNull
   private String email;
 
   @NotNull
@@ -81,6 +82,7 @@ public class RegisterRequest {
           .identityback(cacheFile(idback, basePath, uniqueDir, "idback"))
           .identityface(cacheFile(idfront, basePath, uniqueDir, "idfront"))
           .logo(cacheFile(logo, basePath, uniqueDir, "logo"))
+          .applydate(new Date())
           .authenticated(0).build();
       return Optional.of(newUser);
     } catch (Exception e) {

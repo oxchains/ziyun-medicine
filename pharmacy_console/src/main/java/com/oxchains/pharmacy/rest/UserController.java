@@ -24,6 +24,7 @@ import java.nio.file.Path;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.net.HttpHeaders.CONTENT_DISPOSITION;
 import static com.oxchains.pharmacy.Application.userContext;
+import static com.oxchains.pharmacy.rest.VCodeController.VCODE_CACHE;
 import static com.oxchains.pharmacy.rest.common.RestResp.fail;
 import static com.oxchains.pharmacy.rest.common.RestResp.success;
 import static java.net.URLConnection.guessContentTypeFromName;
@@ -52,18 +53,18 @@ public class UserController {
 
   @PostMapping
   public RestResp register(
+      @CookieValue(value = "JSESSIONID") String mockSessionId,
       @ModelAttribute @Valid RegisterRequest registerRequest, BindingResult bindingResult) {
-
     if (bindingResult.hasErrors()) {
       FieldError err = bindingResult.getFieldError();
       log.warn("invalid registration request {}: ", registerRequest, err);
       return fail(err.getField());
     }
 
-    //String originalVcode = VCODE_CACHE.getIfPresent(registerRequest.getSession());
-    //if (!registerRequest.getVcode().equals(originalVcode)) {
-    //  return fail("invalid vcode");
-    //}
+    String originalVcode = VCODE_CACHE.getIfPresent(mockSessionId);
+    if (!registerRequest.getVcode().equals(originalVcode)) {
+      return fail("invalid vcode");
+    }
 
     return userRepo.findByUsername(
         registerRequest.getUsername()

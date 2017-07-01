@@ -15,6 +15,7 @@ public class FabricToken {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(length = 512)
   private String token;
 
   @OneToOne

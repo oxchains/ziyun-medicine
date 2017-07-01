@@ -31,7 +31,7 @@ public class PeerController {
   @GetMapping
   public RestResp peers() {
     return userContext().flatMap(u ->
-        fabricTokenRepo.findByUser(u).flatMap(fabricToken -> chaincodeData.getPeers(fabricToken.getToken()))
+        fabricTokenRepo.findByUser(u).flatMap(fabricToken -> chaincodeData.getPeer(fabricToken.getToken()))
     ).map(RestResp::success).orElse(fail());
   }
 

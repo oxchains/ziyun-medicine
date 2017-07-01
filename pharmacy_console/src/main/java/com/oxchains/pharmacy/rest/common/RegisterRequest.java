@@ -73,13 +73,14 @@ public class RegisterRequest {
 
   public Optional<User> toUser(UserType userType, String basePath) {
     try {
+      String uniqueDir = randomUUID().toString();
       User newUser = User.builder().username(username).company(company).email(email).userType(userType).password(password)
           .representative(representative).phone(phone)
-          .application(cacheFile(application, basePath, "application"))
-          .license(cacheFile(license, basePath, "license"))
-          .identityback(cacheFile(idback, basePath, "idback"))
-          .identityface(cacheFile(idfront, basePath, "idfront"))
-          .logo(cacheFile(logo, basePath, "logo"))
+          .application(cacheFile(application, basePath, uniqueDir, "application"))
+          .license(cacheFile(license, basePath, uniqueDir, "license"))
+          .identityback(cacheFile(idback, basePath, uniqueDir, "idback"))
+          .identityface(cacheFile(idfront, basePath, uniqueDir, "idfront"))
+          .logo(cacheFile(logo, basePath, uniqueDir, "logo"))
           .authenticated(0).build();
       return Optional.of(newUser);
     } catch (Exception e) {
@@ -88,8 +89,8 @@ public class RegisterRequest {
     return empty();
   }
 
-  private String cacheFile(MultipartFile file, String basePath, String kind) throws IOException {
-    String cacheFilename = String.format("%s/%s/%s-%s-%s-%s", basePath, randomUUID().toString(),
+  private String cacheFile(MultipartFile file, String basePath, String uniqueDir, String kind) throws IOException {
+    String cacheFilename = String.format("%s/%s/%s-%s-%s-%s", basePath, uniqueDir,
         username, kind, now().format(ISO_LOCAL_DATE_TIME), file.getOriginalFilename());
     File cacheFile = new File(cacheFilename);
     if (cacheFile.exists()) {
@@ -99,7 +100,7 @@ public class RegisterRequest {
       file.transferTo(cacheFile);
     }
     log.info("cached {} for user {}: {}", kind, username, cacheFilename);
-    return cacheFilename;
+    return cacheFilename.replace(basePath, "");
   }
 
 

@@ -1,6 +1,7 @@
 package com.oxchains.pharmacy.data;
 
 import com.oxchains.pharmacy.rest.common.ChaincodeResp;
+import com.oxchains.pharmacy.rest.common.PeerInfo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 import static com.oxchains.pharmacy.utils.ResponseUtil.extract;
 import static com.oxchains.pharmacy.utils.ResponseUtil.resolve;
+import static org.springframework.http.HttpMethod.GET;
 
 /**
  * chaincode operations
@@ -29,11 +31,12 @@ public class ChaincodeData {
 
   private RestTemplate restTemplate = new RestTemplate();
 
-  public Optional<String> getPeers(String token) {
+  public Optional<PeerInfo> getPeer(String token) {
     HttpHeaders httpHeaders = new HttpHeaders();
-    httpHeaders.set(HttpHeaders.AUTHORIZATION, token);
+    httpHeaders.set(HttpHeaders.AUTHORIZATION, "Bearer " + token);
     HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
-    return extract(restTemplate.postForObject(uri + peerUri, entity, String.class), "/data");
+    return extract(restTemplate.exchange(uri + peerUri, GET, entity, String.class).getBody(), "/data")
+        .map(data -> resolve(data, PeerInfo.class));
   }
 
   @Value("${fabric.chain.name}")
@@ -47,18 +50,20 @@ public class ChaincodeData {
 
   public Optional<ChaincodeResp> getSensorByEquipment(String serial, String token) {
     HttpHeaders httpHeaders = new HttpHeaders();
-    httpHeaders.set(HttpHeaders.AUTHORIZATION, token);
+    httpHeaders.set(HttpHeaders.AUTHORIZATION, "Bearer " + token);
     HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
     //TODO
-    return extract(restTemplate.postForObject(uri + txUri, entity, String.class), "/data").map(data -> resolve(data, ChaincodeResp.class));
+    return extract(restTemplate.exchange(uri + txUri, GET, entity, String.class).getBody(), "/data")
+        .map(data -> resolve(data, ChaincodeResp.class));
   }
 
   public Optional<ChaincodeResp> getSensorBySerial(String serial, String token) {
     //TODO
     HttpHeaders httpHeaders = new HttpHeaders();
-    httpHeaders.set(HttpHeaders.AUTHORIZATION, token);
+    httpHeaders.set(HttpHeaders.AUTHORIZATION, "Bearer " + token);
     HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
-    return extract(restTemplate.postForObject(uri + txUri, entity, String.class), "/data").map(data -> resolve(data, ChaincodeResp.class));
+    return extract(restTemplate.exchange(uri + txUri, GET, entity, String.class).getBody(), "/data")
+        .map(data -> resolve(data, ChaincodeResp.class));
   }
 
 }

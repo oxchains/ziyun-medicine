@@ -22,6 +22,7 @@ public class ResponseUtil {
     try {
       JsonNode root = OBJECT_MAPPER.readTree(json);
       JsonNode data = root.at(path);
+      if(data.isArray()) data = data.get(0);
       return Optional.ofNullable(data.isObject() ? data.toString() : data.textValue());
     } catch (Exception e) {
       LOG.error("failed to extract value under path {} out of {}: {}", path, json, e.getMessage());

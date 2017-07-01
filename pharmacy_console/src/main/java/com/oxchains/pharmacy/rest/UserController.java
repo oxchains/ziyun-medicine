@@ -73,7 +73,7 @@ public class UserController {
         existingUser -> fail("user exist")
     ).orElseGet(
         () -> userTypeRepo.findByCode(registerRequest.getType()).map(
-            userType -> registerRequest.toUser(userType, uploadDir).map(
+            userType -> registerRequest.toUser(userType, getClass().getResource("/static/").getPath() + uploadDir).map(
                 newUser -> {
                   User savedUser = userRepo.save(newUser);
                   log.info("new registration {}({})", savedUser.getUsername(), savedUser.getId());
@@ -94,9 +94,9 @@ public class UserController {
   }
 
   @GetMapping("/{uid}/application")
-  public void downloadFileByUserName(@PathVariable Long uid, HttpServletResponse response) {
+  public void downloadFileByUserName(@PathVariable Long uid, HttpServletRequest request, HttpServletResponse response) {
     userRepo.findById(uid).map(user -> {
-      File applicationFile = new File(user.getApplication());
+      File applicationFile = new File(getClass().getResource("/static/").getPath() + uploadDir + user.getApplication());
       if (applicationFile.exists()) {
         try {
           Path filePath = applicationFile.toPath();
@@ -117,9 +117,9 @@ public class UserController {
     });
   }
 
-  @GetMapping("/{uid}")
-  public RestResp user(@PathVariable String username) {
-    return userRepo.findByUsername(username).map(RestResp::success).orElse(fail("user not found"));
+  @GetMapping("/{uid:(?!application).*$}")
+  public RestResp user(@PathVariable Long uid) {
+    return userRepo.findById(uid).map(RestResp::success).orElse(fail("user not found"));
   }
 
   @GetMapping

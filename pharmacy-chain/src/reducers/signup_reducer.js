@@ -26,12 +26,7 @@ export default function (state = {index: 0}, action) {
     }
     case SIGN_TYPE: {
       return {
-        ...state, signTypes: action.payload
-      }
-    }
-    case DOWNLOAD_FILE: {
-      return {
-        ...state, downloadUrl: action.payload
+        ...state, types: action.payload
       }
     }
     default: {

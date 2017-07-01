@@ -1,7 +1,7 @@
 /**
  * Created by finch on 6/29/17.
  */
-import {SIGNUP_STEP0, SIGNUP_STEP1, SIGNUP_STEP2, PAGE_INDEX, ROOT_URL} from './types';
+import {SIGNUP_STEP0, SIGNUP_STEP1, SIGNUP_STEP2, PAGE_INDEX, ROOT_URL, SIGN_TYPE} from './types';
 import axios from 'axios';
 
 export function signActionCreator({type, payload}) {
@@ -38,27 +38,28 @@ export function signActionCreator({type, payload}) {
  * @param callback
  * @returns {Function}
  */
-export function signUp(params, callback) {
+export function signUp({registertype, email, username, password, phone, company, person, applyOFile, logoOFile, licenseOFile, idFrontOFile, idBackOFile}, callback) {
   return function (dispatch) {
     let formData = new FormData();
 
-    formData.append("applyfile", params.applyOFile);
-    formData.append("registertype", params.registertype);
-    formData.append("email", params.email);
-    formData.append("validatecode", params.validatecode);
-    formData.append("username", params.username);
-    formData.append("password", params.password);
-    formData.append("repeatpassword", params.repeatpassword);
-    formData.append("phone", params.phone);
-    formData.append("logo", params.logo);
-    formData.append("company", params.company);
-    formData.append("license", params.license);
-    formData.append("person", params.person);
-    formData.append("identity", params.identity);
-
-    axios.post(`${ROOT_URL}/user/apply`, {
+    formData.append("type", registertype);
+    formData.append("email", email);
+    formData.append("username", username);
+    formData.append("password", password);
+    formData.append("phone", phone);
+    formData.append("company", company);
+    formData.append("representative", person);
+    formData.append("application", applyOFile);
+    formData.append("logo", logoOFile);
+    formData.append("license", licenseOFile);
+    formData.append("idfront", idFrontOFile);
+    formData.append("idback", idBackOFile);
+    axios({
+      method: 'post',
+      url: `${ROOT_URL}/user`,
       data: formData,
-      headers: {'content-type': 'multipart/form-data'}
+      headers: {'content-type': 'multipart/form-data'},
+      withCredentials: true
     }).then((response) => {
       if (response.status == 1) {
         console.log(`upload success message: ${response.message}`);
@@ -67,6 +68,8 @@ export function signUp(params, callback) {
         console.log("upload fail");
         callback();
       }
+    }).catch(err => {
+      callback(err.message);
     })
   }
 }
@@ -76,7 +79,7 @@ export function signUp(params, callback) {
  */
 export function getCode() {
   return function (dispatch) {
-    axios.get(`${ROOT_URL}/code/getCode`).then((response) => {
+    axios.get(`${ROOT_URL}/vcode`).then((response) => {
       if (response.status == 1) {
         dispatch();
       }
@@ -117,8 +120,13 @@ export function downloadFile() {
  */
 export function getTypeList() {
   return function (dispatch) {
-
-
+    axios.get(`${ROOT_URL}/user/type`).then((res) => {
+      if (res.data.status == 1) {
+        dispatch({
+          type: SIGN_TYPE,
+          payload: res.data.data
+        })
+      }
+    })
   }
-
 }

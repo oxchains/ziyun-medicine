@@ -15,6 +15,8 @@ import Footer from './components/common/footer';
 import Signout from './components/auth/signout';
 import Signin from './components/auth/signin';
 import Signup from './components/signup';
+import Unaudit from './components/unaudit';
+import AuditDetail from './components/auditdetail';
 import Alliance from './components/alliance';
 import PeerInfo from './components/peer_info';
 import Stat from './components/stat';
@@ -39,9 +41,11 @@ ReactDOM.render(
         <Header />
         <div className="content-wrapper">
           <Switch>
-            <Route path="/signout" component={Signout} />
-            <Route path="/signin" component={Signin} />
+            <Route path="/signout" component={Signout}/>
+            <Route path="/signin" component={Signin}/>
             <Route path="/signup" component={Signup}/>
+            <Route path="/unaudit/user/:uid" component={AuditDetail}/>
+            <PrivateRoute path="/unaudit" component={Unaudit}/>
             <PrivateRoute path="/alliance" component={Alliance} />
             <PrivateRoute path="/peer" component={PeerInfo} />
             <PrivateRoute path="/query" component={Query} />

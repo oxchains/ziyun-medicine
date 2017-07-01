@@ -14,6 +14,7 @@ class Header extends  Component {
         <div className="pull-right">
           <span className="margin-r-10"><i className="fa fa-user"></i> {username}</span>
           <Link to="/setting" className="margin-r-10 link-gray">用户设置</Link>
+          <Link to="/unaudit" className="margin-r-10 link-gray">待审查列表</Link>
           <Link to="/signout" className="link-gray">退出</Link>
         </div>
       </div>

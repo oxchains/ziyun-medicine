@@ -8,8 +8,8 @@ class Welcome extends  Component {
 
   renderUserInfo() {
     if(this.props.authenticated) {
-      const user = JSON.parse(localStorage.getItem('user'));
-      return <span>{user.name}</span>
+      const username = localStorage.getItem('username');
+      return <span>{username}</span>
     } else {
       return <div></div>
     }

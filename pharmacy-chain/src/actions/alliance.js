@@ -11,7 +11,8 @@ import axios from 'axios';
 import {
   ROOT_URL,
   FETCH_ALLIANCE_LIST,
-  requestError
+  requestError,
+  getAuthorizedHeader
 } from './types';
 
 /**
@@ -19,7 +20,7 @@ import {
  */
 export function fetchAllianceList() {
   return function(dispatch) {
-    axios.get(`${ROOT_URL}/user`)
+    axios.get(`${ROOT_URL}/user/simple`, { headers: getAuthorizedHeader() })
       .then(response => dispatch({ type: FETCH_ALLIANCE_LIST, payload:response }))
       .catch( err => dispatch(requestError(err.message)) );
   }

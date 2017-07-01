@@ -8,11 +8,11 @@ class Header extends  Component {
 
   renderUserInfo() {
     if(this.props.authenticated) {
-      const user = JSON.parse(localStorage.getItem('user'));
+      const username = localStorage.getItem('username');
       return <div className="container user-info">
         <div className="pull-left">欢迎加入全国医药流通行业区块链联盟</div>
         <div className="pull-right">
-          <span className="margin-r-10"><i className="fa fa-user"></i> {user.name}</span>
+          <span className="margin-r-10"><i className="fa fa-user"></i> {username}</span>
           <Link to="/setting" className="margin-r-10 link-gray">用户设置</Link>
           <Link to="/signout" className="link-gray">退出</Link>
         </div>

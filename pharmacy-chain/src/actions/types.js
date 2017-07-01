@@ -26,8 +26,7 @@ export const FETCH_SENSOR_DATA = 'fetch_sensor_data';                 //获取�
 
 
 export function getAuthorizedHeader() {
-  //return { authorization: 'Bearer '+localStorage.getItem('token') }
-  return { authorization: 'Bearer FakeToken' }
+  return { authorization: 'Bearer '+localStorage.getItem('token') }
 }
 
 export function requestError(error) {

@@ -53,8 +53,7 @@ class Signin extends Component {
         <section className="content">
 
           <div className="row">
-            <div className="col-md-3"><AllianceList/></div>
-              <div className="col-md-9 text-center">
+              <div className="col-md-6 col-md-offset-3 text-center">
                 <div className="login-box">
                 <div className="login-box-body">
                   <p className="login-box-msg" style={{fontSize: 24+'px'}}>欢迎,请登录</p>

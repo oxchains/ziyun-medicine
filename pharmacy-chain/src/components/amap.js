@@ -34,7 +34,7 @@ class AMap extends  Component {
     if(nextProps.markers && nextProps.markers.length>0) {
       /*nextProps.markers.forEach((m)=>{
         var marker = new window.AMap.Marker({
-          position: [m.location.lng, m.location.lat],
+          position: [m.location.longitude, m.location.latitude],
           map: this.map
         });
       });
@@ -48,7 +48,7 @@ class AMap extends  Component {
   renderCluser(markersData) {
     var markers = markersData.map((m)=>{
       return new window.AMap.Marker({
-        position: [m.lng, m.lat],
+        position: [m.longitude, m.latitude],
         content: '<div style="background-color: hsla(180, 100%, 50%, 0.7); height: 24px; width: 24px; border: 1px solid hsl(180, 100%, 40%); border-radius: 12px; box-shadow: hsl(180, 100%, 50%) 0px 0px 1px;"></div>',
         offset: new window.AMap.Pixel(-15,-15)
       })

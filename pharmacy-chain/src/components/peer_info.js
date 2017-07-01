@@ -45,7 +45,7 @@ class PeerInfo extends Component {
       <div className="container">
         <section className="content">
           <div className="row">
-            <div className="col-xs-12 col-md-6 col-md-offset-3">
+            <div className="col-xs-12 col-md-8 col-md-offset-2">
               <div className="panel panel-default">
                 <div className="panel-heading">节点信息</div>
                 <div className="panel-body">

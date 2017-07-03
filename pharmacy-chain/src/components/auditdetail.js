@@ -37,16 +37,13 @@ class AuditDetail extends Component {
     });
   }
 
-  str2ab(str) {
-    var buf = new ArrayBuffer(str.length * 2); // 2 bytes for each char
-    var bufView = new Uint16Array(buf);
-    for (var i = 0, strLen = str.length; i < strLen; i++) {
-      bufView[i] = str.charCodeAt(i);
-    }
-    return buf;
-  }
-
+  /**
+   *
+   * @param response arrayBuffer的对象
+   * @returns {*} 返回一个Url的地址 代表返回的BLOB对象数据
+   */
   encodeObjectUrl(response) {
+    // 将数据传递为 arrayBuffer的二进制数据类型
     var arrayBufferView = new Uint8Array(response);
     var blob = new Blob([arrayBufferView], {type: "image/png"});
     var urlCreator = window.URL || window.webkitURL;
@@ -79,7 +76,7 @@ class AuditDetail extends Component {
     if (!auditDetail) {
       return <div></div>;
     }
-    const {company, license, username, idfront, idback} = auditDetail;
+    const {company, username} = auditDetail;
 
     return (
       <div>

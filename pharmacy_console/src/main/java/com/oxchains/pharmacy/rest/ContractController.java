@@ -1,6 +1,6 @@
 package com.oxchains.pharmacy.rest;
 
-import com.oxchains.pharmacy.data.ChaincodeData;
+import com.oxchains.pharmacy.rest.client.ChaincodeClient;
 import com.oxchains.pharmacy.data.FabricTokenRepo;
 import com.oxchains.pharmacy.rest.common.RangeStats;
 import com.oxchains.pharmacy.rest.common.RestResp;
@@ -31,13 +31,13 @@ public class ContractController {
 
   private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy年MM月dd日").withZone(ZoneId.systemDefault());
 
-  private ChaincodeData chaincodeData;
+  private ChaincodeClient chaincodeClient;
   private FabricTokenRepo fabricTokenRepo;
 
   public ContractController(
-      @Autowired ChaincodeData chaincodeData,
+      @Autowired ChaincodeClient chaincodeClient,
       @Autowired FabricTokenRepo fabricTokenRepo) {
-    this.chaincodeData = chaincodeData;
+    this.chaincodeClient = chaincodeClient;
     this.fabricTokenRepo = fabricTokenRepo;
   }
 
@@ -60,8 +60,8 @@ public class ContractController {
     return userContext().map(u ->
         fabricTokenRepo.findByUser(u).map(fabricToken ->
             serial.isEmpty() ?
-                chaincodeData.getSensorByEquipment(equipment, start, end, fabricToken.getToken())
-                : chaincodeData.getSensorBySerial(serial, start, end, fabricToken.getToken())
+                chaincodeClient.getSensorByEquipment(equipment, start, end, fabricToken.getToken())
+                : chaincodeClient.getSensorBySerial(serial, start, end, fabricToken.getToken())
         ).map(RestResp::success).orElse(fail("no sensor data"))
     ).orElse(fail());
   }
@@ -82,7 +82,7 @@ public class ContractController {
 
     return userContext().map(u ->
         fabricTokenRepo.findByUser(u).flatMap(fabricToken ->
-            chaincodeData.getSensorStats(start, end, fabricToken.getToken())
+            chaincodeClient.getSensorStats(start, end, fabricToken.getToken())
         ).map(sensorStats -> {
           Instant startTemporal = ofEpochSecond(start), endTemporal = ofEpochSecond(end);
           long days = Duration.between(startTemporal, endTemporal).toDays();

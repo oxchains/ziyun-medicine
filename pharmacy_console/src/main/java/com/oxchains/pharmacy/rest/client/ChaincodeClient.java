@@ -1,4 +1,4 @@
-package com.oxchains.pharmacy.data;
+package com.oxchains.pharmacy.rest.client;
 
 import com.oxchains.pharmacy.rest.common.ChaincodeResp;
 import com.oxchains.pharmacy.rest.common.PeerInfo;
@@ -25,7 +25,7 @@ import static org.springframework.http.HttpMethod.GET;
  */
 @Slf4j
 @Service
-public class ChaincodeData {
+public class ChaincodeClient {
 
   @Value("${fabric.manager.uri}")
   private String uri;

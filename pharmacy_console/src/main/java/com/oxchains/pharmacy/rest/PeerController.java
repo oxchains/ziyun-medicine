@@ -1,6 +1,6 @@
 package com.oxchains.pharmacy.rest;
 
-import com.oxchains.pharmacy.data.ChaincodeData;
+import com.oxchains.pharmacy.rest.client.ChaincodeClient;
 import com.oxchains.pharmacy.data.FabricTokenRepo;
 import com.oxchains.pharmacy.rest.common.RestResp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +18,20 @@ import static com.oxchains.pharmacy.rest.common.RestResp.fail;
 @RequestMapping("/peer")
 public class PeerController {
 
-  private ChaincodeData chaincodeData;
+  private ChaincodeClient chaincodeClient;
   private FabricTokenRepo fabricTokenRepo;
 
   public PeerController(
-      @Autowired ChaincodeData chaincodeData,
+      @Autowired ChaincodeClient chaincodeClient,
       @Autowired FabricTokenRepo fabricTokenRepo) {
-    this.chaincodeData = chaincodeData;
+    this.chaincodeClient = chaincodeClient;
     this.fabricTokenRepo = fabricTokenRepo;
   }
 
   @GetMapping
   public RestResp peers() {
     return userContext().flatMap(u ->
-        fabricTokenRepo.findByUser(u).flatMap(fabricToken -> chaincodeData.getPeer(fabricToken.getToken()))
+        fabricTokenRepo.findByUser(u).flatMap(fabricToken -> chaincodeClient.getPeer(fabricToken.getToken()))
     ).map(RestResp::success).orElse(fail());
   }
 

@@ -5,17 +5,19 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 /**
- * 验证码生成器
- *
- * @author 玄玉<http://blog.csdn.net/jadyer>
- * @create Sep 29, 2013 4:23:13 PM
- * @see --------------------------------------------------------------------------------------------------------------
- * @see 可生成数字、大写、小写字母及三者混合类型的验证码
- * @see 支持自定义验证码字符数量,支持自定义验证码图片的大小,支持自定义需排除的特殊字符,支持自定义干扰线的数量,支持自定义验证码图文颜色
- * @see --------------------------------------------------------------------------------------------------------------
- * @see 另外,给Shiro加入验证码有多种方式,也可以通过继承修改FormAuthenticationFilter类,通过Shiro去验证验证码
- * @see 而这里既然使用了SpringMVC,也为了简化操作,就使用此工具生成验证码,并在Controller中处理验证码的校验
- * @see --------------------------------------------------------------------------------------------------------------
+ * 验证码生成器, 可生成数字、大写、小写字母及三者混合类型的验证码
+ * <ul>
+ *   <li>支持自定义验证码字符数量</li>
+ *   <li>支持自定义验证码图片的大小</li>
+ *   <li>支持自定义需排除的特殊字符</li>
+ *   <li>支持自定义干扰线的数量</li>
+ *   <li>支持自定义验证码图文颜色</li>
+ * </ul>
+ * <p>
+ *  另外,给Shiro加入验证码有多种方式, 也可以通过继承修改 FormAuthenticationFilter, 通过Shiro去验证验证码
+ *  而这里既然使用了SpringMVC, 也为了简化操作, 就使用此工具生成验证码, 并在Controller中处理验证码的校验
+ * </p>
+ * @author 玄玉: http://blog.csdn.net/jadyer
  */
 public class VerifyCodeUtil {
   /**
@@ -98,7 +100,7 @@ public class VerifyCodeUtil {
     if (length <= 0) {
       return "";
     }
-    StringBuffer verifyCode = new StringBuffer();
+    StringBuilder verifyCode = new StringBuilder();
     int i = 0;
     Random random = new Random();
     switch (type) {
@@ -106,7 +108,7 @@ public class VerifyCodeUtil {
         while (i < length) {
           int t = random.nextInt(10);
           //排除特殊字符
-          if (null == excludeString || excludeString.indexOf(t + "") < 0) {
+          if (null == excludeString || !excludeString.contains(t + "")) {
             verifyCode.append(t);
             i++;
           }
@@ -194,12 +196,12 @@ public class VerifyCodeUtil {
     //画干扰线
     Random random = new Random();
     if (interLine > 0) {
-      int x = 0, y = 0, x1 = width, y1 = 0;
+      int x = 0, y = 0, y1 = 0;
       for (int i = 0; i < interLine; i++) {
         graphics.setColor(null == lineColor ? generateRandomColor() : lineColor);
         y = random.nextInt(height);
         y1 = random.nextInt(height);
-        graphics.drawLine(x, y, x1, y1);
+        graphics.drawLine(x, y, width, y1);
       }
     }
     //字体大小为图片高度的80%

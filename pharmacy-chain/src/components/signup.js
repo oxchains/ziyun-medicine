@@ -179,10 +179,11 @@ class SignUp extends Component {
   }
 
 
+  // TODO 向服务器请求 1.注册类型 2. 验证码 3. 入盟申请表地址
+  // this.props.getCode();
+  // this.props.downloadFile();
+
   componentWillMount() {
-    // TODO 向服务器请求 1.注册类型 2. 验证码 3. 入盟申请表地址
-    // this.props.getCode();
-    // this.props.downloadFile();
     this.props.getTypeList();
   }
 

@@ -102,7 +102,7 @@ export function checkCode() {
   return function (dispatch) {
     axios.post(`${ROOT_URL}/code/checkCode`).then((response) => {
       if (response.status == 1) {
-        dispatch();
+        dispatch()
 
       }
     })
@@ -135,6 +135,45 @@ export function getTypeList() {
           payload: res.data.data
         })
       }
+    })
+  }
+}
+
+//TODO
+/**
+ *
+ * 个人信息修改
+ * @param imgUrl
+ * @param email
+ * @param telephone
+ * @returns {Function}
+ */
+export function userInfoAction({imgUrl, email, telephone}) {
+  return function (dispatch) {
+    let formData = new FormData();
+    formdata.append('imgurl', imgUrl);
+    formData.append('email', email);
+    formData.append('telephone', telephone);
+    axios({
+      method: 'post',
+      url: `${ROOT_URL}/user`,
+      data: formData,
+      headers: {'content-type': 'multipart/form-data'},
+      withCredentials: true
+    }).then()
+  }
+}
+//TODO
+/**
+ * 修改密码
+ * @param currentPwd
+ * @param newPwd
+ */
+export function userPwdAction({currentPwd, newPwd}) {
+  return function (dispatch) {
+    axios.post(`${ROOT_URL}/pwd`, {currentPwd, newPwd}).then((res) => {
+
+
     })
   }
 }

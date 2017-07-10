@@ -255,7 +255,7 @@ paths:
         '200':
           description: 更新成功
           schema:
-            $ref: '#/definitions/SuccessResponse'
+            $ref: '#/definitions/UserData'
 
   /user/secret:
     put:

@@ -6,12 +6,17 @@ import {connect} from 'react-redux';
 import {fetchAuditList} from '../actions/audit';
 import './css/unauditlist.css';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class UnAuditList extends Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    fetchAuditList: PropTypes.func.isRequired,
   }
 
+  static defaultProps = {
+    
+  }
+ 
   componentWillMount() {
     this.props.fetchAuditList({authenticated: false});
   }

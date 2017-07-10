@@ -14,7 +14,9 @@ tags:
   - name: code
     description: 验证码
   - name: user
-    description: 用户信息相关
+    description: 用户信息
+  - name: secret
+    description: 用户密钥
   - name: peer
     description: 记账节点
   - name: contract
@@ -229,6 +231,82 @@ paths:
           description: 更新成功
           schema:
             $ref: '#/definitions/SuccessResponse'
+  /user/info:
+    put:
+      summary: 更新成员信息
+      description: 更新联盟成员logo, email, phone
+      security:
+        - Bearer: []
+      tags:
+        - user
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: logo
+          in: formData
+          type: file
+        - name: email
+          in: formData
+          type: string
+        - name: phone
+          in: formData
+          type: string
+      responses:
+        '200':
+          description: 更新成功
+          schema:
+            $ref: '#/definitions/UserData'
+
+  /user/secret:
+    put:
+      summary: 更新成员密钥
+      description: 更新联盟成员密码
+      security:
+        - Bearer: []
+      tags:
+        - secret
+      parameters:
+        - name: operation
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateSecretRequest'
+      responses:
+        '200':
+          description: 修改成功
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+  /user/secret/reset:
+    post:
+      summary: 重置密码/找回密码
+      description: 联盟成员忘记密码后, 可通过注册邮箱找回密码
+      tags:
+        - secret
+      parameters:
+        - name: operation
+          in: body
+          schema:
+            $ref: '#/definitions/ResetSecretRequest'
+      responses:
+        '200':
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+  /user/secret/reset/vcode:
+    get:
+      summary: 获取重置验证码
+      description: 联盟成员忘记密码后, 需先通过注册邮箱接收系统验证码, 以验证其身份
+      tags:
+        - secret
+      parameters:
+        - name: email
+          in: query
+          type: string
+          description: 注册邮箱
+      responses:
+        '200':
+          description: 获取成功
+          schema:
+            $ref: '#/definitions/SuccessResponse'
 
   /peer:
     get:
@@ -276,6 +354,27 @@ paths:
           description: 成功获取传感器信息
           schema:
             $ref: '#/definitions/SensorDataList'
+  /contract/stats:
+    get:
+      summary: 链上数据统计
+      tags:
+        - contract
+      security:
+        - Bearer: []
+      parameters:
+        - name: start
+          type: string
+          required: true
+          in: query
+        - name: end
+          type: string
+          required: true
+          in: query
+      responses:
+        '200':
+          description: 成功获取链上统计信息
+          schema:
+            $ref: '#/definitions/StatsData'
 
 securityDefinitions:
   Bearer:
@@ -442,6 +541,21 @@ definitions:
           data:
             $ref: '#/definitions/SensorData'
 
+  StatsData:
+      allOf:
+        - $ref: '#/definitions/SuccessResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                range:
+                  type: string
+                days:
+                  type: number
+                sensordata:
+                  type: number
+
 
   PeerDataList:
     allOf:
@@ -492,4 +606,32 @@ definitions:
         description: 操作结果为 0 时, 可注明缘由
         type: string
 
+  UpdateSecretRequest:
+    type: object
+    required:
+      - oldpass
+      - newpass
+    properties:
+      oldpass:
+        description: '旧密码'
+        type: string
+      newpass:
+        description: '新密码'
+        type: string
+  ResetSecretRequest:
+    type: object
+    required:
+      - email
+      - password
+      - vcode
+    properties:
+      email:
+        type: string
+        description: '注册邮箱'
+      vcode:
+        type: string
+        description: '邮箱验证码'
+      password:
+        type: string
+        description: '新密码'
 

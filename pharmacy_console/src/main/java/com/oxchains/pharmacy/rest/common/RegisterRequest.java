@@ -43,7 +43,7 @@ public class RegisterRequest {
   @Max(9)
   private int type;
 
-  @Email
+  @Email(regexp = "^([_a-zA-Z0-9-]+(\\\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\\\.[a-zA-Z0-9-]+)*(\\\\.[a-zA-Z]{1,6}))?$")
   @NotNull
   private String email;
 

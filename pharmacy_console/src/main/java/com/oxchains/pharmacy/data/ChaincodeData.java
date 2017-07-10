@@ -3,6 +3,7 @@ package com.oxchains.pharmacy.data;
 import com.oxchains.pharmacy.rest.common.ChaincodeResp;
 import com.oxchains.pharmacy.rest.common.PeerInfo;
 import com.oxchains.pharmacy.rest.common.SensorData;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 import static com.oxchains.pharmacy.utils.ResponseUtil.*;
 import static java.util.Collections.emptyList;
+import static java.util.Optional.empty;
 import static org.springframework.http.HttpMethod.GET;
 
 /**
@@ -21,6 +23,7 @@ import static org.springframework.http.HttpMethod.GET;
  *
  * @author aiet
  */
+@Slf4j
 @Service
 public class ChaincodeData {
 
@@ -51,7 +54,7 @@ public class ChaincodeData {
         GET, entity, String.class).getBody(),
         "/data"
     ).map(data -> resolve(data, ChaincodeResp.class)
-    ).flatMap(chaincodeResp ->
+    ).filter(ChaincodeResp::succeeded).flatMap(chaincodeResp ->
         extractMany(chaincodeResp.getPayload(), "/list")
             .map(sensorData -> resolveCollection(sensorData, SensorData.class))
     ).orElse(emptyList());
@@ -67,10 +70,30 @@ public class ChaincodeData {
         GET, entity, String.class).getBody(),
         "/data"
     ).map(data -> resolve(data, ChaincodeResp.class)
-    ).flatMap(chaincodeResp ->
+    ).filter(ChaincodeResp::succeeded).flatMap(chaincodeResp ->
         extractMany(chaincodeResp.getPayload(), "/list")
             .map(sensorData -> resolveCollection(sensorData, SensorData.class))
     ).orElse(emptyList());
+  }
+
+  public Optional<Long> getSensorStats(long startTime, long endTime, String token) {
+    HttpHeaders httpHeaders = new HttpHeaders();
+    httpHeaders.set(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+    HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
+    return extractOne(restTemplate.exchange(
+        String.format("%s%s,%s,%s", uri + txUri,
+            "getNumberOfSensorDataByTime", startTime, endTime),
+        GET, entity, String.class).getBody(),
+        "/data/payload"
+    ).map(data -> resolve(data, ChaincodeResp.class)
+    ).filter(ChaincodeResp::succeeded).flatMap(chaincodeResp -> {
+      try {
+        return Optional.of(Long.valueOf(chaincodeResp.getPayload()));
+      } catch (Exception e) {
+        log.error("invalid response of sensor data stats query from {} to {}: {}", startTime, endTime, e.getMessage());
+      }
+      return empty();
+    });
   }
 
 }

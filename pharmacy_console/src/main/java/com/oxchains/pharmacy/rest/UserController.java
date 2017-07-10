@@ -7,6 +7,7 @@ import com.oxchains.pharmacy.domain.User;
 import com.oxchains.pharmacy.rest.common.AuthenticateRequest;
 import com.oxchains.pharmacy.rest.common.RegisterRequest;
 import com.oxchains.pharmacy.rest.common.RestResp;
+import com.oxchains.pharmacy.rest.common.UpdateUserInfoRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,8 +81,30 @@ public class UserController {
                 }).orElse(fail("system error"))
         ).orElse(fail("invalid type"))
     );
+  }
+
+  @PutMapping("/info")
+  public RestResp updateInfo(
+      @ModelAttribute @Valid UpdateUserInfoRequest updateRequest, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      FieldError err = bindingResult.getFieldError();
+      log.warn("invalid update request {}: ", updateRequest, err);
+      return fail(err.getField());
+    }
+
+    if (updateRequest.inValid()) {
+      return fail("update at lease one field: email, phone, logo");
+    }
+
+    return userContext().map(u -> {
+      if (updateRequest.emailModified()) u.setEmail(updateRequest.getEmail());
+      if (updateRequest.phoneModified()) u.setPhone(updateRequest.getPhone());
+      if (updateRequest.logoModified()) updateRequest.cachedLogo(u.getUsername(), uploadDir).ifPresent(u::setLogo);
+      return userRepo.save(u);
+    }).map(RestResp::success).orElse(fail());
 
   }
+
 
   private void fileNotFound(HttpServletResponse response) {
     try {

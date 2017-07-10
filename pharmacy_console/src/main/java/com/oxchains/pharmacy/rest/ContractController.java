@@ -52,4 +52,14 @@ public class ContractController {
     ).orElse(fail());
   }
 
+  @GetMapping("/stats")
+  public RestResp stats(
+      @RequestParam long start, @RequestParam long end) {
+    return userContext().map(u ->
+        fabricTokenRepo.findByUser(u).flatMap(fabricToken ->
+            chaincodeData.getSensorStats(start, end, fabricToken.getToken())
+        ).map(RestResp::success).orElse(fail("no stats data"))
+    ).orElse(fail());
+  }
+
 }

@@ -47,7 +47,7 @@ public class AppConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(
             "/token", "/vcode",
             "/user/application", "/user/simple", "/user/type",
-            "/user/reset", "/user/reset/vcode"
+            "/user/secret/reset", "/user/secret/reset/vcode"
         )
         .permitAll()
         .antMatchers("/**/*")

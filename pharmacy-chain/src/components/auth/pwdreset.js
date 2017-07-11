@@ -54,7 +54,7 @@ class PwdReset extends Component {
           <div className="col-sm-2"></div>
           <div className="col-sm-6" style={{textAlign: 'center'}}>
             <label style={{color: '#6c6c6c'}}>
-              {`当前用户名：xxxxxxxx公司`}
+              {`当前用户名：${localStorage.getItem('company')}公司`}
             </label>
           </div>
         </div>

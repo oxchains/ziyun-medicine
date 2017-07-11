@@ -3,7 +3,10 @@
  */
 import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form';
+import Dropzone from 'react-dropzone';
 import {connect} from 'react-redux';
+import {updateInfoAction} from '../../actions/signup';
+import '../css/userinfo.css';
 
 class UserInfo extends Component {
   constructor(props) {
@@ -11,16 +14,31 @@ class UserInfo extends Component {
 
     this.state = {
       imgFile: false,
+      files: []
     };
-
-    this.handleFiles = this.handleFiles.bind(this);
   }
 
-  handleFormSubmit({telephone, email, urlImg}) {
-    if (telephone && email && urlImg) {
-
-
+  handleFormSubmit({telephone, email}) {
+    if (this.state.files.length <= 0) {
+      return;
     }
+
+    if (telephone && email) {
+      this.props.updateInfoAction({"logo": this.state.files[0], telephone, email}, ({status, message}) => {
+        if (status == 1) {
+          this.props.history.push('/');
+        } else {
+          console.log('err', message);
+        }
+      });
+    }
+  }
+
+  onDrop(files) {
+    console.log('files', files);
+    this.setState({
+      files
+    })
   }
 
   renderField({input, label, type, meta: {touched, error}}) {
@@ -35,48 +53,37 @@ class UserInfo extends Component {
     )
   }
 
-  renderAlert() {
-    if (this.props.errorMessage) {
-      return (
-        <div className="alert alert-danger alert-dismissable">
-          {this.props.errorMessage}
-        </div>
-      );
-    }
-  }
-
-  handleFiles(e) {
-    window.URL = window.URL || window.webkitURL;
-    console.log(e.target.files[0]);
-
-    const img = document.querySelector('img');
-
-    if (e.target.files[0]) {
-      img.src = window.URL.createObjectURL(e.target.files[0]);
-
-      img.onload = function () {
-        window.URL.revokeObjectURL(this.src);
-      }
-    }
-  }
-
   render() {
     const {handleSubmit} = this.props;
 
     return (
       <div className="col-xs-8">
         <form className="form-horizontal" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-          <div >
-            <input type="file" name="logo-file" id="logofile" accept="image/*" style={{margin: '0 auto'}}
-                   onChange={this.handleFiles}/>
-          </div>
-          <div className="row margin-b-20">
-            <div className="col-sm-2"></div>
-            <div className="col-sm-6" style={{textAlign: 'center'}}>
-              <img id='img' style={{width: '115px', height: '115px', border: '1px solid gray'}}
-              />
+          <div className="row" style={{marginBottom: '32px'}}>
+            <div className="col-sm-4">
+            </div>
+
+            <div className="col-sm-6">
+              <Dropzone onDrop={this.onDrop.bind(this)} className="dropzone" accept="image/png,image/jpeg,image/jpg">
+                {({isDragActive, isDragReject, acceptedFiles, rejectedFiles}) => {
+                  return (
+                    <div>
+                      <img src="/public/img/add.png" alt="logo" style={{marginLeft: '32px', marginTop: '28px'}}/>
+                      <p style={{
+                        textAlign: 'center',
+                        marginTop: '8px',
+                        color: 'gray'
+                      }}>{acceptedFiles.length > 0 ? acceptedFiles[0].name : '修改logo'}</p>
+                    </div>
+                  )
+                }}
+              </Dropzone>
             </div>
           </div>
+          {
+            this.state.imgFile && this.state.files.length <= 0 ? renderAlert('select logo') : <div></div>
+          }
+
           <Field name="email" component={this.renderField} type="email" label="邮件" icon="user"/>
           <Field name="telephone" component={this.renderField} type="phone" label="电话" icon="lock"/>
 
@@ -113,4 +120,4 @@ const reduxUserForm = reduxForm({
 })(UserInfo);
 
 
-export default connect(null)(reduxUserForm);
+export default connect(null, {updateInfoAction})(reduxUserForm);

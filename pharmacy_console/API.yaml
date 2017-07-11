@@ -232,7 +232,7 @@ paths:
           schema:
             $ref: '#/definitions/SuccessResponse'
   /user/info:
-    put:
+    post:
       summary: 更新成员信息
       description: 更新联盟成员logo, email, phone
       security:

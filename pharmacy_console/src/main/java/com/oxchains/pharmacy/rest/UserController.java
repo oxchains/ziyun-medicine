@@ -83,7 +83,7 @@ public class UserController {
     );
   }
 
-  @PutMapping("/info")
+  @PostMapping("/info")
   public RestResp updateInfo(
       @ModelAttribute @Valid UpdateUserInfoRequest updateRequest, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {

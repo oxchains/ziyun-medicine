@@ -76,7 +76,14 @@ export function fetchDetailAudit({uid}, callback) {
     })
   }
 }
-
+/**
+ * 获取审计的详细图片
+ * @param img1
+ * @param img2
+ * @param img3
+ * @param callback
+ * @returns {Function}
+ */
 export function fetchImg({img1, img2, img3}, callback) {
   return function (dispatch) {
     let req1 = axios.get(`${ROOT_URL}${img1}`, {headers: getAuthorizedHeader(), responseType: 'arraybuffer'})

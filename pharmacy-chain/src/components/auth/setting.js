@@ -11,8 +11,6 @@ import {
   Link
 } from 'react-router-dom'
 
-import {userPwdAction, userInfoAction} from '../../actions/signup';
-
 class Setting extends Component {
   constructor(props) {
     super(props);
@@ -61,12 +59,12 @@ class Setting extends Component {
 
 function silderBar() {
   return (
-    <div style={{width: '300px', height: '170px', border: '1px solid #6c6c6c'}}>
+    <div className="silderBar">
       <div style={{textAlign: 'center', paddingBottom: '16px', paddingTop: '16px'}}>
         <img src="/public/img/user-icon.png"/>
         <label style={{marginLeft: '24px'}}>用户设置</label>
       </div>
-      <div style={{height: '1px', marginLeft: '26px', marginRight: '26px', backgroundColor: '#6c6c6c'}}></div>
+      <div className="divider"></div>
       <ul>
         <li style={{marginTop: '16px', marginBottom: '16px'}}>
           <Link to={`${this.props.match.url}`} id={this.state.index == 0 ? 'color-blue' : 'color-white'}

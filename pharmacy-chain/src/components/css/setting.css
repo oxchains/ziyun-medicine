@@ -5,3 +5,16 @@
 #color-white {
     color: #6c6c6c;
 }
+
+.silderBar {
+    border: 1px solid #e7e7e7;
+    border-radius: 4px;
+    box-shadow: 0px 0px 3px #ccc;
+}
+
+.divider {
+    height: 1px;
+    margin-left: 26px;
+    margin-right: 26px;
+    background-color: #e7e7e7;
+}

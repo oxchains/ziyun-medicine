@@ -14,16 +14,16 @@ import {
  * @param callback
  * @returns {Function}
  */
-export function signinAction({ username, password }, callback) {
-  return function(dispatch) {
-    axios.post(`${ROOT_URL}/token`, { username, password })
+export function signinAction({username, password}, callback) {
+  return function (dispatch) {
+    axios.post(`${ROOT_URL}/token`, {username, password})
     //axios.get('http://localhost:3000/signin')
       .then(response => {
 
-        if(response.data.status == 1) {//auth success
+        if (response.data.status == 1) {//auth success
           // - Save the JWT token
           localStorage.setItem('token', response.data.data.token);
-          //localStorage.setItem('user', JSON.stringify(response.data.data));
+          localStorage.setItem('company', response.data.data.company);
           localStorage.setItem('username', username);
 
           dispatch({type: AUTH_USER});
@@ -55,8 +55,8 @@ export function authError(error) {
  */
 export function signoutUser() {
   localStorage.removeItem('token');
-  localStorage.removeItem('user');
+  localStorage.removeItem('company');
   localStorage.removeItem('username');
 
-  return { type: UNAUTH_USER };
+  return {type: UNAUTH_USER};
 }

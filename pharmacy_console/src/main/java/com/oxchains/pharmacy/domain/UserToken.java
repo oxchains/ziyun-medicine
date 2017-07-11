@@ -27,6 +27,9 @@ public class UserToken {
   @JsonFormat(pattern = "yyy-MM-dd hh:mm:ss")
   private Date createtime = new Date();
 
+  @Transient
+  private String company;
+
 
   public UserToken(String token) {
     this.token = token;

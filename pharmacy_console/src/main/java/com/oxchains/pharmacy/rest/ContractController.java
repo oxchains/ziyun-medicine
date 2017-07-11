@@ -1,7 +1,7 @@
 package com.oxchains.pharmacy.rest;
 
-import com.oxchains.pharmacy.data.ChaincodeData;
 import com.oxchains.pharmacy.data.FabricTokenRepo;
+import com.oxchains.pharmacy.rest.client.ChaincodeClient;
 import com.oxchains.pharmacy.rest.common.RangeStats;
 import com.oxchains.pharmacy.rest.common.RestResp;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 import static com.oxchains.pharmacy.Application.userContext;
 import static com.oxchains.pharmacy.rest.common.RestResp.fail;
 import static com.oxchains.pharmacy.rest.common.RestResp.success;
-import static java.time.Instant.ofEpochSecond;
+import static java.time.Instant.ofEpochMilli;
 
 /**
  * @author aiet
@@ -31,13 +31,13 @@ public class ContractController {
 
   private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy年MM月dd日").withZone(ZoneId.systemDefault());
 
-  private ChaincodeData chaincodeData;
+  private ChaincodeClient chaincodeClient;
   private FabricTokenRepo fabricTokenRepo;
 
   public ContractController(
-      @Autowired ChaincodeData chaincodeData,
+      @Autowired ChaincodeClient chaincodeClient,
       @Autowired FabricTokenRepo fabricTokenRepo) {
-    this.chaincodeData = chaincodeData;
+    this.chaincodeClient = chaincodeClient;
     this.fabricTokenRepo = fabricTokenRepo;
   }
 
@@ -60,16 +60,16 @@ public class ContractController {
     return userContext().map(u ->
         fabricTokenRepo.findByUser(u).map(fabricToken ->
             serial.isEmpty() ?
-                chaincodeData.getSensorByEquipment(equipment, start, end, fabricToken.getToken())
-                : chaincodeData.getSensorBySerial(serial, start, end, fabricToken.getToken())
+                chaincodeClient.getSensorByEquipment(equipment, start, end, fabricToken.getToken())
+                : chaincodeClient.getSensorBySerial(serial, start, end, fabricToken.getToken())
         ).map(RestResp::success).orElse(fail("no sensor data"))
     ).orElse(fail());
   }
 
   private boolean validTimeBoundary(long start, long end) {
     return start <= end
-        && String.valueOf(start).length() == 10
-        && String.valueOf(end).length() == 10;
+        && String.valueOf(start).length() == 13
+        && String.valueOf(end).length() == 13;
   }
 
   @GetMapping("/stats")
@@ -82,9 +82,9 @@ public class ContractController {
 
     return userContext().map(u ->
         fabricTokenRepo.findByUser(u).flatMap(fabricToken ->
-            chaincodeData.getSensorStats(start, end, fabricToken.getToken())
+            chaincodeClient.getSensorStats(start, end, fabricToken.getToken())
         ).map(sensorStats -> {
-          Instant startTemporal = ofEpochSecond(start), endTemporal = ofEpochSecond(end);
+          Instant startTemporal = ofEpochMilli(start), endTemporal = ofEpochMilli(end);
           long days = Duration.between(startTemporal, endTemporal).toDays();
           String range = DATE_FORMATTER.format(startTemporal) + " - " + DATE_FORMATTER.format(endTemporal);
           return success(RangeStats.builder().range(range).days(days).sensordata(sensorStats).build());

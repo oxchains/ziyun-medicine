@@ -575,6 +575,8 @@ definitions:
             properties:
               token:
                 type: string
+              company:
+                type: string
               createtime:
                 type: string
 

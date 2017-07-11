@@ -43,7 +43,9 @@ public class TokenController {
         .map(u -> {
           UserToken userToken = new UserToken(jwtService.generate(u));
           log.info("{} enrolled", user.getUsername());
-          return success(userTokenRepo.save(userToken));
+          userToken = userTokenRepo.save(userToken);
+          userToken.setCompany(u.getCompany());
+          return success(userToken);
         })
         .orElse(fail());
   }

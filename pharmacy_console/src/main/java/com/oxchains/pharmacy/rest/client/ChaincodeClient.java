@@ -84,7 +84,7 @@ public class ChaincodeClient {
         String.format("%s%s,%s,%s", uri + txUri,
             "getNumberOfSensorDataByTime", startTime, endTime),
         GET, entity, String.class).getBody(),
-        "/data/payload"
+        "/data"
     ).map(data -> resolve(data, ChaincodeResp.class)
     ).filter(ChaincodeResp::succeeded).flatMap(chaincodeResp -> {
       try {

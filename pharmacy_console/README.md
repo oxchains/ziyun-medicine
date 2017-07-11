@@ -37,6 +37,8 @@ property | description
 `server.port` | 应用监听端口
 `fabric.manager.uri` | fabric-manage 应用地址
 `fabric.manager.tx.path` | 指定 chain, chaincode, chaincode-version
+`spring.mail.*` | 邮件服务配置
+`mail.reset.*` | 邮件标题和内容设置
 
 缓存文件和静态资源文件位置, 用于展示包括用户上传的各类图片和下载申请表. 在启动应用时在命令行指定, 或设置系统变量:
 

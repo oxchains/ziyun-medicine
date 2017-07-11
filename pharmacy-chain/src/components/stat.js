@@ -125,30 +125,34 @@ class Stat extends Component {
                 <div className="form-horizontal">
                   {this.renderAlert()}
                   <div className={`form-group`}>
-                    <label className="col-sm-2 control-label">时间段</label>
-                    <div className="col-sm-10 control-text">
+                    <label className="col-sm-3 control-label">时间段</label>
+                    <div className="col-sm-9 control-text">
                       <ReactMoment locale="zh-cn" format="YYYY-MM-DD">{this.state.startDate}</ReactMoment> 至 <ReactMoment locale="zh-cn" format="YYYY-MM-DD">{this.state.endDate}</ReactMoment>
                     </div>
                   </div>
                   <div className={`form-group`}>
-                    <label className="col-sm-2 control-label">时长</label>
-                    <div className="col-sm-10 control-text">{this.state.endDate.diff(this.state.startDate, 'days')+1}天</div>
+                    <label className="col-sm-3 control-label">时长</label>
+                    <div className="col-sm-9 control-text">{this.state.endDate.diff(this.state.startDate, 'days')}天</div>
                   </div>
                   <div className={`form-group`}>
-                    <label className="col-sm-2 control-label">货运单量</label>
-                    <div className="col-sm-10 control-text">{this.props.stat?this.props.stat.shipping:''}</div>
+                    <label className="col-sm-3 control-label">传感器数据</label>
+                    <div className="col-sm-9 control-text">{this.props.stat?this.props.stat.sensordata:''}</div>
                   </div>
                   <div className={`form-group`}>
-                    <label className="col-sm-2 control-label">入库单量</label>
-                    <div className="col-sm-10 control-text">{this.props.stat?this.props.stat.stock_in:''}</div>
+                    <label className="col-sm-3 control-label">货运单量</label>
+                    <div className="col-sm-9 control-text">{this.props.stat?this.props.stat.shipping:''}</div>
                   </div>
                   <div className={`form-group`}>
-                    <label className="col-sm-2 control-label">出库单量</label>
-                    <div className="col-sm-10 control-text">{this.props.stat?this.props.stat.stock_out:''}</div>
+                    <label className="col-sm-3 control-label">入库单量</label>
+                    <div className="col-sm-9 control-text">{this.props.stat?this.props.stat.stock_in:''}</div>
+                  </div>
+                  <div className={`form-group`}>
+                    <label className="col-sm-3 control-label">出库单量</label>
+                    <div className="col-sm-9 control-text">{this.props.stat?this.props.stat.stock_out:''}</div>
                   </div>
                   <div className="row">
-                    <div className="col-sm-2"></div>
-                    <div className="col-xs-10">
+                    <div className="col-sm-3"></div>
+                    <div className="col-xs-9">
                       <button type="button" onClick={this.hideResult.bind(this)} className="btn btn-primary" style={{width:'210px'}}> 开始新的统计 </button>
                     </div>
                   </div>

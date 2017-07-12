@@ -70,7 +70,7 @@ class Signin extends Component {
                     </div>
                     <div className="row">
                       <div className="col-xs-6"><a href="/signup" className="pull-left">立即注册</a></div>
-                      <div className="col-xs-6"><a href="#" className="text-gray pull-right">忘记密码?</a></div>
+                      <div className="col-xs-6"><a href="/forget" className="text-gray pull-right">忘记密码?</a></div>
                     </div>
                   </form>
                 </div>

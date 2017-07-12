@@ -1,4 +1,4 @@
-export const ROOT_URL = 'http://10.8.47.4:12306';
+export const ROOT_URL = 'http://xfja.local:12306';
 
 export const AUTH_USER = 'auth_user';                                 //登录
 export const UNAUTH_USER = 'unauth_user';                             //退出登录
@@ -26,11 +26,15 @@ export const REQUEST_ERROR = 'request_error';                         //http请�
 
 export const FETCH_ALLIANCE_LIST = 'fetch_alliance_list';             //获取联盟成员列表
 export const FETCH_PEER_INFO = 'fetch_peer_info';                     //获取节点详情
-export const FETCH_NOT_ALLIANCE_LIST = 'fetch_not_alliance_list';             //获取联盟成员列表
+export const FETCH_NOT_ALLIANCE_LIST = 'fetch_not_alliance_list';     //获取联盟成员列表
 
-export const FETCH_STAT_DATA = 'fetch_stat_data';                     //获取链上统计数据
 export const FETCH_SENSOR_DATA = 'fetch_sensor_data';                 //获取追溯查证数据(传感器数据)
 
+export const FETCH_STAT_DATA = 'fetch_stat_data';                     //获取链上统计数据
+export const UPDATE_USER_INFO = 'update_user_info';                   //更新成员信息
+export const UPDATE_USER_SECRET = 'update_user_secret';               //更新成员密钥
+export const RESET_USER_SECRET = 'reset_user_secret';                 //重置密码
+export const RESET_CODE = 'reset_code';                               //重置验证码
 
 export function getAuthorizedHeader() {
   return { authorization: 'Bearer '+localStorage.getItem('token') }

@@ -6,7 +6,7 @@ import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 
 import {ROOT_URL} from '../actions/types';
-import {signActionCreator, signUp, getCode, checkCode, downloadFile, getTypeList} from '../actions/signup';
+import {signActionCreator, signUp, getTypeList} from '../actions/signup';
 
 var that;
 import './css/signup.css';
@@ -72,7 +72,7 @@ class SignUp extends Component {
           <div className="help-block with-errors">{touched && error ? error : ''}</div>
         </div>
         <div className="col-sm-4">
-          <img src="http://10.8.47.4:12306/vcode" alt="code"/>
+          <img src={`${ROOT_URL}/vcode`} alt="code"/>
         </div>
       </div>
     )
@@ -178,11 +178,7 @@ class SignUp extends Component {
     }
   }
 
-
   componentWillMount() {
-    // TODO 向服务器请求 1.注册类型 2. 验证码 3. 入盟申请表地址
-    // this.props.getCode();
-    // this.props.downloadFile();
     this.props.getTypeList();
   }
 

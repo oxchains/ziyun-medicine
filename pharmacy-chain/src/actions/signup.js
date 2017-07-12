@@ -1,7 +1,7 @@
 /**
  * Created by finch on 6/29/17.
  */
-import {SIGNUP_STEP0, SIGNUP_STEP1, SIGNUP_STEP2, PAGE_INDEX, ROOT_URL, SIGN_TYPE} from './types';
+import {SIGNUP_STEP0, SIGNUP_STEP1, SIGNUP_STEP2, PAGE_INDEX, ROOT_URL, SIGN_TYPE, getAuthorizedHeader} from './types';
 import axios from 'axios';
 
 export function signActionCreator({type, payload}) {
@@ -81,47 +81,7 @@ export function signUp({registertype, email, username, password, phone, company,
     })
   }
 }
-/**
- * 获取验证码
- * @returns {Function}
- */
-export function getCode() {
-  return function (dispatch) {
-    axios.get(`${ROOT_URL}/vcode`).then((response) => {
-      if (response.status == 1) {
-        dispatch();
-      }
-    });
-  }
-}
-/**
- * 校验验证码
- * @returns {Function}
- */
-export function checkCode() {
-  return function (dispatch) {
-    axios.post(`${ROOT_URL}/code/checkCode`).then((response) => {
-      if (response.status == 1) {
-        dispatch();
 
-      }
-    })
-  }
-}
-/**
- * 获取入盟申请书
- * @returns {Function}
- */
-export function downloadFile() {
-  return function (dispatch) {
-    axios.get(`${ROOT_URL}/user/download`).then((response) => {
-      if (response.status == 1) {
-        dispatch()
-
-      }
-    })
-  }
-}
 /**
  * 获取注册类型
  * @returns {Function}
@@ -134,6 +94,100 @@ export function getTypeList() {
           type: SIGN_TYPE,
           payload: res.data.data
         })
+      }
+    })
+  }
+}
+
+/**
+ *
+ * 更新成员信息
+ * @param logo
+ * @param email
+ * @param telephone
+ * @returns {Function}
+ */
+export function updateInfoAction({logo, email, telephone}, callback) {
+  return function (dispatch) {
+    let formData = new FormData();
+    formData.append('logo', logo);
+    formData.append('email', email);
+    formData.append('phone', telephone);
+    axios({
+      method: 'post',
+      url: `${ROOT_URL}/user/info`,
+      data: formData,
+      headers: {'content-type': 'multipart/form-data'},
+      withCredentials: true,
+      headers: getAuthorizedHeader()
+    }).then((res) => {
+      if (res.data.status == 1) {
+        callback({
+          status: 1,
+          message: ''
+        });
+      } else {
+        callback({
+          status: 0,
+          message: res.data.message
+        });
+      }
+    })
+  }
+}
+
+
+/**
+ * 更新成员密钥
+ * @param currentPwd
+ * @param newPwd
+ */
+export function userPwdAction({oldpass, newpass}) {
+  return function (dispatch) {
+    axios({
+        method: 'put',
+        url: `${ROOT_URL}/user/secret`,
+        data: {oldpass, newpass},
+        headers: getAuthorizedHeader()
+      }
+    ).then((res) => {
+      if (res.data.status == 1) {
+
+      }
+    })
+  }
+}
+/**
+ * 重置密码
+ * @param email
+ * @param vcode
+ * @param password
+ * @returns {Function}
+ */
+export function resetPwdAction({email, vcode, password}) {
+  return function (dispatch) {
+    axios({
+      method: 'post',
+      url: `${ROOT_URL}/user/secret/reset`,
+      data: {email, vcode, password},
+      headers: getAuthorizedHeader()
+    }).then((res) => {
+      if (res.data.status == 1) {
+
+      }
+    })
+  }
+}
+/**
+ * 获取重置验证码
+ * @param email
+ * @returns {Function}
+ */
+export function resetCodeAction(email, callback) {
+  return function (dispatch) {
+    axios.get(`${ROOT_URL}/user/secret/reset/vcode`, {params: {email}}).then((res) => {
+      if (res.data.status == 1) {
+        callback();
       }
     })
   }

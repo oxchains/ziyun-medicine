@@ -4,6 +4,7 @@ import com.oxchains.pharmacy.data.GpsUserRepo;
 import com.oxchains.pharmacy.data.UserRepo;
 import com.oxchains.pharmacy.data.UserTypeRepo;
 import com.oxchains.pharmacy.domain.User;
+import com.oxchains.pharmacy.rest.client.EmailClient;
 import com.oxchains.pharmacy.rest.common.AuthenticateRequest;
 import com.oxchains.pharmacy.rest.common.RegisterRequest;
 import com.oxchains.pharmacy.rest.common.RestResp;
@@ -39,14 +40,17 @@ public class UserController {
   private UserRepo userRepo;
   private UserTypeRepo userTypeRepo;
   private GpsUserRepo gpsUserRepo;
+  private EmailClient emailClient;
 
   public UserController(
       @Autowired UserRepo userRepo,
       @Autowired UserTypeRepo userTypeRepo,
+      @Autowired EmailClient emailClient,
       @Autowired GpsUserRepo gpsUserRepo) {
     this.userRepo = userRepo;
     this.userTypeRepo = userTypeRepo;
     this.gpsUserRepo = gpsUserRepo;
+    this.emailClient = emailClient;
   }
 
   @Value("${file.upload.dir}")
@@ -155,9 +159,11 @@ public class UserController {
       @RequestBody AuthenticateRequest authenticateRequest) {
     return userContext().flatMap(u ->
         userRepo.findById(uid).map(userToAuthenticate -> {
-          userToAuthenticate.setAuthenticated(authenticateRequest.getAction() > 0 ? 1 : -1);
+          final boolean authenticated = authenticateRequest.getAction() > 0;
+          userToAuthenticate.setAuthenticated(authenticated ? 1 : -1);
           User savedUser = userRepo.save(userToAuthenticate);
-          //TODO send email for notification
+          emailClient.sendAuthenticationResultAsync(authenticated,
+              userToAuthenticate.getEmail(), userToAuthenticate.getUsername(), authenticateRequest.getRemark());
           return success(savedUser);
         })
     ).orElse(fail());

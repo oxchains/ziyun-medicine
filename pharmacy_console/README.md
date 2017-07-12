@@ -7,23 +7,22 @@
     - [x] 注册
     - [x] 申请书下载
     - [x] 登录
-    - [ ] 密码找回
+    - [x] 密码找回
     - [x] 列表
     - [x] 审核
-    - [ ] 审核通过后发送邮件
-    - [ ] 修改密码
-    - [ ] 重置密码: 邮箱验证码
-    - [ ] 修改个人信息
+    - [x] 审核通过后发送邮件
+    - [x] 修改密码
+    - [x] 重置密码: 邮箱验证码
+    - [x] 修改个人信息
     
 2. 节点管理
     - [x] 节点状态
     
 3. 链上数据查询
     - [x] 传感器查询
+    - [x] 传感器数据统计
 
-## 2. 演示准备
-
-目前项目为演示用, 需在使用前做一些准备工作.
+## 2. 配置和准备工作
 
 **注意** 目前没有完整的权限控制, 任何用户注册后即可登录并进行审核.
 
@@ -38,7 +37,8 @@ property | description
 `fabric.manager.uri` | fabric-manage 应用地址
 `fabric.manager.tx.path` | 指定 chain, chaincode, chaincode-version
 `spring.mail.*` | 邮件服务配置
-`mail.reset.*` | 邮件标题和内容设置
+`mail.reset.*` | 找回密码邮件标题和内容设置
+`mail.authentication.*` | 审核结果邮件标题和内容设置
 
 缓存文件和静态资源文件位置, 用于展示包括用户上传的各类图片和下载申请表. 在启动应用时在命令行指定, 或设置系统变量:
 
@@ -48,7 +48,7 @@ property | description
 
 如使用上述建议配置, 启动应用前先创建好相应文件夹: `files/apply`, `files/tmp`
 
-### 2.1. fabric 相关操作
+### 2.2. fabric 相关操作
 
 正式确认审核通过前, 需为成员:
 
@@ -58,7 +58,7 @@ property | description
   4. 为成员登录 [fabric-manage](https://github.com/zkjs/fabric-manage) 并获取 token, 保存在 `fabric_token` 中
   5. 获取节点列表和合约相关信息时, 直接调用 [fabric-manage](https://github.com/zkjs/fabric-manage) 相应接口
 
-### 2.2. 模拟数据
+### 2.3. 模拟数据
 
 - 联盟成员列表数据需预先插入 `gps_user` 中, 样例数据见 [data/gps_user_data.csv](data/gps_user_data.csv)
 - 用户类型: 至少要在 `user_type` 中加入一组数据

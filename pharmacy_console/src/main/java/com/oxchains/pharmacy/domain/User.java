@@ -12,9 +12,13 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(
+    uniqueConstraints = @UniqueConstraint(columnNames = {"username", "email"})
+)
 @Data
 @Builder
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
   @Id
@@ -27,6 +31,7 @@ public class User {
   @OneToOne
   @JoinColumn(name = "user_type")
   private UserType userType;
+
   private String email;
   private String username;
 

@@ -6,6 +6,7 @@ import {Field, reduxForm} from 'redux-form';
 import Dropzone from 'react-dropzone';
 import {connect} from 'react-redux';
 import {updateInfoAction} from '../../actions/signup';
+import {Alert} from 'react-bootstrap';
 import '../css/userinfo.css';
 
 class UserInfo extends Component {
@@ -14,8 +15,12 @@ class UserInfo extends Component {
 
     this.state = {
       imgFile: false,
-      files: []
+      files: [],
+      alertVisible: false,
+      errorMessage: ''
     };
+
+    this.renderDangerAlert = this.renderDangerAlert.bind(this);
   }
 
   handleFormSubmit({telephone, email}) {
@@ -29,6 +34,10 @@ class UserInfo extends Component {
           this.props.history.push('/');
         } else {
           console.log('err', message);
+          this.setState({
+            alertVisible: true,
+            errorMessage: message
+          });
         }
       });
     }
@@ -53,11 +62,24 @@ class UserInfo extends Component {
     )
   }
 
+  renderDangerAlert() {
+    return (
+      <Alert bsStyle="danger" onDismiss={() => {
+        this.setState({alertVisible: false})
+      }}>
+        <h2 style={{textAlign: 'center'}}>{this.state.errorMessage}</h2>
+      </Alert>
+    )
+  }
+
   render() {
     const {handleSubmit} = this.props;
 
     return (
       <div className="col-xs-8">
+        {
+          this.state.alertVisible ? this.renderDangerAlert() : <div></div>
+        }
         <form className="form-horizontal" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
           <div className="row" style={{marginBottom: '32px'}}>
             <div className="col-sm-4">

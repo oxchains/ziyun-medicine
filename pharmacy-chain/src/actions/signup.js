@@ -142,17 +142,25 @@ export function updateInfoAction({logo, email, telephone}, callback) {
  * @param currentPwd
  * @param newPwd
  */
-export function userPwdAction({oldpass, newpass}) {
+export function userPwdAction({oldpwd, newpwd}, callback) {
   return function (dispatch) {
     axios({
         method: 'put',
         url: `${ROOT_URL}/user/secret`,
-        data: {oldpass, newpass},
+        data: {oldpass: oldpwd, newpass: newpwd},
         headers: getAuthorizedHeader()
       }
     ).then((res) => {
       if (res.data.status == 1) {
-
+        callback({
+          status: 1,
+          message: ''
+        })
+      } else {
+        callback({
+          status: 0,
+          message: res.data.message
+        })
       }
     })
   }
@@ -164,7 +172,7 @@ export function userPwdAction({oldpass, newpass}) {
  * @param password
  * @returns {Function}
  */
-export function resetPwdAction({email, vcode, password}) {
+export function resetPwdAction({email, vcode, password}, callback) {
   return function (dispatch) {
     axios({
       method: 'post',
@@ -173,7 +181,15 @@ export function resetPwdAction({email, vcode, password}) {
       headers: getAuthorizedHeader()
     }).then((res) => {
       if (res.data.status == 1) {
-
+        callback({
+          status: 1,
+          message: ''
+        })
+      } else {
+        callback({
+          status: 0,
+          message: res.data.message
+        })
       }
     })
   }

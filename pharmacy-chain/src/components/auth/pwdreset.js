@@ -5,19 +5,45 @@ import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {userPwdAction} from '../../actions/signup';
+import {Alert} from 'react-bootstrap';
 
 class PwdReset extends Component {
+
   constructor(props) {
     super(props);
 
+    this.state = {
+      alertVisible: false,
+      errorMessage: ''
+    };
 
+    this.renderDangerAlert = this.renderDangerAlert.bind(this);
+  }
+
+  renderDangerAlert() {
+    return (
+      <Alert bsStyle="danger" onDismiss={() => {
+        this.setState({alertVisible: false})
+      }}>
+        <h2 style={{textAlign: 'center'}}>{this.state.errorMessage}</h2>
+
+      </Alert>
+    )
   }
 
   //校验数据提交表单
-  handleFormSubmit({currentPwd, newPwd}) {
-    if (currentPwd && newPwd) {
-      //this.props.userPwdAction();
-
+  handleFormSubmit({oldpwd, newpwd}) {
+    if (oldpwd && newpwd) {
+      this.props.userPwdAction({oldpwd, newpwd}, ({status, message}) => {
+        if (status === 1) {
+          this.props.history.push('/');
+        } else {
+          this.setState({
+            alertVisible: true,
+            errorMessage: message
+          });
+        }
+      });
     }
   }
 
@@ -33,14 +59,14 @@ class PwdReset extends Component {
     )
   }
 
-  renderAlert() {
-    if (this.props.errorMessage) {
-      return (
-        <div className="alert alert-danger alert-dismissable">
-          {this.props.errorMessage}
-        </div>
-      );
-    }
+  renderDangerAlert() {
+    return (
+      <Alert bsStyle="danger" onDismiss={() => {
+        this.setState({alertVisible: false})
+      }}>
+        <h2 style={{textAlign: 'center'}}>{this.state.errorMessage}</h2>
+      </Alert>
+    )
   }
 
   render() {
@@ -48,7 +74,7 @@ class PwdReset extends Component {
     return (
       <div className="col-xs-8">
         {
-          this.renderAlert()
+          this.state.alertVisible ? this.renderDangerAlert() : <div></div>
         }
         <div className="row margin-b-20">
           <div className="col-sm-2"></div>
@@ -62,14 +88,14 @@ class PwdReset extends Component {
           <Field name="oldpwd" component={this.renderField} type="password" label="请输入当前密码"/>
           <Field name="newpwd" component={this.renderField} type="password" label="请输入新密码"/>
           <Field name="confirmpwd" component={this.renderField} type="password" label="确认新密码"/>
-        </form>
 
-        <div className="row">
-          <div className="col-sm-2"></div>
-          <div className="col-sm-6">
-            <button type="submit" className="btn btn-primary btn-block btn-flat">保存</button>
+          <div className="row">
+            <div className="col-sm-2"></div>
+            <div className="col-sm-6">
+              <button type="submit" className="btn btn-primary btn-block btn-flat">保存</button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     )
   }

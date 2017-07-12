@@ -4,8 +4,9 @@
 
 import React, {Component} from 'react';
 import {Field, reduxForm, formValueSelector} from 'redux-form';
-import {resetCodeAction} from '../actions/signup';
+import {resetCodeAction, resetPwdAction} from '../actions/signup';
 import {connect} from 'react-redux';
+import {Alert} from 'react-bootstrap';
 
 const MAX_REMAIN = 60;
 class Forget extends Component {
@@ -15,23 +16,35 @@ class Forget extends Component {
     this.state = {
       isLoading: false,
       remain: MAX_REMAIN,
-      email: ''
+      email: '',
+      alertVisible: false,
+      errorMessage: ''
     }
-  }
-
-  renderAlert() {
-    if (this.props.errorMessage) {
-      return (
-        <div className="alert alert-danger alert-dismissable">
-          {this.props.errorMessage}
-        </div>
-      );
-    }
+    this.renderDangerAlert = this.renderDangerAlert.bind(this);
   }
 
   handleFormSubmit({email, code, newpwd}) {
-    if (email && password && vcode)
-      console.log(`email ${email} newpwd  ${newpwd} vcode ${code}`);
+    if (email && newpwd && code)
+      this.props.resetPwdAction({email: email, vcode: code, password: newpwd}, ({status, message}) => {
+        if (status === 1) {
+          this.props.history.push('/');
+        } else {
+          this.setState({
+            alertVisible: true,
+            errorMessage: message
+          });
+        }
+      });
+  }
+
+  renderDangerAlert() {
+    return (
+      <Alert bsStyle="danger" onDismiss={() => {
+        this.setState({alertVisible: false})
+      }}>
+        <h2 style={{textAlign: 'center'}}>{this.state.errorMessage}</h2>
+      </Alert>
+    )
   }
 
   isEmail(str) {
@@ -116,19 +129,22 @@ class Forget extends Component {
 
     return (
       <div style={{maxWidth: '760px', margin: '0 auto'}}>
+        {
+          this.state.alertVisible ? this.renderDangerAlert() : <div></div>
+        }
         <form className="form-horizontal" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
           <Field name="email" component={this.renderEmail.bind(this)} type="email" label="邮箱"/>
           <Field name="code" component={this.renderField} type="text" label="邮箱验证码"/>
           <Field name="newpwd" component={this.renderField} type="password" label="请输入新密码"/>
           <Field name="confirmpwd" component={this.renderField} type="password" label="请再次输入新密码"/>
-        </form>
 
-        <div className="row">
-          <div className="col-sm-3"></div>
-          <div className="col-sm-4">
-            <button type="submit" className="btn btn-primary btn-block btn-flat">确认</button>
+          <div className="row">
+            <div className="col-sm-3"></div>
+            <div className="col-sm-4">
+              <button type="submit" className="btn btn-primary btn-block btn-flat">确认</button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     )
   }
@@ -168,4 +184,4 @@ const reduxForgetForm = reduxForm({
   validate
 })(Forget);
 
-export default connect(null, {resetCodeAction})(reduxForgetForm)
+export default connect(null, {resetCodeAction, resetPwdAction})(reduxForgetForm)

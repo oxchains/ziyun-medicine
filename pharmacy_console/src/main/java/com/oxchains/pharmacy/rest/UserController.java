@@ -71,10 +71,10 @@ public class UserController {
       return fail("invalid vcode");
     }
 
-    return userRepo.findByUsername(
-        registerRequest.getUsername()
+    return userRepo.findByUsernameOrEmail(
+        registerRequest.getUsername(), registerRequest.getEmail()
     ).map(
-        existingUser -> fail("user exist")
+        existingUser -> fail("user or email exist")
     ).orElseGet(
         () -> userTypeRepo.findByCode(registerRequest.getType()).map(
             userType -> registerRequest.toUser(userType, uploadDir).map(
@@ -98,6 +98,11 @@ public class UserController {
 
     if (updateRequest.inValid()) {
       return fail("update at lease one field: email, phone, logo");
+    }
+
+    if(updateRequest.emailModified()
+        && userRepo.findByEmail(updateRequest.getEmail()).isPresent()){
+      return fail("email exist");
     }
 
     return userContext().map(u -> {

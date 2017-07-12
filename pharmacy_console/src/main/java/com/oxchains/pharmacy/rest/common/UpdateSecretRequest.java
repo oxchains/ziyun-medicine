@@ -20,7 +20,7 @@ public class UpdateSecretRequest {
   private String newpass;
 
   public boolean invalid(){
-    return !oldpass.equals(newpass);
+    return oldpass.equals(newpass);
   }
 
 }

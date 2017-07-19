@@ -13,10 +13,6 @@ class UnAuditList extends Component {
     fetchAuditList: PropTypes.func.isRequired,
   }
 
-  static defaultProps = {
-    
-  }
- 
   componentWillMount() {
     this.props.fetchAuditList({authenticated: false});
   }
@@ -25,8 +21,8 @@ class UnAuditList extends Component {
     if (this.props.allianceList) {
       return this.props.allianceList.map((item, index) => {
         return (
-          <tr key={index}>
-            <td>{`${item.company}公司提交了入盟申请`}</td>
+          <tr key={index} style={{height: '80px'}}>
+            <td style={{textAlign: 'center'}}>{`${item.company}公司提交了入盟申请`}</td>
             <td>{item.applydate}</td>
             <td><Link to={`${this.props.match.url}/user/${item.id}`}>查看</Link></td>
           </tr>
@@ -42,7 +38,7 @@ class UnAuditList extends Component {
     console.log(allianceList);
     return (
       <div className="table-content">
-        <table className="table table-hover">
+        <table className="table">
           <tbody>
           {this.renderRows()}
           </tbody>

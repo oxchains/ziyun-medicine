@@ -13,3 +13,8 @@
     height: 1px;
     background: #a6a6a6;
 }
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+

@@ -62,16 +62,16 @@ function silderBar() {
     <div className="silderBar">
       <div style={{textAlign: 'center', paddingBottom: '16px', paddingTop: '16px'}}>
         <img src="/public/img/user-icon.png"/>
-        <label style={{marginLeft: '24px'}}>用户设置</label>
+        <label style={{marginLeft: '24px', marginBottom: '0px', fontSize: '16px'}}>用户设置</label>
       </div>
       <div className="divider"></div>
       <ul>
-        <li style={{marginTop: '16px', marginBottom: '16px'}}>
-          <Link to={`${this.props.match.url}`} id={this.state.index == 0 ? 'color-blue' : 'color-white'}
+        <li style={{marginTop: '16px', marginBottom: '16px'}} id={this.state.index == 0 ? 'color-blue' : 'color-white'}>
+          <Link to={`${this.props.match.url}`} className={this.state.index == 0 ? 'color-blue' : 'color-white'}
                 onClick={() => this.handleClick(0)}>个人信息</Link>
         </li>
-        <li style={{marginTop: '16px', marginBottom: '16px'}}>
-          <Link to={`${this.props.match.url}/pwdreset`} id={this.state.index == 1 ? 'color-blue' : 'color-white'}
+        <li style={{marginTop: '16px', marginBottom: '16px'}} id={this.state.index == 1 ? 'color-blue' : 'color-white'}>
+          <Link to={`${this.props.match.url}/pwdreset`} className={this.state.index == 1 ? 'color-blue' : 'color-white'}
                 onClick={() => this.handleClick(1)}>修改密码</Link>
         </li>
       </ul>

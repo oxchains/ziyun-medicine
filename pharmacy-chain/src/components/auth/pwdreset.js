@@ -79,7 +79,7 @@ class PwdReset extends Component {
         <div className="row margin-b-20">
           <div className="col-sm-2"></div>
           <div className="col-sm-6" style={{textAlign: 'center'}}>
-            <label style={{color: '#6c6c6c'}}>
+            <label style={{color: '#6c6c6c', fontWeight: 'bold'}}>
               {`当前用户名：${localStorage.getItem('company')}公司`}
             </label>
           </div>

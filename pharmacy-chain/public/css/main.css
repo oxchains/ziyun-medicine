@@ -27,6 +27,10 @@ body {
     /*background-color: #5f297e;*/
 }
 
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+    font-weight: bold;
+}
+
 a:link, a:visited {
     color: #9e29cd;
 }
@@ -231,6 +235,15 @@ a.link-gray:hover {
 .control-text {
     padding-top: 7px;
 }
+
+li {
+    list-style-type: none;
+    list-style-image: url("/public/img/circle_grey.png");
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
+
 
 /* ==== LAYOUT ==== */
 

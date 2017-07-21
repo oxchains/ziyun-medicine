@@ -40,7 +40,7 @@ class Setting extends Component {
   render() {
     return (
       <div>
-        <div style={{marginLeft: '360px', marginTop: '75px'}}>
+        <div style={{marginTop: '75px'}}>
           <div className="container">
             <div className="row">
               <div className="col-xs-4">

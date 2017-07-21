@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 class UnAuditList extends Component {
   static propTypes = {
     fetchAuditList: PropTypes.func.isRequired,
-  }
+  };
 
   componentWillMount() {
     this.props.fetchAuditList({authenticated: false});
@@ -21,7 +21,7 @@ class UnAuditList extends Component {
     if (this.props.allianceList) {
       return this.props.allianceList.map((item, index) => {
         return (
-          <tr key={index} style={{height: '80px'}}>
+          <tr key={index} style={{height: '80px', borderColor: '#d9d9d9'}}>
             <td style={{textAlign: 'center'}}>{`${item.company}公司提交了入盟申请`}</td>
             <td>{item.applydate}</td>
             <td><Link to={`${this.props.match.url}/user/${item.id}`}>查看</Link></td>

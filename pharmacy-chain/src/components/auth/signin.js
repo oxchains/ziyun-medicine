@@ -65,7 +65,7 @@ class Signin extends Component {
                   <Field name="password" component={this.renderField} type="password" label="密码" icon="lock" />
                     <div className="row margin-b-10">
                       <div className="col-xs-12">
-                        <button type="submit" className="btn btn-primary btn-block btn-flat">登录</button>
+                        <button type="submit" className="btn btn-primary btn-block btn-flat shadow">登录</button>
                       </div>
                     </div>
                     <div className="row">

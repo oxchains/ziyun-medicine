@@ -200,7 +200,7 @@ class SignUp extends Component {
                   </div>
                   <h4 className={`${this.state.index == 0 ? 'h4-purple' : ''}`}>申请入盟</h4>
                 </div>
-                <div className="divider"></div>
+                <div className="divider-signup"></div>
                 <p>
                   下载入盟申请表
                 </p>
@@ -222,7 +222,7 @@ class SignUp extends Component {
                 </div>
                 <h4 className={`${this.state.index == 1 ? 'h4-purple' : ''}`}>设置账号密码</h4>
               </div>
-              <div className="divider"></div>
+              <div className="divider-signup"></div>
               <p>
                 设置用户名
               </p>
@@ -243,7 +243,7 @@ class SignUp extends Component {
                 </div>
                 <h4 className={`${this.state.index == 2 ? 'h4-purple' : ''}`}>设置公司信息</h4>
               </div>
-              <div className="divider"></div>
+              <div className="divider-signup"></div>
               <p>
                 提交公司信息
               </p>
@@ -264,7 +264,7 @@ class SignUp extends Component {
                 </div>
                 <h4 className={`${this.state.index == 3 ? 'h4-purple' : ''}`}>等待审核</h4>
               </div>
-              <div className="divider"></div>
+              <div className="divider-signup"></div>
               <p>
                 3个工作日审核
               </p>
@@ -283,14 +283,14 @@ class SignUp extends Component {
                   <h4 className={`${this.state.index == 4 ? 'h4-purple' : ''}`}>成功注册</h4>
                 </div>
               </div>
-              <div className="divider"></div>
+              <div className="divider-signup"></div>
               <p>
                 邮件通知
               </p>
             </div>
           </div>
         </div>
-        <div className="divider margin-b-15"></div>
+        <div className="divider-signup margin-b-15"></div>
         <div className="signup-content">
           <form className="form-horizontal" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
             {/*  第一页  */}
@@ -299,7 +299,7 @@ class SignUp extends Component {
               <div className="row  margin-b-15 ">
                 <label className="col-sm-4 control-label"><strong>下载入盟申请表</strong></label>
                 <div className="col-sm-8">
-                  <a className="btn btn-default"
+                  <a className="btn btn-default" style={{color: "gray"}}
                      href={`${ROOT_URL}/user/application`}
                      download="download">点击下载</a>
                 </div>

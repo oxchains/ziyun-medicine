@@ -7,6 +7,7 @@ import {Field, reduxForm, formValueSelector} from 'redux-form';
 import {resetCodeAction, resetPwdAction} from '../actions/signup';
 import {connect} from 'react-redux';
 import {Alert} from 'react-bootstrap';
+import './css/forget.css';
 
 const MAX_REMAIN = 60;
 class Forget extends Component {
@@ -108,18 +109,18 @@ class Forget extends Component {
           </div>
 
           <div className="col-sm-4" style={{paddingRight: '0px'}}>
-            <button className={`btn btn-primary btn-block btn-flat ${this.state.isLoading ? 'disabled' : ''}`}
-                    type="button"
-                    style={{backgroundColor: 'white', color: '#9e29cd'}}
-                    onClick={() => {
-                      this.handleClick()
-                    }}>发送验证码
+            <button
+              className={`btn btn-primary btn-block btn-flat ${this.state.isLoading ? 'disabled btn-loading' : 'btn-start'}`}
+              type="button"
+              onClick={() => {
+                this.handleClick()
+              }}>{this.state.isLoading ? `倒计时${this.state.remain}s` : `发送验证码`}
             </button>
           </div>
         </div>
-        <div className="col-sm-3">
-          <button className="btn btn-default disabled">倒计时{this.state.remain}s</button>
-        </div>
+        {/*<div className="col-sm-3">*/}
+        {/*<button className="btn btn-default disabled">倒计时{this.state.remain}s</button>*/}
+        {/*</div>*/}
       </div>
     )
   }

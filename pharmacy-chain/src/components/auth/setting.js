@@ -66,11 +66,13 @@ function silderBar() {
       </div>
       <div className="divider"></div>
       <ul>
-        <li style={{marginTop: '16px', marginBottom: '16px'}} id={this.state.index == 0 ? 'color-blue' : 'color-white'}>
+        <li className="li-setting" style={{marginTop: '16px', marginBottom: '16px'}}
+            id={this.state.index == 0 ? 'color-blue' : 'color-white'}>
           <Link to={`${this.props.match.url}`} className={this.state.index == 0 ? 'color-blue' : 'color-white'}
                 onClick={() => this.handleClick(0)}>个人信息</Link>
         </li>
-        <li style={{marginTop: '16px', marginBottom: '16px'}} id={this.state.index == 1 ? 'color-blue' : 'color-white'}>
+        <li className="li-setting" style={{marginTop: '16px', marginBottom: '16px'}}
+            id={this.state.index == 1 ? 'color-blue' : 'color-white'}>
           <Link to={`${this.props.match.url}/pwdreset`} className={this.state.index == 1 ? 'color-blue' : 'color-white'}
                 onClick={() => this.handleClick(1)}>修改密码</Link>
         </li>

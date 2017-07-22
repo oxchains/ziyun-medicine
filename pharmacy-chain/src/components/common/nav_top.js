@@ -52,7 +52,7 @@ export class NavTop extends Component {
               </button>
             </div>
             <div className="navbar-collapse collapse">
-              <ul className="nav navbar-nav">
+              <ul className="nav navbar-nav nav-divider">
                 { links.map(this.renderLink) }
               </ul>
             </div>

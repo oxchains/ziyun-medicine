@@ -236,15 +236,6 @@ a.link-gray:hover {
     padding-top: 7px;
 }
 
-li {
-    list-style-type: none;
-    list-style-image: url("/public/img/circle_grey.png");
-    background-repeat: no-repeat;
-    background-position: left center;
-}
-
-
-
 /* ==== LAYOUT ==== */
 
 footer {

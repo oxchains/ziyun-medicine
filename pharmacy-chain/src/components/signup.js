@@ -5,6 +5,8 @@ import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 
+import Dropzone from 'react-dropzone';
+
 import {ROOT_URL} from '../actions/types';
 import {signActionCreator, signUp, getTypeList} from '../actions/signup';
 
@@ -27,17 +29,17 @@ class SignUp extends Component {
       isFormSubmit: false,
       isSignUpSuccess: false,
       registertype: 1,
+      applyOFile: [],
+      logoOFile: [],
+      licenseOFile: [],
+      idFrontOFile: [],
+      idBackOFile: [],
       message: ''
     };
 
     this.nextPage = this.nextPage.bind(this);
     this.prevPage = this.prevPage.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
-    this.handleApplyFile = this.handleApplyFile.bind(this);
-    this.handleImgFile = this.handleImgFile.bind(this);
-    this.handleIdFront = this.handleIdFront.bind(this);
-    this.handleIdBack = this.handleIdBack.bind(this);
-    this.handleLicenseFile = this.handleLicenseFile.bind(this);
     this.renderAlert = this.renderAlert.bind(this);
   }
 
@@ -78,26 +80,6 @@ class SignUp extends Component {
     )
   }
 
-  handleApplyFile(e) {
-    this.state.isApplyFileDone = true;
-  }
-
-  handleLicenseFile(e) {
-    this.state.isLicenseFileDone = true;
-  }
-
-  handleIdFront(e) {
-    this.state.isIdFrontDone = true;
-  }
-
-  handleIdBack(e) {
-    this.state.isIdBackDone = true;
-  }
-
-  handleImgFile(e) {
-    this.state.isImgFileDone = true;
-  }
-
   nextPage() {
     let {index} = this.state;
     index++;
@@ -123,27 +105,56 @@ class SignUp extends Component {
     })
   }
 
+  applyFile(files) {
+    console.log('files', files);
+    this.setState({
+      applyOFile: files
+    })
+  }
+
+  logoFile(files) {
+    console.log('files', files);
+    this.setState({
+      logoOFile: files
+    })
+  }
+
+  licenseFile(files) {
+    console.log('files', files);
+    this.setState({
+      licenseOFile: files
+    })
+  }
+
+  idFrontFile(files) {
+    console.log('files', files);
+    this.setState({
+      idFrontOFile: files
+    })
+  }
+
+  idBackFile(files) {
+    console.log('files', files);
+    this.setState({
+      idBackOFile: files
+    })
+  }
+
   handleSelect(e) {
     console.log(`signType : ${e.target.value}`);
     this.state.registertype = e.target.value;
   }
-
-  restrickNum(e) {
-
-
-  }
-
 
   handleFormSubmit({email, username, password, phone, company, person, vcode}) {
     if (email && username && password && phone && company && person) {
       console.log(`email: ${email}  username: ${username} password: ${password}  phone: ${phone}  company: ${company} person: ${person} vcode: ${vcode}`);
       let {isImgFileDone, isIdFrontDone, isLicenseFileDone, isApplyFileDone} = this.state;
       console.log(`isImgFileDone ${isImgFileDone}  isIdFrontDone: ${isIdFrontDone} isLicenseFileDone: ${isLicenseFileDone} isApplyFileDone: ${isApplyFileDone}`)
-      let applyOFile = this.applyFileInput.files[0];
-      let logoOFile = this.logoFileInput.files[0];
-      let licenseOFile = this.licenseInput.files[0];
-      let idFrontOFile = this.idFrontInput.files[0];
-      let idBackOFile = this.idBackInput.files[0];
+      let applyOFile = this.state.applyOFile[0];
+      let logoOFile = this.state.logoOFile[0];
+      let licenseOFile = this.state.licenseOFile[0];
+      let idFrontOFile = this.state.idFrontOFile[0];
+      let idBackOFile = this.state.idBackOFile[0];
       let registertype = this.state.registertype;
       this.setState({spin: true});
       this.props.signUp({
@@ -308,8 +319,27 @@ class SignUp extends Component {
               <div className="row margin-b-15">
                 <label className="col-sm-4 control-label"><strong>提交申请</strong></label>
                 <div className="col-sm-8">
-                  <input className="" type="file" onChange={this.handleApplyFile}
-                         ref={(input) => this.applyFileInput = input}/>
+                  {/*<input className="" type="file" onChange={this.handleApplyFile}*/}
+                  {/*ref={(input) => this.applyFileInput = input}/>*/}
+
+                  <Dropzone onDrop={this.applyFile.bind(this)} className="sign-up">
+                    {({isDragActive, isDragReject, acceptedFiles, rejectedFiles}) => {
+                      return (
+                        <div>
+                          <div className="col-sm-4">
+                            <span className="btn btn-default"
+                                  style={{color: "white", background: '#a6a5a6', marginLeft: '-15px'}}>选择文件</span>
+                          </div>
+                          <div className="col-sm-6">
+                            <p style={{
+                              marginTop: '8px',
+                              color: 'gray'
+                            }}>{acceptedFiles.length > 0 ? acceptedFiles[0].name : '未选择任何文件'}</p>
+                          </div>
+                        </div>
+                      )
+                    }}
+                  </Dropzone>
                 </div>
               </div>
 
@@ -351,8 +381,27 @@ class SignUp extends Component {
               <div className="row margin-b-15">
                 <label className="col-sm-4 control-label"><strong>上传LOGO</strong></label>
                 <div className="col-sm-8">
-                  <input className="" type="file" onChange={this.handleImgFile} accept="image/png,image/gif,image/jpeg"
-                         ref={(input) => this.logoFileInput = input}/>
+                  {/*<input className="" type="file" onChange={this.handleImgFile} accept="image/png,image/gif,image/jpeg"*/}
+                  {/*ref={(input) => this.logoFileInput = input}/>*/}
+                  <Dropzone onDrop={this.logoFile.bind(this)} className="sign-up"
+                            accept="image/png,image/gif,image/jpeg">
+                    {({isDragActive, isDragReject, acceptedFiles, rejectedFiles}) => {
+                      return (
+                        <div>
+                          <div className="col-sm-4">
+                            <span className="btn btn-default"
+                                  style={{color: "white", background: '#a6a5a6', marginLeft: '-15px'}}>选择文件</span>
+                          </div>
+                          <div className="col-sm-6">
+                            <p style={{
+                              marginTop: '8px',
+                              color: 'gray'
+                            }}>{acceptedFiles.length > 0 ? acceptedFiles[0].name : '未选择任何文件'}</p>
+                          </div>
+                        </div>
+                      )
+                    }}
+                  </Dropzone>
                 </div>
               </div>
 
@@ -380,8 +429,27 @@ class SignUp extends Component {
               <div className="row margin-b-15">
                 <label className="col-sm-4 control-label"><strong>上传营业执照</strong></label>
                 <div className="col-sm-8">
-                  <input className="" type="file" accept="image/png,image/gif"
-                         onChange={this.handleLicenseFile} ref={(input) => this.licenseInput = input}/>
+                  {/*<input className="" type="file" accept="image/png,image/gif"*/}
+                  {/*onChange={this.handleLicenseFile} ref={(input) => this.licenseInput = input}/>*/}
+                  <Dropzone onDrop={this.licenseFile.bind(this)} className="sign-up"
+                            accept="image/png,image/gif,image/jpeg">
+                    {({isDragActive, isDragReject, acceptedFiles, rejectedFiles}) => {
+                      return (
+                        <div>
+                          <div className="col-sm-4">
+                            <span className="btn btn-default"
+                                  style={{color: "white", background: '#a6a5a6', marginLeft: '-15px'}}>选择文件</span>
+                          </div>
+                          <div className="col-sm-6">
+                            <p style={{
+                              marginTop: '8px',
+                              color: 'gray'
+                            }}>{acceptedFiles.length > 0 ? acceptedFiles[0].name : '未选择任何文件'}</p>
+                          </div>
+                        </div>
+                      )
+                    }}
+                  </Dropzone>
                 </div>
               </div>
 
@@ -390,12 +458,52 @@ class SignUp extends Component {
               <div className="row margin-b-15">
                 <label className="col-sm-4 control-label"><strong>上传正反身份证</strong></label>
                 <div className="col-sm-4">
-                  <input className="" type="file" accept="image/png,image/gif,image/jpeg"
-                         onChange={this.handleIdFront} ref={(input) => this.idFrontInput = input}/>
+                  {/*<input className="" type="file" accept="image/png,image/gif,image/jpeg"*/}
+                  {/*onChange={this.handleIdFront} ref={(input) => this.idFrontInput = input}/>*/}
+                  <Dropzone onDrop={this.idFrontFile.bind(this)} className="sign-up"
+                            accept="image/png,image/gif,image/jpeg">
+                    {({isDragActive, isDragReject, acceptedFiles, rejectedFiles}) => {
+                      return (
+                        <div>
+                          <div className="col-sm-6">
+                            <span className="btn btn-default"
+                                  style={{color: "white", background: '#a6a5a6', marginLeft: '-15px'}}>选择文件</span>
+                          </div>
+                          <div className="col-sm-6">
+                            <p style={{
+                              height: '100%',
+                              color: 'gray',
+                              fontSize: '8px'
+                            }}>{acceptedFiles.length > 0 ? acceptedFiles[0].name : ''}</p>
+                          </div>
+                        </div>
+                      )
+                    }}
+                  </Dropzone>
                 </div>
                 <div className="col-sm-4">
-                  <input className="" type="file" accept="image/png,image/gif,image/jpeg"
-                         onChange={this.handleIdBack} ref={(input) => this.idBackInput = input}/>
+                  {/*<input className="" type="file" accept="image/png,image/gif,image/jpeg"*/}
+                  {/*onChange={this.handleIdBack} ref={(input) => this.idBackInput = input}/>*/}
+                  <Dropzone onDrop={this.idBackFile.bind(this)} className="sign-up"
+                            accept="image/png,image/gif,image/jpeg">
+                    {({isDragActive, isDragReject, acceptedFiles, rejectedFiles}) => {
+                      return (
+                        <div>
+                          <div className="col-sm-6">
+                            <span className="btn btn-default"
+                                  style={{color: "white", background: '#a6a5a6', marginLeft: '-15px'}}>选择文件</span>
+                          </div>
+                          <div className="col-sm-6">
+                            <p style={{
+                              height: '100%',
+                              color: 'gray',
+                              fontSize: '8px'
+                            }}>{acceptedFiles.length > 0 ? acceptedFiles[0].name : ''}</p>
+                          </div>
+                        </div>
+                      )
+                    }}
+                  </Dropzone>
                 </div>
               </div>
 

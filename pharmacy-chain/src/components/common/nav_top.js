@@ -26,7 +26,15 @@ export class NavTop extends Component {
   renderLink({path, title}) {
     return (<li key={path} className={window.location.pathname == path ? 'active' : ''}
                 onClick={this.handleLinkClick.bind(this)}>
-      <Link id={path} to={path} style={{fontSize: '18px', color: '#6c6c6c'}}>{title}</Link>
+      <Link id={path} to={path} style={{
+        fontSize: '18px',
+        color: '#6c6c6c',
+        paddingLeft: '0px',
+        paddingRight: '40px',
+        paddingTop: '0px',
+        paddingBottom: '0px',
+        marginRight: '0px'
+      }}>{title}</Link>
     </li>)
   }
 

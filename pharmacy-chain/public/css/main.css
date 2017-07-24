@@ -35,11 +35,11 @@ body {
     font-weight: bold;
 }
 
-.nav-divider > li {
+.nav-divider > li > a {
     border-right: 1px solid #ddd;
 }
 
-.nav-divider > li:nth-last-child(1) {
+.nav-divider > li:nth-last-child(1) > a {
     border: none;
 }
 
@@ -327,15 +327,15 @@ section > article {
 }
 
 .navbar-nav > li > a {
-    padding: 20px 40px;
+    margin: 20px 40px;
 }
 
 .navbar-nav > li:first-child > a {
-    padding-left: 50px;
+    margin-left: 50px;
 }
 
 .navbar-nav > li:last-child > a {
-    padding-right: 50px;
+    margin-right: 50px;
 }
 
 .user-info {

@@ -1,4 +1,4 @@
-export const ROOT_URL = 'http://xfja.local:12306';
+export const ROOT_URL = 'http://47.93.163.113:12306';
 
 export const AUTH_USER = 'auth_user';                                 //登录
 export const UNAUTH_USER = 'unauth_user';                             //退出登录

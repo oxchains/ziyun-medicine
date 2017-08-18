@@ -14,7 +14,7 @@ class Header extends  Component {
         <div className="pull-right">
           <span className="margin-r-10"><i className="fa fa-user"></i> {username}</span>
           <Link to="/setting" className="margin-r-10 link-gray">用户设置</Link>
-          <Link to="/unaudit" className="margin-r-10 link-gray">待审查列表</Link>
+          <Link to="/unaudit" className={`margin-r-10 link-gray ${username == 'ziyun2011' ? "" : "hidden"}`}>待审查列表</Link>
           <Link to="/signout" className="link-gray">退出</Link>
         </div>
       </div>
@@ -33,7 +33,7 @@ class Header extends  Component {
               <div className="row">
                 <div className="col-sm-12 text-center">
                   <h1 className="title">全国医药流通行业区块链联盟</h1>
-                  <h5 className="sub-title text-uppercase">National pharmaceutical distribution industry block chain alliance</h5>
+                  <h5 className="sub-title text-uppercase">National Medicine Blockchain Alliance</h5>
                 </div>
               </div>
             </div>

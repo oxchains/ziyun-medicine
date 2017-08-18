@@ -29,3 +29,16 @@
 .alliance li i {
     margin-right: 8px;
 }
+.top_nav
+{
+    font-size: 18px;
+    color: rgb(108,108,108);
+    padding: 0 40px 0 0;
+    margin: 20px 0 20px 40px;
+    text-decoration: none;
+    /*line-height: 20px;*/
+    height: 20px!important;
+    width: 113px;
+    text-align: center;
+
+}

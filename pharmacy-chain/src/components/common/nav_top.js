@@ -38,14 +38,30 @@ export class NavTop extends Component {
     </li>)
   }
 
+  renderTargetLink({path, title}) {
+      return (<li key={path} className={window.location.pathname == path ? 'active' : ''}>
+        <a href={path} target="_blank" style={{
+            fontSize: '18px',
+            color: '#6c6c6c',
+            paddingLeft: '0px',
+            paddingRight: '40px',
+            paddingTop: '0px',
+            paddingBottom: '0px',
+            marginRight: '0px'}}>{title}</a>
+      </li>)
+  }
+
   render() {
     const links = [
       {path: '/', title: '平台首页'},
-      {path: '/alliance', title: '联盟动态'},
-      {path: '/peer', title: '节点管理'},
-      {path: '/query', title: '追溯查证'},
-      {path: '/stat', title: '链上统计'}
+      {path: '/alliance', title: '联盟动态'}
     ];
+
+    const targetLinks = [
+        {path: 'http://nmba-admin.ziyun56.com/', title: '节点管理'},
+        {path: 'http://trace.ziyun56.com', title: '追溯查证'},
+        {path: 'https://datav.aliyun.com/share/85603cadebbedbee1920046c13b971ae', title: '链上统计'}
+    ]
 
     return (
       <div className="navbar-wrapper">
@@ -62,6 +78,7 @@ export class NavTop extends Component {
             <div className="navbar-collapse collapse">
               <ul className="nav navbar-nav nav-divider">
                 { links.map(this.renderLink) }
+                  {targetLinks.map(this.renderTargetLink)}
               </ul>
             </div>
           </div>

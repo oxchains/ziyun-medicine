@@ -124,6 +124,25 @@ public class UserController {
     }
   }
 
+  @GetMapping("/application")
+  public void downloadApplyFile(HttpServletRequest request, HttpServletResponse response) {
+    log.debug("==path==="+UserController.class.getClassLoader().getResource("apply.docx").getPath());
+    File applicationFile = new File(UserController.class.getClassLoader().getResource("apply.docx").getPath());
+    if (applicationFile.exists()) {
+      try {
+        Path filePath = applicationFile.toPath();
+        response.setHeader(CONTENT_DISPOSITION, "attachment; filename=" + applicationFile.getName());
+        response.setContentType(guessContentTypeFromName(applicationFile.getName()));
+        response.setContentLengthLong(applicationFile.length());
+        Files.copy(filePath, response.getOutputStream());
+      } catch (Exception e) {
+        log.warn("failed to downloadApplyFile",  e.getMessage());
+      }
+    } else {
+      fileNotFound(response);
+    }
+  }
+
   @GetMapping("/{uid}/application")
   public void downloadFileByUserName(@PathVariable Long uid, HttpServletRequest request, HttpServletResponse response) {
     userRepo.findById(uid).map(user -> {

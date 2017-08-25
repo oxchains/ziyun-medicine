@@ -23,6 +23,7 @@ import Stat from './components/stat';
 import Query from './components/query';
 import Setting from './components/auth/setting';
 import Forget from './components/forget';
+import Infoquery from './components/infoquery';
 
 const createStoreWithMiddleware = compose(
   applyMiddleware(reduxThunk),
@@ -51,6 +52,9 @@ ReactDOM.render(
             <Route path="/unaudit/user/:uid" component={AuditDetail}/>
             <PrivateRoute path="/unaudit" component={Unaudit}/>
             <PrivateRoute path="/alliance" component={Alliance}/>
+
+            <PrivateRoute path="/infoquery" component={Infoquery}/>
+
             <PrivateRoute path="/peer" component={PeerInfo}/>
             <PrivateRoute path="/query" component={Query}/>
             <PrivateRoute path="/stat" component={Stat}/>

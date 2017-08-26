@@ -254,7 +254,6 @@ var RadioButtons = React.createClass({
 })
 
 function mapStateToProps(state) {
-    console.log(state)
     return {
 
         product: state.query.product,

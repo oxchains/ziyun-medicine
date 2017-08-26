@@ -15,7 +15,7 @@ import {
     FETCH_FIRST_COMPANY
 } from '../actions/types';
 
-const INITIAL_STATE = { sensor: null ,product:null};
+const INITIAL_STATE = { sensor: null ,product:null ,company:null };
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
@@ -24,7 +24,7 @@ export default function(state = INITIAL_STATE, action) {
       case FETCH_FIRST_PRODUCT:
         return { ...state, product:action.payload.data.data };
       case FETCH_FIRST_COMPANY:
-        return { ...state, company:action.payload.data.data };
+        return { ...state, company:action.payload.data.data};
   }
 
   return state;

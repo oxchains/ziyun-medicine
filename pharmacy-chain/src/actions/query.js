@@ -36,12 +36,8 @@ export function fetchSensorData({ serial, type, startDate, endDate }, callback) 
  */
 export function fetchFirstCampProduct({ InputChoice }, callback) {
     return function(dispatch) {
-
-        var a = JSON.stringify(InputChoice)
-
-
-          console.log(`${ROOT_URL}/productGmp/${a}`, { headers: getAuthorizedHeader() })
-        axios.get(`${ROOT_URL}/productGmp/${a}`, { headers: getAuthorizedHeader() })
+          console.log(`${ROOT_URL}/productGmp/${InputChoice}`, { headers: getAuthorizedHeader() })
+        axios.get(`${ROOT_URL}/productGmp/${InputChoice}`, { headers: getAuthorizedHeader() })
             .then(response => {
                 console.log(response)
                 callback();

@@ -11,7 +11,7 @@ class Infoquery extends Component {
         this.state = {
             index :0,
             inputValue:'',
-            radioValue:'',
+            radioValue:'chanpin',
         }
         this.handleRadio = this.handleRadio.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -33,6 +33,9 @@ class Infoquery extends Component {
         radio:this.state.radioValue,
     }
     console.log('+++++++' ,formData)
+
+
+
 }
 
     handlequery() {
@@ -44,7 +47,6 @@ class Infoquery extends Component {
         this.setState({
             index
         })
-        console.log('-------' ,index)
     }
     prevpage(){
         let {index} = this.state;
@@ -229,7 +231,7 @@ var RadioButtons = React.createClass({
     render:function () {
         return (
             <div className="formwidth">
-                <input type="radio" name="infoquery" onChange={this.props.handleRadio}  value="chanpin" />
+                <input type="radio" name="infoquery" onChange={this.props.handleRadio}  defaultChecked value="chanpin" />
                 <lable> &nbsp;产品首营资料 &nbsp;&nbsp;</lable>
                 <input type="radio" name="infoquery" onChange={this.props.handleRadio}  value="shengchan" />
                 <lable> &nbsp;生产企业首营资料 &nbsp;&nbsp;</lable>

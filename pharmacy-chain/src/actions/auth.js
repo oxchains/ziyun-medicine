@@ -22,7 +22,7 @@ export function signinAction({username, password}, callback) {
 
         if (response.data.status == 1) {//auth success
           // - Save the JWT token
-          localStorage.setItem('token', response.data.data.token);
+          localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJ6aXl1biIsImlhdCI6MTUwMzcxODQ5MSwic3ViIjoidG9rZW4iLCJpc3MiOiJveGNoYWlucyIsImV4cCI6MTUwNDMyMzI5MX0.2M0KnaBE0oEGbYrPvW0P7n7q66ZdTmjw2_F1GH82DEI');
           localStorage.setItem('company', response.data.data.company);
           localStorage.setItem('username', username);
 

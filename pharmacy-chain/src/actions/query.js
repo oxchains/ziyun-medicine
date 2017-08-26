@@ -12,7 +12,7 @@ import {
   ROOT_URL,
   FETCH_SENSOR_DATA,
   requestError,
-  getAuthorizedHeader
+    getAuthorizedHeader
 } from './types';
 
 /**
@@ -23,9 +23,29 @@ export function fetchSensorData({ serial, type, startDate, endDate }, callback) 
     axios.get(`${ROOT_URL}/contract/sensor?${type==='serial'?'serial':'equipment'}=${serial}&start=${startDate}&end=${endDate}`, { headers: getAuthorizedHeader() })
     //axios.get('http://localhost:3000/sensor')
       .then(response => {
+          console.log(response  )
         dispatch({ type: FETCH_SENSOR_DATA, payload:response });
-        callback();
+        callback(response);
       })
       .catch( err => callback(err.message) );
   }
+}
+
+/**
+ * 查询产品首营资料结果
+ */
+export function fetchFirstCampProduct({ InputChoice }, callback) {
+    return function(dispatch) {
+
+        var a = JSON.stringify(InputChoice)
+
+
+          console.log(`${ROOT_URL}/productGmp/${a}`, { headers: getAuthorizedHeader() })
+        axios.get(`${ROOT_URL}/productGmp/${a}`, { headers: getAuthorizedHeader() })
+            .then(response => {
+                console.log(response)
+                callback();
+            })
+            .catch( err => callback(err.message) );
+    }
 }

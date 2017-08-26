@@ -16,7 +16,6 @@ import {
  */
 export function signinAction({username, password}, callback) {
   return function (dispatch) {
-      console.log(callback)
 
     axios.post(`${ROOT_URL}/token`, {username, password})
 
@@ -25,13 +24,12 @@ export function signinAction({username, password}, callback) {
 
         if (response.data.status == 1) {//auth success
           // - Save the JWT token
-          localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJ6aXl1biIsImlhdCI6MTUwMzcxODQ5MSwic3ViIjoidG9rZW4iLCJpc3MiOiJveGNoYWlucyIsImV4cCI6MTUwNDMyMzI5MX0.2M0KnaBE0oEGbYrPvW0P7n7q66ZdTmjw2_F1GH82DEI');
+          localStorage.setItem('token', response.data.data.token);
           localStorage.setItem('company', response.data.data.company);
           localStorage.setItem('username', username);
 
           dispatch({type: AUTH_USER});
           // - redirect to the route '/'
-          callback();
         } else {//auth fail
           dispatch(authError(response.data.message));
         }

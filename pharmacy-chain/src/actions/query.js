@@ -12,6 +12,8 @@ import {
   ROOT_URL,
   FETCH_SENSOR_DATA,
   requestError,
+    FETCH_FIRST_PRODUCT,
+    FETCH_FIRST_COMPANY,
     getAuthorizedHeader
 } from './types';
 
@@ -37,9 +39,11 @@ export function fetchSensorData({ serial, type, startDate, endDate }, callback) 
  */
 export function fetchFirstCampProduct({ InputChoice }, callback) {
     return function() {
-        axios.get(`${ROOT_URL}/productGmp/${JSON.stringify(InputChoice)}`, { headers: getAuthorizedHeader() })
+        axios.get(`${ROOT_URL}/productGmp/${InputChoice}`, { headers: getAuthorizedHeader() })
             .then(response => {
                 console.log(response)
+                dispatch({ type: FETCH_FIRST_PRODUCT, payload:response });
+                callback();
             })
             .catch( err => callback(err.message) );
     }
@@ -50,10 +54,11 @@ export function fetchFirstCampProduct({ InputChoice }, callback) {
  */
 export function fetchFirstCampEnterprise({ InputChoice ,radioChoice}, callback) {
     return function() {
-        axios.get(`${ROOT_URL}/enterpriseGmp/${JSON.stringify(InputChoice)}/${radioChoice==='produce_enterprise'?'produce_enterprise':'circulation_enterprises'}`, { headers: getAuthorizedHeader() })
+        axios.get(`${ROOT_URL}/enterpriseGmp/${InputChoice}/${radioChoice==='produce_enterprise'?'produce_enterprise':'circulation_enterprises'}`, { headers: getAuthorizedHeader() })
             .then(response => {
                 console.log(response)
-
+                dispatch({ type: FETCH_FIRST_COMPANY, payload:response });
+                callback();
             })
             .catch( err => callback(err.message) );
     }

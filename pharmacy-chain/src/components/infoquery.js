@@ -5,6 +5,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import css from './css/firstcamp.css';
 import {ROOT_URL} from '../actions/types';
+import {fetchFirstCampProduct} from '../actions/query';
+
 class Infoquery extends Component {
     constructor(props) {
         super(props);
@@ -18,21 +20,31 @@ class Infoquery extends Component {
         this.handlequery = this.handlequery.bind(this)
         this.prevpage = this.prevpage.bind(this)
     }
-        handleRadio(e) {
+    handleRadio(e) {
         this.setState({
             radioValue : e.target.value,
         })
     }
     handleinputvalue(e){
+
             inputValue : e.target.value
     }
     handleSubmit(e) {
     e.preventDefault();
-    var formData = {
-        input:this.refs.goodInput.value,
-        radio:this.state.radioValue,
-    }
-    console.log('+++++++' ,formData)
+    // var formData = {
+    //     input:this.refs.goodInput.value,
+    //     radio:this.state.radioValue,
+    // }
+
+    const InputChoice= this.refs.goodInput.value ;
+    const radioChoice= this.state.radioValue ;
+    console.log(productChoice,radioChoice)
+        if(this.state.radioValue == "chanpin"){
+             this.props.fetchFirstCampProduct({InputChoice});
+        }
+        else{
+           console.log("企业")
+        }
 }
 
     handlequery() {
@@ -66,8 +78,8 @@ class Infoquery extends Component {
                         <div className="formposition ">
                             <form onSubmit={this.handleSubmit} >
                                 <RadioButtons ref="goodRadio" handleRadio = {this.handleRadio}/>
-                                <lable className="namelable">产品名称&nbsp; &nbsp;</lable>
-                                <input type="text" className="inputborder" onChange={this.handleinputvalue} ref="goodInput" placeholder="请输入产品名称" /><br/>
+                                <lable className="namelable">{this.state.radioValue=="chanpin" ? "产品" : "企业"}名称&nbsp; &nbsp;</lable>
+                                <input type="text" className="inputborder" onChange={this.handleinputvalue} ref="goodInput" placeholder={this.state.radioValue=="chanpin" ? "请输入产品名称" : "请输入企业名称"} /><br/>
                                 <button type="submit" className="btnquery" onClick={this.handlequery}>查询</button>
                             </form>
                         </div>
@@ -217,9 +229,6 @@ class Infoquery extends Component {
                         </div>
                     </div>
                 </div>
-
-
-
             </div>)
     }
 
@@ -229,11 +238,11 @@ var RadioButtons = React.createClass({
     render:function () {
         return (
             <div className="formwidth">
-                <input type="radio" name="infoquery" onChange={this.props.handleRadio}  value="chanpin" />
+                <input type="radio" name="infoquery" onClick={this.props.handleRadio}  value="chanpin" />
                 <lable> &nbsp;产品首营资料 &nbsp;&nbsp;</lable>
-                <input type="radio" name="infoquery" onChange={this.props.handleRadio}  value="shengchan" />
+                <input type="radio" name="infoquery" onClick={this.props.handleRadio}  value="shengchan" />
                 <lable> &nbsp;生产企业首营资料 &nbsp;&nbsp;</lable>
-                <input type="radio" name="infoquery" onChange={this.props.handleRadio}  value="liutong" />
+                <input type="radio" name="infoquery" onClick={this.props.handleRadio}  value="liutong" />
                 <lable> &nbsp;流通企业首营资料 </lable>
             </div>
         )

@@ -59,6 +59,7 @@ ReactDOM.render(
             <PrivateRoute path="/query" component={Query}/>
             <PrivateRoute path="/stat" component={Stat}/>
             <PrivateRoute path="/" component={Welcome}/>
+
           </Switch>
         </div>
         <Footer/>

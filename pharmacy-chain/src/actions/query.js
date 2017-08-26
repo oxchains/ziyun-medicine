@@ -23,9 +23,25 @@ export function fetchSensorData({ serial, type, startDate, endDate }, callback) 
     axios.get(`${ROOT_URL}/contract/sensor?${type==='serial'?'serial':'equipment'}=${serial}&start=${startDate}&end=${endDate}`, { headers: getAuthorizedHeader() })
     //axios.get('http://localhost:3000/sensor')
       .then(response => {
+          console.log(response  )
         dispatch({ type: FETCH_SENSOR_DATA, payload:response });
-        callback();
+        callback(response);
       })
       .catch( err => callback(err.message) );
   }
+}
+
+/**
+ * 查询产品首营资料结果
+ */
+export function fetchFirstCampProduct({ InputChoice }, callback) {
+    return function(dispatch) {
+        axios.get(`${ROOT_URL}/productGmp/${InputChoice}`, { headers: getAuthorizedHeader() })
+            .then(response => {
+                console.log(response)
+                dispatch({ type: FETCH_SENSOR_DATA, payload:response });
+                callback();
+            })
+            .catch( err => callback(err.message) );
+    }
 }

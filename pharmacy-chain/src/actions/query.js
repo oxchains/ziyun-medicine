@@ -37,13 +37,9 @@ export function fetchSensorData({ serial, type, startDate, endDate }, callback) 
  */
 export function fetchFirstCampProduct({ InputChoice }, callback) {
     return function() {
-
-       console.log(callback)
-
         axios.get(`${ROOT_URL}/productGmp/${JSON.stringify(InputChoice)}`, { headers: getAuthorizedHeader() })
             .then(response => {
                 console.log(response)
-                callback();
             })
             .catch( err => callback(err.message) );
     }
@@ -54,15 +50,10 @@ export function fetchFirstCampProduct({ InputChoice }, callback) {
  */
 export function fetchFirstCampEnterprise({ InputChoice ,radioChoice}, callback) {
     return function() {
-
-        console.log('--------'+InputChoice)
-        console.log('+++++++++'+ radioChoice)
-        console.log(callback)
-        axios.get(`${ROOT_URL}/enterpriseGmp/${InputChoice}/${radioChoice==='produce_enterprise'?'produce_enterprise':'circulation_enterprises'}`, { headers: getAuthorizedHeader() })
+        axios.get(`${ROOT_URL}/enterpriseGmp/${JSON.stringify(InputChoice)}/${radioChoice==='produce_enterprise'?'produce_enterprise':'circulation_enterprises'}`, { headers: getAuthorizedHeader() })
             .then(response => {
                 console.log(response)
-                console.log(callback)
-                callback();
+
             })
             .catch( err => callback(err.message) );
     }

@@ -39,14 +39,10 @@ class Infoquery extends Component {
     const InputChoice= this.refs.goodInput.value ;
     const radioChoice= this.state.radioValue ;
         if(this.state.radioValue == "chanpin"){
-             this.props.fetchFirstCampProduct({InputChoice},()=>{
-                 console.log('signin callback')
-             });
+             this.props.fetchFirstCampProduct({InputChoice},()=>{});
         }
         else {
-            this.props.fetchFirstCampEnterprise({InputChoice,radioChoice},()=>{
-                console.log('signin callback')
-            });
+            this.props.fetchFirstCampEnterprise({InputChoice,radioChoice},()=>{});
         }
 }
 

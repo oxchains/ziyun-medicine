@@ -16,7 +16,10 @@ import {
  */
 export function signinAction({username, password}, callback) {
   return function (dispatch) {
+      console.log(callback)
+
     axios.post(`${ROOT_URL}/token`, {username, password})
+
     //axios.get('http://localhost:3000/signin')
       .then(response => {
 

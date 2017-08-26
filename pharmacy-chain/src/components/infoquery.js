@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import css from './css/firstcamp.css';
 import {ROOT_URL} from '../actions/types';
-import {fetchFirstCampProduct} from '../actions/query';
+import {fetchFirstCampProduct,fetchFirstCampEnterprise} from '../actions/query';
 
 class Infoquery extends Component {
     constructor(props) {
@@ -38,14 +38,16 @@ class Infoquery extends Component {
 
     const InputChoice= this.refs.goodInput.value ;
     const radioChoice= this.state.radioValue ;
-    console.log(InputChoice,radioChoice)
         if(this.state.radioValue == "chanpin"){
-             this.props.fetchFirstCampProduct({InputChoice});
+             this.props.fetchFirstCampProduct({InputChoice},()=>{
+                 console.log('signin callback')
+             });
         }
-        else{
-           console.log("企业")
+        else {
+            this.props.fetchFirstCampEnterprise({InputChoice,radioChoice},()=>{
+                console.log('signin callback')
+            });
         }
-
 }
 
     handlequery() {
@@ -136,7 +138,7 @@ class Infoquery extends Component {
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src="/public/img/noInfo.png" alt="营业执照"
+                                                <img src="https://dev.ziyun56.com:56182/fs/downloadFileUseStream.do?file_id=59964c26d48f2f72806f7bbf" alt="营业执照"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download undownload"
                                                    href=""
@@ -240,9 +242,9 @@ var RadioButtons = React.createClass({
             <div className="formwidth">
                 <input type="radio" name="infoquery" onClick={this.props.handleRadio}  defaultChecked value="chanpin" />
                 <lable> &nbsp;产品首营资料 &nbsp;&nbsp;</lable>
-                <input type="radio" name="infoquery" onClick={this.props.handleRadio}  value="shengchan" />
+                <input type="radio" name="infoquery" onClick={this.props.handleRadio}  value="produce_enterprise" />
                 <lable> &nbsp;生产企业首营资料 &nbsp;&nbsp;</lable>
-                <input type="radio" name="infoquery" onClick={this.props.handleRadio}  value="liutong" />
+                <input type="radio" name="infoquery" onClick={this.props.handleRadio}  value="circulation_enterprises" />
                 <lable> &nbsp;流通企业首营资料 </lable>
             </div>
         )
@@ -255,4 +257,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps,{fetchFirstCampProduct})(Infoquery);
+export default connect(mapStateToProps,{fetchFirstCampProduct,fetchFirstCampEnterprise})(Infoquery);

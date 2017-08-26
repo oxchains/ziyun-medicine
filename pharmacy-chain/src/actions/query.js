@@ -20,6 +20,7 @@ import {
  */
 export function fetchSensorData({ serial, type, startDate, endDate }, callback) {
   return function(dispatch) {
+
     axios.get(`${ROOT_URL}/contract/sensor?${type==='serial'?'serial':'equipment'}=${serial}&start=${startDate}&end=${endDate}`, { headers: getAuthorizedHeader() })
     //axios.get('http://localhost:3000/sensor')
       .then(response => {
@@ -35,15 +36,32 @@ export function fetchSensorData({ serial, type, startDate, endDate }, callback) 
  * 查询产品首营资料结果
  */
 export function fetchFirstCampProduct({ InputChoice }, callback) {
-    return function(dispatch) {
+    return function() {
 
-        var a = JSON.stringify(InputChoice)
+       console.log(callback)
 
-
-          console.log(`${ROOT_URL}/productGmp/${a}`, { headers: getAuthorizedHeader() })
-        axios.get(`${ROOT_URL}/productGmp/${a}`, { headers: getAuthorizedHeader() })
+        axios.get(`${ROOT_URL}/productGmp/${JSON.stringify(InputChoice)}`, { headers: getAuthorizedHeader() })
             .then(response => {
                 console.log(response)
+                callback();
+            })
+            .catch( err => callback(err.message) );
+    }
+}
+
+/**
+ * 查询企业首营资料结果
+ */
+export function fetchFirstCampEnterprise({ InputChoice ,radioChoice}, callback) {
+    return function() {
+
+        console.log('--------'+InputChoice)
+        console.log('+++++++++'+ radioChoice)
+        console.log(callback)
+        axios.get(`${ROOT_URL}/enterpriseGmp/${InputChoice}/${radioChoice==='produce_enterprise'?'produce_enterprise':'circulation_enterprises'}`, { headers: getAuthorizedHeader() })
+            .then(response => {
+                console.log(response)
+                console.log(callback)
                 callback();
             })
             .catch( err => callback(err.message) );

@@ -71,7 +71,7 @@ class AuditDetail extends Component {
   render() {
     let {auditDetail} = this.props;
     console.log(auditDetail);
-    //
+
 
     if (!auditDetail) {
       return <div></div>;

@@ -29,29 +29,18 @@ class Infoquery extends Component {
 
             inputValue : e.target.value
     }
-    handleSubmit(e) {
-    e.preventDefault();
-    // var formData = {
-    //     input:this.refs.goodInput.value,
-    //     radio:this.state.radioValue,
-    // }
 
-    const InputChoice= this.refs.goodInput.value ;
-    const radioChoice= this.state.radioValue ;
+    handleSubmit(e) {
+        e.preventDefault();
+        const InputChoice= this.refs.goodInput.value ;
+        const radioChoice= this.state.radioValue ;
         if(this.state.radioValue == "chanpin"){
-             this.props.fetchFirstCampProduct({InputChoice},()=>{
-                 console.log(this.props.product)
-             });
+            this.props.fetchFirstCampProduct({InputChoice},()=>{});
         }
         else {
-            this.props.fetchFirstCampEnterprise({InputChoice,radioChoice},()=>{
-                console.log(this.props.company)
-            });
+            this.props.fetchFirstCampEnterprise({InputChoice,radioChoice},()=>{});
         }
-}
-
-
-
+    }
     handlequery() {
         let {index} = this.state;
         index++;
@@ -70,6 +59,12 @@ class Infoquery extends Component {
         })
     }
     render() {
+            const product = this.props.product
+            const EnterpriseName = product && product.ProductName
+            const txId = product && product.txId
+
+
+
         return (
             <div>
                 {/*第一页*/}
@@ -103,18 +98,18 @@ class Infoquery extends Component {
                                                 <span onClick={this.prevpage}>首营资料查询</span>
                                                 <i className="fa fa-angle-right fa-lg" ></i>
                                             </div>
-                                            <span>产品首营资料</span>
+                                            <span>{this.state.radioValue =='chanpin'?'产品首营资料':this.state.radioValue =='produce_enterprise'?'生产企业首营资料':'流通企业首营资料'}</span>
                                         </div>
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">企业名称 :</label>
                                             <div className="col-sm-8 control-text">
-                                                河南奥林特药业有限公司
+                                                {EnterpriseName?EnterpriseName:'暂无数据'}
                                             </div>
                                         </div>
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">区块链编码 :</label>
                                             <div className="col-sm-8 control-text">
-                                                h9eqy32riucegw0qy89ciuwqgf989vh0qgf78q40b
+                                                {txId?txId:'暂无数据' }
                                             </div>
                                         </div>
                                         <div className={`form-group section`}>
@@ -255,7 +250,6 @@ var RadioButtons = React.createClass({
 
 function mapStateToProps(state) {
     return {
-
         product: state.query.product,
         company:state.query.company
     };

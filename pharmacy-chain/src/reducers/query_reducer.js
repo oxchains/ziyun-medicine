@@ -21,8 +21,9 @@ export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
     case FETCH_SENSOR_DATA:
       return { ...state, sensor:action.payload.data.data };
-      case FETCH_FIRST_PRODUCT:
-        return { ...state, product:action.payload.data.data };
+      case FETCH_FIRST_PRODUCT:{
+        console.log(JSON.parse(action.payload.data.data).data[0])
+          return { ...state, product:JSON.parse(action.payload.data.data).data[0] };}
       case FETCH_FIRST_COMPANY:
         return { ...state, company:action.payload.data.data};
   }

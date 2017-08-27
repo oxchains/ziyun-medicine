@@ -20,6 +20,5 @@ export default function(state = INITIAL_STATE, action) {
     case FETCH_STAT_DATA:
       return { ...state, data:action.payload.data.data };
   }
-
   return state;
 }

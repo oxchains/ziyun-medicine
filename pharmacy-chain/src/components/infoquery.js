@@ -79,7 +79,12 @@ class Infoquery extends Component {
 
 
 
+
+
+        txIdqq
             const company = this.props.company
+
+        const txIdqq = product && company.txIdqq
             const EnterpriseName = company && company.EnterpriseName
             const EnterpriseLicenseNo = company && company.EnterpriseLicenseNo
             const EnterprisePatentCertificateUrl = company && company.ProductPatentCertificateUrl
@@ -171,10 +176,10 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">产品批号附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={`${ROOT_URL}/user/downloadfile/${ApprovalUrl}`} alt="产品批号附件"
-                                                         />
+                                                    <img src={`${ROOT_URL}/user/${ApprovalUrl}/downloadfile`} alt="产品批号附件"
+                                                         style={{width: '200px', height: '190px'}}/>
                                                     <a className="download"
-                                                       href={`${ROOT_URL}/user/downloadfile/${ApprovalUrl}`}
+                                                       href={`${ROOT_URL}/user/${ApprovalUrl}/downloadfile`}
                                                        download="allianceFile">
                                                         <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                         下载附件</a>
@@ -184,12 +189,12 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">产品专利附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={`${ROOT_URL}/user/downloadfile/${ProductPatentCertificateUrl}`}  alt="产品专利附件"
-                                                         />
-                                                    <a className="download undownload"
-                                                       href={`${ROOT_URL}/user/downloadfile/${ProductPatentCertificateUrl}`}
+                                                    <img src={`${ROOT_URL}/user/${ProductPatentCertificateUrl}/downloadfile`}  alt="产品专利附件"
+                                                         style={{width: '200px', height: '190px'}}/>
+                                                    <a className="download"
+                                                       href={`${ROOT_URL}/user${ProductPatentCertificateUrl}/downloadfile/`}
                                                        download="allianceFile">
-                                                        <img src="/public/img/undownload.png" style={{width: '14px', height: '14px'}}/>
+                                                        <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                         下载附件</a>
                                                 </div>
                                             </div>
@@ -197,10 +202,10 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">商标文件附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={`${ROOT_URL}/user/downloadfile/${ProductTrademarkDocumentsUrl}`}  alt="商标文件附件"
-                                                         />
+                                                    <img src={`${ROOT_URL}/user/${ProductTrademarkDocumentsUrl}/downloadfile`}  alt="商标文件附件"
+                                                         style={{width: '200px', height: '190px'}}/>
                                                     <a className="download"
-                                                       href={`${ROOT_URL}/user/downloadfile/${ProductTrademarkDocumentsUrl}`}
+                                                       href={`${ROOT_URL}/user/${ProductTrademarkDocumentsUrl}/downloadfile`}
                                                        download="allianceFile">
                                                         <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                         下载附件</a>
@@ -210,10 +215,10 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">最小包装图 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={`${ROOT_URL}/user/downloadfile/${ProductMiniPackageUrl}`}  alt="最小包装图"
-                                                        />
+                                                    <img src={`${ROOT_URL}/user/${ProductMiniPackageUrl}/downloadfile`}  alt="最小包装图"
+                                                         style={{width: '200px', height: '190px'}}/>
                                                     <a className="download"
-                                                       href={`${ROOT_URL}/user/downloadfile/${ProductMiniPackageUrl}`}
+                                                       href={`${ROOT_URL}/user/${ProductMiniPackageUrl}/downloadfile`}
                                                        download="allianceFile">
                                                         <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                         下载附件</a>
@@ -223,10 +228,10 @@ class Infoquery extends Component {
                                             <div className={`form-group section`}>
                                                 <label className="col-sm-4 control-label">药品说明书附件 :</label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={`${ROOT_URL}/user/downloadfile/${DrugInstructionsUrl}`} alt="药品说明书附件"
+                                                    <img src={`${ROOT_URL}/user/${DrugInstructionsUrl}/downloadfile`} alt="药品说明书附件"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a className="download"
-                                                       href={`${ROOT_URL}/user/downloadfile/${DrugInstructionsUrl}`}
+                                                       href={`${ROOT_URL}/user/${DrugInstructionsUrl}/downloadfile`}
                                                        download="allianceFile">
                                                         <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                         下载附件</a>
@@ -237,10 +242,10 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
 
-                                                    <img src={`${ROOT_URL}/user/downloadfile/${GeneralTaxpayerRecordsUrl}`} alt="一般纳税人认定记录附件"
+                                                    <img src={`${ROOT_URL}/user/${GeneralTaxpayerRecordsUrl}/downloadfile`} alt="一般纳税人认定记录附件"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a className="download"
-                                                       href={`${ROOT_URL}/user/downloadfile/${GeneralTaxpayerRecordsUrl}`}
+                                                       href={`${ROOT_URL}/user/${GeneralTaxpayerRecordsUrl}/downloadfile`}
                                                        download="allianceFile">
                                                         <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                         下载附件</a>
@@ -250,10 +255,10 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">法人委托书附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={`${ROOT_URL}/user/downloadfile/${LegalPowerOfAttorneyUrl}`}  alt="法人委托书附件"
+                                                    <img src={`${ROOT_URL}/user/${LegalPowerOfAttorneyUrl}/downloadfile`}  alt="法人委托书附件"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a className="download"
-                                                       href={`${ROOT_URL}/user/downloadfile/${LegalPowerOfAttorneyUrl}`}
+                                                       href={`${ROOT_URL}/user/${LegalPowerOfAttorneyUrl}/downloadfile`}
                                                        download="allianceFile">
                                                         <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                         下载附件</a>
@@ -263,10 +268,10 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">身份证附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={`${ROOT_URL}/user/downloadfile/${IdCardUrl}`} alt="身份证附件"
+                                                    <img src={`${ROOT_URL}/user/${IdCardUrl}/downloadfile`} alt="身份证附件"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a className="download"
-                                                       href={`${ROOT_URL}/user/downloadfile/${IdCardUrl}`}
+                                                       href={`${ROOT_URL}/user/${IdCardUrl}/downloadfile`}
                                                        download="allianceFile">
                                                         <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                         下载附件</a>
@@ -276,10 +281,10 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">产品生产标准附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={`${ROOT_URL}/user/downloadfile/${ProudctProduceStandardUrl}`}  alt="产品生产标准附件"
+                                                    <img src={`${ROOT_URL}/user/${ProudctProduceStandardUrl}/downloadfile`}  alt="产品生产标准附件"
                                                          style={{width: '200px', height: '190px'}} />
                                                     <a className="download"
-                                                       href={`${ROOT_URL}/user/downloadfile/${ProudctProduceStandardUrl}`}
+                                                       href={`${ROOT_URL}/user/${ProudctProduceStandardUrl}/downloadfile`}
                                                        download="allianceFile">
                                                         <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                         下载附件</a>
@@ -289,10 +294,10 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">购销合同附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={`${ROOT_URL}/user/downloadfile/${PurchaseAndSaleContractUrl}`}  alt="购销合同附件"
+                                                    <img src={`${ROOT_URL}/user/${PurchaseAndSaleContractUrl}/downloadfile`}  alt="购销合同附件"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a className="download"
-                                                       href={`${ROOT_URL}/user/downloadfile/${PurchaseAndSaleContractUrl}`}
+                                                       href={`${ROOT_URL}/user/${PurchaseAndSaleContractUrl}/downloadfile`}
                                                        download="allianceFile">
                                                         <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                         下载附件</a>
@@ -302,10 +307,10 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">产品包装说明书附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={`${ROOT_URL}/user/downloadfile/${ProductPackageAndManualUrl}`}  alt="产品包装说明书附件"
+                                                    <img src={`${ROOT_URL}/user/${ProductPackageAndManualUrl}/downloadfile`}  alt="产品包装说明书附件"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a className="download"
-                                                       href={`${ROOT_URL}/user/downloadfile/${ProductPackageAndManualUrl}`}
+                                                       href={`${ROOT_URL}/user/${ProductPackageAndManualUrl}/downloadfile`}
                                                        download="allianceFile">
                                                         <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                         下载附件</a>
@@ -409,7 +414,7 @@ class Infoquery extends Component {
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">区块链编码 :</label>
                                             <div className="col-sm-8 control-text">
-                                                {txId?txId:'暂无数据' }
+                                                {txIdqq?txIdqq:'暂无数据' }
                                             </div>
                                         </div>
                                         <div className={`form-group section`}>
@@ -419,10 +424,10 @@ class Infoquery extends Component {
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={`http://192.168.1.125:12306/user/downloadfile/${EnterpriseLicenseUrl}`} alt="营业执照编号"
+                                                <img src={`${ROOT_URL}//user/${EnterpriseLicenseUrl}/downloadfile`} alt="营业执照编号"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download"
-                                                   href={`${ROOT_URL}/user/downloadfile/${EnterpriseLicenseUrl}`}
+                                                   href={`${ROOT_URL}/user/${EnterpriseLicenseUrl}/downloadfile`}
                                                    download="allianceFile">
                                                     <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>
@@ -435,12 +440,12 @@ class Infoquery extends Component {
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={`http://192.168.1.125:12306/user/downloadfile/${TaxRegistrationCertificateUrl}`}  alt="税务登记证编号"
+                                                <img src={`${ROOT_URL}//user/${TaxRegistrationCertificateUrl}/downloadfile`}  alt="税务登记证编号"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download undownload"
-                                                   href={`${ROOT_URL}/user/downloadfile/${TaxRegistrationCertificateUrl}`}
+                                                   href={`${ROOT_URL}/user/${TaxRegistrationCertificateUrl}/downloadfile`}
                                                    download="allianceFile">
-                                                    <img src="../public/img/undownload.png" style={{width: '14px', height: '14px'}}/>
+                                                    <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>
                                             </div>
                                         </div>
@@ -451,10 +456,10 @@ class Infoquery extends Component {
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={`${ROOT_URL}/user/downloadfile/${OrganizationCodeCertificateUrl}`} alt="组织机构代码编号"
+                                                <img src={`${ROOT_URL}/user/${OrganizationCodeCertificateUrl}/downloadfile`} alt="组织机构代码编号"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download"
-                                                   href={`${ROOT_URL}/user/downloadfile/${OrganizationCodeCertificateUrl}`}
+                                                   href={`${ROOT_URL}/user/${OrganizationCodeCertificateUrl}/downloadfile`}
                                                    download="allianceFile">
                                                     <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>
@@ -463,10 +468,10 @@ class Infoquery extends Component {
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">质量保证书附件 :</label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={`${ROOT_URL}/user/downloadfile/${QualityAssuranceUrl}`} alt="质量保证书附件"
+                                                <img src={`${ROOT_URL}/user/${QualityAssuranceUrl}/downloadfile`} alt="质量保证书附件"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download"
-                                                   href={`${ROOT_URL}/user/downloadfile/${QualityAssuranceUrl}`}
+                                                   href={`${ROOT_URL}/user/${QualityAssuranceUrl}/downloadfile`}
                                                    download="allianceFile">
                                                     <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>
@@ -475,10 +480,10 @@ class Infoquery extends Component {
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">药品生产质量管理规范附件 :</label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={`${ROOT_URL}/user/downloadfile/${GoodManufacturPracticesUrl}`} alt="药品生产质量管理规范附件"
+                                                <img src={`${ROOT_URL}/user/${GoodManufacturPracticesUrl}/downloadfile`} alt="药品生产质量管理规范附件"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download"
-                                                   href={`${ROOT_URL}/user/downloadfile/${GoodManufacturPracticesUrl}`}
+                                                   href={`${ROOT_URL}/user/${GoodManufacturPracticesUrl}/downloadfile`}
                                                    download="allianceFile">
                                                     <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>
@@ -552,7 +557,7 @@ class Infoquery extends Component {
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">区块链编码 :</label>
                                             <div className="col-sm-8 control-text">
-                                                {txId?txId:'暂无数据' }
+                                                {txIdqq?txIdqq:'暂无数据' }
                                             </div>
                                         </div>
                                         <div className={`form-group section`}>
@@ -562,10 +567,10 @@ class Infoquery extends Component {
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={`${ROOT_URL}/user/downloadfile/${EnterprisePatentCertificateUrl}`} alt="营业执照编号"
+                                                <img src={`${ROOT_URL}/user/${EnterprisePatentCertificateUrl}/downloadfile`} alt="营业执照编号"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download"
-                                                   href={`${ROOT_URL}/user/downloadfile/${EnterprisePatentCertificateUrl}`}
+                                                   href={`${ROOT_URL}/user/${EnterprisePatentCertificateUrl}/downloadfile`}
                                                    download="allianceFile">
                                                     <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>
@@ -578,12 +583,12 @@ class Infoquery extends Component {
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={`${ROOT_URL}/user/downloadfile/${TaxRegistrationCertificateUrl}`} alt="税务登记证编号"
+                                                <img src={`${ROOT_URL}/user/${TaxRegistrationCertificateUrl}/downloadfile`} alt="税务登记证编号"
                                                      style={{width: '200px', height: '190px'}}/>
-                                                <a className="download undownload"
-                                                   href={`${ROOT_URL}/user/downloadfile/${TaxRegistrationCertificateUrl}`}
+                                                <a className="download"
+                                                   href={`${ROOT_URL}/user/${TaxRegistrationCertificateUrl}/downloadfile`}
                                                    download="allianceFile">
-                                                    <img src="../public/img/undownload.png" style={{width: '14px', height: '14px'}}/>
+                                                    <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>
                                             </div>
                                         </div>
@@ -594,10 +599,10 @@ class Infoquery extends Component {
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={`${ROOT_URL}/user/downloadfile/${OrganizationCodeCertificateUrl}`} alt="组织机构代码编号"
+                                                <img src={`${ROOT_URL}/user/${OrganizationCodeCertificateUrl}/downloadfile`} alt="组织机构代码编号"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download"
-                                                   href={`${ROOT_URL}/user/downloadfile/${OrganizationCodeCertificateUrl}`}
+                                                   href={`${ROOT_URL}/user/${OrganizationCodeCertificateUrl}/downloadfile`}
                                                    download="allianceFile">
                                                     <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>
@@ -609,10 +614,10 @@ class Infoquery extends Component {
                                                     {DrugOperatingLicenseNo?DrugOperatingLicenseNo:'暂无数据'}
                                                 </div>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={`${ROOT_URL}/user/downloadfile/${DrugProductionLicenseUrl}`} alt="药品经营许可证编号"
+                                                    <img src={`${ROOT_URL}/user/${DrugProductionLicenseUrl}/downloadfile`} alt="药品经营许可证编号"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a className="download"
-                                                       href={`${ROOT_URL}/user/downloadfile/${DrugProductionLicenseUrl}`}
+                                                       href={`${ROOT_URL}/user/${DrugProductionLicenseUrl}/downloadfile`}
                                                        download="allianceFile">
                                                         <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                         下载附件</a>
@@ -657,10 +662,10 @@ class Infoquery extends Component {
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">质量保证书附件 :</label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={`${ROOT_URL}/user/downloadfile/${QualityAssuranceUrl}`} alt="质量保证书附件"
+                                                <img src={`${ROOT_URL}/user/${QualityAssuranceUrl}/downloadfile`} alt="质量保证书附件"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download"
-                                                   href={`${ROOT_URL}/user/downloadfile/${QualityAssuranceUrl}`}
+                                                   href={`${ROOT_URL}/user/${QualityAssuranceUrl}/downloadfile`}
                                                    download="allianceFile">
                                                     <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>
@@ -669,10 +674,10 @@ class Infoquery extends Component {
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">药品生产质量管理规范附件 :</label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={`${ROOT_URL}/user/downloadfile/${GoodManufacturPracticesUrl}`} alt="药品生产质量管理规范附件"
+                                                <img src={`${ROOT_URL}/user/${GoodManufacturPracticesUrl}/downloadfile`} alt="药品生产质量管理规范附件"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download"
-                                                   href={`${ROOT_URL}/user/downloadfile/${GoodManufacturPracticesUrl}`}
+                                                   href={`${ROOT_URL}/user/${GoodManufacturPracticesUrl}/downloadfile`}
                                                    download="allianceFile">
                                                     <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>

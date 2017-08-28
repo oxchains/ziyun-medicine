@@ -24,9 +24,9 @@ div{
 .control-text{
     word-wrap:break-word
 }
-.undownload{
-    color: #cbcbcb !important;
-}
+/*.undownload{*/
+    /*color: #cbcbcb !important;*/
+/*}*/
 .query{
     display: inline-block;
     color: #10a4e9;

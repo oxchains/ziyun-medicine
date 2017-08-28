@@ -129,6 +129,7 @@ export function updateAuthorize({formData}){
 export function fetchAuthorizeCompany() {
     return function (dispatch) {
         axios.get(`${ROOT_URL}/user/queryuser`, {headers: getAuthorizedHeader()}).then((res) => {
+            console.log(res)
                 dispatch({
                     type: FETCH_AUTHORIZE_COMPANY,
                     payload: res.data.data

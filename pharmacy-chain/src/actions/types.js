@@ -44,7 +44,8 @@ export const FETCH_FIRST_PRODUCT = 'fetch_first_product';            //产品首
 export const FETCH_FIRST_COMPANY = 'fetch_first_company';             //企业首营资料
 
 export const FETCH_AUTHORIZE_COMPANY = 'fetch_authorize_company';        //获取授权企业信息
-export const UPDATE_AUTHORIZE_ERROR='update_authorize_error'
+
+export const UPDATE_AUTHORIZE_ERROR='update_authorize_error';
 
 export function getAuthorizedHeader() {
   return { authorization: 'Bearer '+localStorage.getItem('token') }

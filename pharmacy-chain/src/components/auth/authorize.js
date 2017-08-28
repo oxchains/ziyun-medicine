@@ -36,9 +36,13 @@ class Authorize extends  Component {
         });
     }
     renderRows() {
-        const username1 = localStorage.getItem('username');
+        // console.log(this.props.authorize)
+        const username = localStorage.getItem('username');
+        // if(this.props.authorize===null){
+        //      return;
+        // }
         return this.props.authorize.map((row, idx) => {
-            if(row.username==username1){
+            if(row.username==username){
                 return
                 <div></div>
             }
@@ -47,6 +51,8 @@ class Authorize extends  Component {
                 <label >{row.username}</label>
             </li>;
         });
+
+
     }
     renderAlert() {
         return (

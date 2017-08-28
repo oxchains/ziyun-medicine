@@ -66,7 +66,7 @@ class Infoquery extends Component {
             const product = this.props.product
             const ProductName = product && product.ProductName
             const txId = product && product.txId
-            // const ProductCode = product && product.ProductCode
+
             const ApprovalUrl = product && product.ApprovalUrl
             const ProductPatentCertificateUrl = product && product.ProductPatentCertificateUrl
             const TaxRegistrationCode = product && product.TaxRegistrationCode
@@ -82,7 +82,6 @@ class Infoquery extends Component {
             const ProudctProduceStandardUrl = product && product.ProudctProduceStandardUrl
 
             const company = this.props.company
-
             const EnterpriseName = company && company.EnterpriseName
             const EnterpriseLicenseNo = company && company.EnterpriseLicenseNo
             const EnterprisePatentCertificateUrl = company && company.ProductPatentCertificateUrl
@@ -105,35 +104,20 @@ class Infoquery extends Component {
             const img2=ApprovalUrl? `${QQQROOT_URL}/user/${ApprovalUrl}/downloadfile`:`/public/img/noInfo.png`
             const img4=ProductTrademarkDocumentsUrl? `${QQQROOT_URL}/user/${ProductTrademarkDocumentsUrl}/downloadfile` :`/public/img/noInfo.png`
             const img5=ProductMiniPackageUrl? `${QQQROOT_URL}/user/${ProductMiniPackageUrl}/downloadfile` :`/public/img/noInfo.png`
-
-
-        const img6=DrugInstructionsUrl? `${QQQROOT_URL}/user/${DrugInstructionsUrl}/downloadfile` :`/public/img/noInfo.png`
-        const img7=GeneralTaxpayerRecordsUrl?`${QQQROOT_URL}/user/${GeneralTaxpayerRecordsUrl}/downloadfile` :`/public/img/noInfo.png`
-        const img8=LegalPowerOfAttorneyUrl? `${QQQROOT_URL}/user/${LegalPowerOfAttorneyUrl}/downloadfile` :`/public/img/noInfo.png`
-        const img9=IdCardUrl? `${QQQROOT_URL}/user/${IdCardUrl}/downloadfile` :`/public/img/noInfo.png`
-        const img10=PurchaseAndSaleContractUrl? `${QQQROOT_URL}/user/${PurchaseAndSaleContractUrl}/downloadfile`:`/public/img/noInfo.png`
-        const img11=ProductPackageAndManualUrl? `${QQQROOT_URL}/user/${ProductPackageAndManualUrl}/downloadfile` :`/public/img/noInfo.png`
-        const img12=ProudctProduceStandardUrl? `${QQQROOT_URL}/user/${ProudctProduceStandardUrl}/downloadfile` :`/public/img/noInfo.png`
-
-
-
-
-        const img13=EnterprisePatentCertificateUrl? `${QQQROOT_URL}/user/${EnterprisePatentCertificateUrl}/downloadfile` :`/public/img/noInfo.png`
-        const img14=EnterpriseLicenseUrl? `${QQQROOT_URL}/user/${EnterpriseLicenseUrl}/downloadfile` :`/public/img/noInfo.png`
-        const img15=OrganizationCodeCertificateUrl? `${QQQROOT_URL}/user/${OrganizationCodeCertificateUrl}/downloadfile` :`/public/img/noInfo.png`
-        const img16=QualityAssuranceUrl? `${QQQROOT_URL}/user/${QualityAssuranceUrl}/downloadfile` :`/public/img/noInfo.png`
-        const img17=GoodManufacturPracticesUrl? `${QQQROOT_URL}/user/${GoodManufacturPracticesUrl}/downloadfile` :`/public/img/noInfo.png`
-        const img18=DrugProductionLicenseUrl? `${QQQROOT_URL}/user/${DrugProductionLicenseUrl}/downloadfile` :`/public/img/noInfo.png`
-        const img19=TaxRegistrationCertificateUrl? `${QQQROOT_URL}/user/${TaxRegistrationCertificateUrl}/downloadfile`:`/public/img/noInfo.png`
-
-
-
-
-
-
-
-
-
+            const img6=DrugInstructionsUrl? `${QQQROOT_URL}/user/${DrugInstructionsUrl}/downloadfile` :`/public/img/noInfo.png`
+            const img7=GeneralTaxpayerRecordsUrl?`${QQQROOT_URL}/user/${GeneralTaxpayerRecordsUrl}/downloadfile` :`/public/img/noInfo.png`
+            const img8=LegalPowerOfAttorneyUrl? `${QQQROOT_URL}/user/${LegalPowerOfAttorneyUrl}/downloadfile` :`/public/img/noInfo.png`
+            const img9=IdCardUrl? `${QQQROOT_URL}/user/${IdCardUrl}/downloadfile` :`/public/img/noInfo.png`
+            const img10=PurchaseAndSaleContractUrl? `${QQQROOT_URL}/user/${PurchaseAndSaleContractUrl}/downloadfile`:`/public/img/noInfo.png`
+            const img11=ProductPackageAndManualUrl? `${QQQROOT_URL}/user/${ProductPackageAndManualUrl}/downloadfile` :`/public/img/noInfo.png`
+            const img12=ProudctProduceStandardUrl? `${QQQROOT_URL}/user/${ProudctProduceStandardUrl}/downloadfile` :`/public/img/noInfo.png`
+            const img13=EnterprisePatentCertificateUrl? `${QQQROOT_URL}/user/${EnterprisePatentCertificateUrl}/downloadfile` :`/public/img/noInfo.png`
+            const img14=EnterpriseLicenseUrl? `${QQQROOT_URL}/user/${EnterpriseLicenseUrl}/downloadfile` :`/public/img/noInfo.png`
+            const img15=OrganizationCodeCertificateUrl? `${QQQROOT_URL}/user/${OrganizationCodeCertificateUrl}/downloadfile` :`/public/img/noInfo.png`
+            const img16=QualityAssuranceUrl? `${QQQROOT_URL}/user/${QualityAssuranceUrl}/downloadfile` :`/public/img/noInfo.png`
+            const img17=GoodManufacturPracticesUrl? `${QQQROOT_URL}/user/${GoodManufacturPracticesUrl}/downloadfile` :`/public/img/noInfo.png`
+            const img18=DrugProductionLicenseUrl? `${QQQROOT_URL}/user/${DrugProductionLicenseUrl}/downloadfile` :`/public/img/noInfo.png`
+            const img19=TaxRegistrationCertificateUrl? `${QQQROOT_URL}/user/${TaxRegistrationCertificateUrl}/downloadfile`:`/public/img/noInfo.png`
         return (
             <div>
                 {/*第一页*/}
@@ -419,7 +403,6 @@ class Infoquery extends Component {
                 {/*<div className={`compty-div ${this.state.index == 1 & status != 0?"show" : "hidden"}`}><p className="pppp">暂无权限查看</p></div>*/}
                 <div className={`content-main container ${this.state.index == 1 & status == 0 & this.state.radioValue == "produce_enterprise"? "show" :"hidden"}` }>
 
->>>>>>> 1aed72d5838993f175e7861b5dfb540f61a456fc
                     <div className={`box stat-box no-border no-shadow`}>
                         <div className="box-body">
                             <div className="row">

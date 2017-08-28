@@ -15,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 /**
@@ -45,7 +46,7 @@ public class AppConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(POST, "/user")
         .permitAll()
         .antMatchers(
-            "/token", "/vcode",
+            "/token", "/vcode","/user/**/downloadfile",
             "/user/application", "/user/simple", "/user/type",
             "/user/secret/reset", "/user/secret/reset/vcode"
         )

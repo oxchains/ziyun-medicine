@@ -40,9 +40,9 @@ export function fetchFirstCampProduct({ InputChoice },callback) {
     return function(dispatch) {
         axios.get(`${ROOT_URL}/productGmp/${InputChoice}`, { headers: getAuthorizedHeader() })
             .then(response => {
-                // console.log(response)
+                console.log(response)
                 dispatch({ type: FETCH_FIRST_PRODUCT, payload:response });
-                callback(response);
+                callback();
             })
             .catch(  err => callback(err.message) );
     }
@@ -51,13 +51,13 @@ export function fetchFirstCampProduct({ InputChoice },callback) {
 /**
  * 查询企业首营资料结果
  */
-export function fetchFirstCampEnterprise({ InputChoice ,radioChoice}) {
+export function fetchFirstCampEnterprise({ InputChoice ,radioChoice},callback) {
     return function(dispatch) {
         axios.get(`${ROOT_URL}/enterpriseGmp/${InputChoice}/${radioChoice==='produce_enterprise'?'produce_enterprise':'circulation_enterprises'}`, { headers: getAuthorizedHeader() })
             .then(response => {
                 console.log(response)
                 dispatch({ type: FETCH_FIRST_COMPANY, payload:response });
-
+                callback();
             })
             .catch( err => callback(err.message));
     }

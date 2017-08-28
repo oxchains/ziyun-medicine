@@ -1,5 +1,5 @@
 /**
- * Created by oxchain on 2017/8/24.
+ * Created by fxl on 2017/8/24.
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
@@ -26,32 +26,20 @@ class Infoquery extends Component {
         })
     }
     handleinputvalue(e){
-
             inputValue : e.target.value
     }
-    handleSubmit(e) {
-    e.preventDefault();
-    // var formData = {
-    //     input:this.refs.goodInput.value,
-    //     radio:this.state.radioValue,
-    // }
 
-    const InputChoice= this.refs.goodInput.value ;
-    const radioChoice= this.state.radioValue ;
+    handleSubmit(e) {
+        e.preventDefault();
+        const InputChoice= this.refs.goodInput.value ;
+        const radioChoice= this.state.radioValue ;
         if(this.state.radioValue == "chanpin"){
-             this.props.fetchFirstCampProduct({InputChoice},()=>{
-                 console.log(this.props.product)
-             });
+            this.props.fetchFirstCampProduct({InputChoice},()=>{});
         }
         else {
-            this.props.fetchFirstCampEnterprise({InputChoice,radioChoice},()=>{
-                console.log(this.props.company)
-            });
+            this.props.fetchFirstCampEnterprise({InputChoice,radioChoice},()=>{});
         }
-}
-
-
-
+    }
     handlequery() {
         let {index} = this.state;
         index++;
@@ -70,6 +58,54 @@ class Infoquery extends Component {
         })
     }
     render() {
+            const status = this.props.status
+            const product = this.props.product
+            const ProductName = product && product.ProductName
+            const txId = product && product.txId
+            // const ProductCode = product && product.ProductCode
+            const ApprovalUrl = product && product.ApprovalUrl
+            const ProductPatentCertificateUrl = product && product.ProductPatentCertificateUrl
+            const TaxRegistrationCode = product && product.TaxRegistrationCode
+            const ProductTrademarkDocumentsUrl = product && product.ProductTrademarkDocumentsUrl
+            const ProductMiniPackageUrl = product && product.ProductMiniPackageUrl
+            const DrugInstructionsUrl = product && product.DrugInstructionsUrl
+            const GeneralTaxpayerRecordsUrl = product && product.GeneralTaxpayerRecordsUrl
+            const LegalPowerOfAttorneyUrl = product && product.LegalPowerOfAttorneyUrl
+            const IdCardUrl = product && product.IdCardUrl
+            const PurchaseAndSaleContractUrl = product && product.PurchaseAndSaleContractUrl
+            const ApprovalNo = product && product.ApprovalNo
+            const ProductPackageAndManualUrl = product && product.ProductPackageAndManualUrl
+            const ProudctProduceStandardUrl = product && product.ProudctProduceStandardUrl
+
+
+
+
+
+        txIdqq
+            const company = this.props.company
+
+        const txIdqq = product && company.txIdqq
+            const EnterpriseName = company && company.EnterpriseName
+            const EnterpriseLicenseNo = company && company.EnterpriseLicenseNo
+            const EnterprisePatentCertificateUrl = company && company.ProductPatentCertificateUrl
+            const EnterpriseLicenseUrl = company && company.EnterpriseLicenseUrl
+            const OrganizationCode = company && company.OrganizationCode
+            const OrganizationCodeCertificateUrl = company && company.OrganizationCodeCertificateUrl
+            const QualityAssuranceUrl = company && company.QualityAssuranceUrl
+            const GoodManufacturPracticesUrl = company && company.GoodManufacturPracticesUrl
+            const DrugOperatingLicenseNo = company && company.DrugOperatingLicenseNo
+            const DrugProductionLicenseUrl = company && company.DrugProductionLicenseUrl
+            const BankAccountNumber = company && company.BankAccountNumber
+            const OpenBank = company && company.OpenBank
+            const EnterpriseAdress = company && company.EnterpriseAdress
+            const EnterprisePhone = company && company.EnterprisePhone
+            const TaxpayerIdentificationNumber = company && company.TaxpayerIdentificationNumber
+            const BillingUnit = company && company.BillingUnit
+            const TaxRegistrationCertificateUrl = company && company.TaxRegistrationCertificateUrl
+
+
+
+
         return (
             <div>
                 {/*第一页*/}
@@ -90,8 +126,272 @@ class Infoquery extends Component {
                     </div>
                 </section>
             </div>
-             {/*第二页*/}
-                <div className={`content-main container ${this.state.index == 1? "show" : "hidden"}`}>
+
+                {/*第二页产品首营*/}
+
+
+                <div className={`compty-div ${this.state.index == 1 & status != 0?"show" : "hidden"}`}><p className="pppp">暂无权限查看</p></div>
+
+                    <div className={`content-main container ${this.state.index == 1 & status == 0 & this.state.radioValue == "chanpin"? "show" :"hidden"}`}>
+
+                        <div className={`box stat-box no-border no-shadow`}>
+                            <div className="box-body">
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <div className="form-horizontal">
+                                            <div className="text-left">首营资料查询</div>
+                                            <hr/>
+                                            <div className="">
+                                                <div className="query">
+                                                    <span onClick={this.prevpage}>首营资料查询</span>
+                                                    <i className="fa fa-angle-right fa-lg" ></i>
+                                                </div>
+                                                <span>{this.state.radioValue =='chanpin'?'产品首营资料':this.state.radioValue =='produce_enterprise'?'生产企业首营资料':'流通企业首营资料'}</span>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">产品名称 :</label>
+                                                <div className="col-sm-8 control-text">
+                                                    {ProductName?ProductName:'暂无信息'}
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">区块链编码 :</label>
+                                                <div className="col-sm-8 control-text">
+                                                    {txId?txId:'暂无信息'}
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">所属产品 :</label>
+                                                <div className="col-sm-8 control-text">
+                                                    {ProductName?ProductName:'暂无信息'}
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">产品批号 :</label>
+                                                <div className="col-sm-8 control-text">
+                                                    {ApprovalNo?ApprovalNo:'暂无信息'}
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">产品批号附件 :</label>
+                                                <label className="col-sm-4 control-label"></label>
+                                                <div className="col-sm-8 control-text">
+                                                    <img src={`${ROOT_URL}/user/${ApprovalUrl}/downloadfile`} alt="产品批号附件"
+                                                         style={{width: '200px', height: '190px'}}/>
+                                                    <a className="download"
+                                                       href={`${ROOT_URL}/user/${ApprovalUrl}/downloadfile`}
+                                                       download="allianceFile">
+                                                        <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                        下载附件</a>
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">产品专利附件 :</label>
+                                                <label className="col-sm-4 control-label"></label>
+                                                <div className="col-sm-8 control-text">
+                                                    <img src={`${ROOT_URL}/user/${ProductPatentCertificateUrl}/downloadfile`}  alt="产品专利附件"
+                                                         style={{width: '200px', height: '190px'}}/>
+                                                    <a className="download"
+                                                       href={`${ROOT_URL}/user${ProductPatentCertificateUrl}/downloadfile/`}
+                                                       download="allianceFile">
+                                                        <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                        下载附件</a>
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">商标文件附件 :</label>
+                                                <label className="col-sm-4 control-label"></label>
+                                                <div className="col-sm-8 control-text">
+                                                    <img src={`${ROOT_URL}/user/${ProductTrademarkDocumentsUrl}/downloadfile`}  alt="商标文件附件"
+                                                         style={{width: '200px', height: '190px'}}/>
+                                                    <a className="download"
+                                                       href={`${ROOT_URL}/user/${ProductTrademarkDocumentsUrl}/downloadfile`}
+                                                       download="allianceFile">
+                                                        <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                        下载附件</a>
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">最小包装图 :</label>
+                                                <label className="col-sm-4 control-label"></label>
+                                                <div className="col-sm-8 control-text">
+                                                    <img src={`${ROOT_URL}/user/${ProductMiniPackageUrl}/downloadfile`}  alt="最小包装图"
+                                                         style={{width: '200px', height: '190px'}}/>
+                                                    <a className="download"
+                                                       href={`${ROOT_URL}/user/${ProductMiniPackageUrl}/downloadfile`}
+                                                       download="allianceFile">
+                                                        <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                        下载附件</a>
+                                                </div>
+                                            </div>
+
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">药品说明书附件 :</label>
+                                                <div className="col-sm-8 control-text">
+                                                    <img src={`${ROOT_URL}/user/${DrugInstructionsUrl}/downloadfile`} alt="药品说明书附件"
+                                                         style={{width: '200px', height: '190px'}}/>
+                                                    <a className="download"
+                                                       href={`${ROOT_URL}/user/${DrugInstructionsUrl}/downloadfile`}
+                                                       download="allianceFile">
+                                                        <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                        下载附件</a>
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">一般纳税人认定记录附件:</label>
+                                                <label className="col-sm-4 control-label"></label>
+                                                <div className="col-sm-8 control-text">
+
+                                                    <img src={`${ROOT_URL}/user/${GeneralTaxpayerRecordsUrl}/downloadfile`} alt="一般纳税人认定记录附件"
+                                                         style={{width: '200px', height: '190px'}}/>
+                                                    <a className="download"
+                                                       href={`${ROOT_URL}/user/${GeneralTaxpayerRecordsUrl}/downloadfile`}
+                                                       download="allianceFile">
+                                                        <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                        下载附件</a>
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">法人委托书附件 :</label>
+                                                <label className="col-sm-4 control-label"></label>
+                                                <div className="col-sm-8 control-text">
+                                                    <img src={`${ROOT_URL}/user/${LegalPowerOfAttorneyUrl}/downloadfile`}  alt="法人委托书附件"
+                                                         style={{width: '200px', height: '190px'}}/>
+                                                    <a className="download"
+                                                       href={`${ROOT_URL}/user/${LegalPowerOfAttorneyUrl}/downloadfile`}
+                                                       download="allianceFile">
+                                                        <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                        下载附件</a>
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">身份证附件 :</label>
+                                                <label className="col-sm-4 control-label"></label>
+                                                <div className="col-sm-8 control-text">
+                                                    <img src={`${ROOT_URL}/user/${IdCardUrl}/downloadfile`} alt="身份证附件"
+                                                         style={{width: '200px', height: '190px'}}/>
+                                                    <a className="download"
+                                                       href={`${ROOT_URL}/user/${IdCardUrl}/downloadfile`}
+                                                       download="allianceFile">
+                                                        <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                        下载附件</a>
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">产品生产标准附件 :</label>
+                                                <label className="col-sm-4 control-label"></label>
+                                                <div className="col-sm-8 control-text">
+                                                    <img src={`${ROOT_URL}/user/${ProudctProduceStandardUrl}/downloadfile`}  alt="产品生产标准附件"
+                                                         style={{width: '200px', height: '190px'}} />
+                                                    <a className="download"
+                                                       href={`${ROOT_URL}/user/${ProudctProduceStandardUrl}/downloadfile`}
+                                                       download="allianceFile">
+                                                        <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                        下载附件</a>
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">购销合同附件 :</label>
+                                                <label className="col-sm-4 control-label"></label>
+                                                <div className="col-sm-8 control-text">
+                                                    <img src={`${ROOT_URL}/user/${PurchaseAndSaleContractUrl}/downloadfile`}  alt="购销合同附件"
+                                                         style={{width: '200px', height: '190px'}}/>
+                                                    <a className="download"
+                                                       href={`${ROOT_URL}/user/${PurchaseAndSaleContractUrl}/downloadfile`}
+                                                       download="allianceFile">
+                                                        <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                        下载附件</a>
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">产品包装说明书附件 :</label>
+                                                <label className="col-sm-4 control-label"></label>
+                                                <div className="col-sm-8 control-text">
+                                                    <img src={`${ROOT_URL}/user/${ProductPackageAndManualUrl}/downloadfile`}  alt="产品包装说明书附件"
+                                                         style={{width: '200px', height: '190px'}}/>
+                                                    <a className="download"
+                                                       href={`${ROOT_URL}/user/${ProductPackageAndManualUrl}/downloadfile`}
+                                                       download="allianceFile">
+                                                        <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                        下载附件</a>
+                                                </div>
+                                            </div>
+
+                                            {/*<div className={`form-group section`}>*/}
+                                                {/*<label className="col-sm-4 control-label">省级产品检验报告 :</label>*/}
+                                                {/*<div className="col-sm-8 control-text">*/}
+                                                    {/*2016/08/15*/}
+                                                {/*</div>*/}
+                                                {/*<label className="col-sm-4 control-label"></label>*/}
+                                                {/*<div className="col-sm-8 control-text">*/}
+                                                    {/*<img src={`${ROOT_URL}/user/downloadfile/${IdCardUrl}`} alt="省级产品检验报告"*/}
+                                                         {/*style={{width: '200px', height: '190px'}}/>*/}
+                                                    {/*<a className="download"*/}
+                                                       {/*href={`${ROOT_URL}/user/downloadfile/${IdCardUrl}`}*/}
+                                                       {/*download="allianceFile">*/}
+                                                        {/*<img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>*/}
+                                                        {/*下载附件</a>*/}
+                                                {/*</div>*/}
+                                            {/*</div>*/}
+                                            {/*<div className={`form-group section`}>*/}
+                                                {/*<label className="col-sm-4 control-label">产品物件文件 :</label>*/}
+                                                {/*<div className="col-sm-8 control-text">*/}
+                                                    {/*2016/08/15*/}
+                                                {/*</div>*/}
+                                                {/*<label className="col-sm-4 control-label"></label>*/}
+                                                {/*<div className="col-sm-8 control-text">*/}
+                                                    {/*<img src={`${ROOT_URL}/user/downloadfile/${IdCardUrl}`} alt="产品物件文件"*/}
+                                                         {/*style={{width: '200px', height: '190px'}}/>*/}
+                                                    {/*<a className="download"*/}
+                                                       {/*href={`${ROOT_URL}/user/downloadfile/${IdCardUrl}`}*/}
+                                                       {/*download="allianceFile">*/}
+                                                        {/*<img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>*/}
+                                                        {/*下载附件</a>*/}
+                                                {/*</div>*/}
+                                            {/*</div>*/}
+                                            {/*<div className={`form-group section`}>*/}
+                                                {/*<label className="col-sm-4 control-label">每批产品厂检报告 :</label>*/}
+                                                {/*<label className="col-sm-4 control-label"></label>*/}
+                                                {/*<div className="col-sm-8 control-text">*/}
+                                                    {/*<img src={`${ROOT_URL}/user/downloadfile/${IdCardUrl}`} alt="每批产品厂检报告"*/}
+                                                         {/*style={{width: '200px', height: '190px'}}/>*/}
+                                                    {/*<a className="download"*/}
+                                                       {/*href={`${ROOT_URL}/user/downloadfile/${IdCardUrl}`}*/}
+                                                       {/*download="allianceFile">*/}
+                                                        {/*<img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>*/}
+                                                        {/*下载附件</a>*/}
+                                                {/*</div>*/}
+                                            {/*</div>*/}
+                                            {/*<div className={`form-group section`}>*/}
+                                                {/*<label className="col-sm-4 control-label">购销员资格证书 :</label>*/}
+                                                {/*<label className="col-sm-4 control-label"></label>*/}
+                                                {/*<div className="col-sm-8 control-text">*/}
+                                                    {/*<img src={`${ROOT_URL}/user/downloadfile/${IdCardUrl}`} alt="购销员资格证书"*/}
+                                                         {/*style={{width: '200px', height: '190px'}}/>*/}
+                                                    {/*<a className="download"*/}
+                                                       {/*href={`${ROOT_URL}/user/downloadfile/${IdCardUrl}`}*/}
+                                                       {/*download="allianceFile">*/}
+                                                        {/*<img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>*/}
+                                                        {/*下载附件</a>*/}
+                                                {/*</div>*/}
+                                            {/*</div>*/}
+                                            <div className="row">
+                                                <div className="col-xs-12 text-center">
+                                                    <span className="text-danger ">* 首营资料查询展示的"暂无信息"为企业没有上传附件。</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+             {/*第三页生产企业*/}
+
+                {/*<div className={`compty-div ${this.state.index == 1 & status != 0?"show" : "hidden"}`}><p className="pppp">暂无权限查看</p></div>*/}
+                <div className={`content-main container ${this.state.index == 1 & status == 0 & this.state.radioValue == "produce_enterprise"? "show" :"hidden"}` }>
+
                     <div className={`box stat-box no-border no-shadow`}>
                         <div className="box-body">
                             <div className="row">
@@ -103,31 +403,31 @@ class Infoquery extends Component {
                                                 <span onClick={this.prevpage}>首营资料查询</span>
                                                 <i className="fa fa-angle-right fa-lg" ></i>
                                             </div>
-                                            <span>产品首营资料</span>
+                                            <span>{this.state.radioValue =='chanpin'?'产品首营资料':this.state.radioValue =='produce_enterprise'?'生产企业首营资料':'流通企业首营资料'}</span>
                                         </div>
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">企业名称 :</label>
                                             <div className="col-sm-8 control-text">
-                                                河南奥林特药业有限公司
+                                                {EnterpriseName?EnterpriseName:'暂无数据'}
                                             </div>
                                         </div>
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">区块链编码 :</label>
                                             <div className="col-sm-8 control-text">
-                                                h9eqy32riucegw0qy89ciuwqgf989vh0qgf78q40b
+                                                {txIdqq?txIdqq:'暂无数据' }
                                             </div>
                                         </div>
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">营业执照编号 :</label>
                                             <div className="col-sm-8 control-text">
-                                                91410100169958206w
+                                                {EnterpriseLicenseNo?EnterpriseLicenseNo:'暂无数据'}
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src="./favicon.ico" alt="营业执照"
+                                                <img src={`${ROOT_URL}//user/${EnterpriseLicenseUrl}/downloadfile`} alt="营业执照编号"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download"
-                                                   href=""
+                                                   href={`${ROOT_URL}/user/${EnterpriseLicenseUrl}/downloadfile`}
                                                    download="allianceFile">
                                                     <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>
@@ -136,30 +436,30 @@ class Infoquery extends Component {
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">税务登记证编号 :</label>
                                             <div className="col-sm-8 control-text">
-                                                暂无信息
+                                                {TaxRegistrationCode?TaxRegistrationCode:'暂无数据'}
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src="https://dev.ziyun56.com:56182/fs/downloadFileUseStream.do?file_id=59964c26d48f2f72806f7bbf" alt="营业执照"
+                                                <img src={`${ROOT_URL}//user/${TaxRegistrationCertificateUrl}/downloadfile`}  alt="税务登记证编号"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download undownload"
-                                                   href=""
+                                                   href={`${ROOT_URL}/user/${TaxRegistrationCertificateUrl}/downloadfile`}
                                                    download="allianceFile">
-                                                    <img src="../public/img/undownload.png" style={{width: '14px', height: '14px'}}/>
+                                                    <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>
                                             </div>
                                         </div>
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">组织机构代码编号 :</label>
                                             <div className="col-sm-8 control-text">
-                                                91410100169958206w
+                                                {OrganizationCode?OrganizationCode:'暂无数据'}
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src="./favicon.ico" alt="营业执照"
+                                                <img src={`${ROOT_URL}/user/${OrganizationCodeCertificateUrl}/downloadfile`} alt="组织机构代码编号"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download"
-                                                   href=""
+                                                   href={`${ROOT_URL}/user/${OrganizationCodeCertificateUrl}/downloadfile`}
                                                    download="allianceFile">
                                                     <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>
@@ -168,10 +468,10 @@ class Infoquery extends Component {
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">质量保证书附件 :</label>
                                             <div className="col-sm-8 control-text">
-                                                <img src="./favicon.ico" alt="营业执照"
+                                                <img src={`${ROOT_URL}/user/${QualityAssuranceUrl}/downloadfile`} alt="质量保证书附件"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download"
-                                                   href=""
+                                                   href={`${ROOT_URL}/user/${QualityAssuranceUrl}/downloadfile`}
                                                    download="allianceFile">
                                                     <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>
@@ -180,48 +480,45 @@ class Infoquery extends Component {
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">药品生产质量管理规范附件 :</label>
                                             <div className="col-sm-8 control-text">
-                                                <img src="./favicon.ico" alt="营业执照"
+                                                <img src={`${ROOT_URL}/user/${GoodManufacturPracticesUrl}/downloadfile`} alt="药品生产质量管理规范附件"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a className="download"
-                                                   href=""
+                                                   href={`${ROOT_URL}/user/${GoodManufacturPracticesUrl}/downloadfile`}
                                                    download="allianceFile">
                                                     <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
                                                     下载附件</a>
                                             </div>
                                         </div>
-                                        <div className={`form-group section`}>
-                                            <label className="col-sm-4 control-label">年纳税报表 :</label>
-                                            <div className="col-sm-8 control-text">
-                                                2017/03/13
-                                            </div>
-                                            <label className="col-sm-4 control-label"></label>
-                                            <div className="col-sm-8 control-text">
+                                        {/*<div className={`form-group section`}>*/}
+                                            {/*<label className="col-sm-4 control-label">年纳税报表 :</label>*/}
+                                            {/*<label className="col-sm-4 control-label"></label>*/}
+                                            {/*<div className="col-sm-8 control-text">*/}
 
-                                                <img src="./favicon.ico" alt="营业执照"
-                                                     style={{width: '200px', height: '190px'}}/>
-                                                <a className="download"
-                                                   href=""
-                                                   download="allianceFile">
-                                                    <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
-                                                    下载附件</a>
-                                            </div>
-                                        </div>
-                                        <div className={`form-group section`}>
-                                            <label className="col-sm-4 control-label">企业质量情况调查表 :</label>
-                                            <div className="col-sm-8 control-text">
-                                                2016/08/15
-                                            </div>
-                                            <label className="col-sm-4 control-label"></label>
-                                            <div className="col-sm-8 control-text">
-                                                <img src="./favicon.ico" alt="营业执照"
-                                                     style={{width: '200px', height: '190px'}}/>
-                                                <a className="download"
-                                                   href=""
-                                                   download="allianceFile">
-                                                    <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
-                                                    下载附件</a>
-                                            </div>
-                                        </div>
+                                                {/*/!*<img src={`${ROOT_URL}/user/downloadfile/${GoodManufacturPracticesUrl}`} alt="年纳税报表"*!/*/}
+                                                     {/*/!*style={{width: '200px', height: '190px'}}/>*!/*/}
+                                                {/*<a className="download"*/}
+                                                   {/*href={`${ROOT_URL}/user/downloadfile/${GoodManufacturPracticesUrl}`}*/}
+                                                   {/*download="allianceFile">*/}
+                                                    {/*<img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>*/}
+                                                    {/*下载附件</a>*/}
+                                            {/*</div>*/}
+                                        {/*</div>*/}
+                                        {/*<div className={`form-group section`}>*/}
+                                            {/*<label className="col-sm-4 control-label">企业质量情况调查表 :</label>*/}
+                                            {/*/!*<div className="col-sm-8 control-text">*!/*/}
+                                                {/*/!*2016/08/15*!/*/}
+                                            {/*/!*</div>*!/*/}
+                                            {/*<label className="col-sm-4 control-label"></label>*/}
+                                            {/*<div className="col-sm-8 control-text">*/}
+                                                {/*/!*<img src="./favicon.ico" alt="企业质量情况调查表"*!/*/}
+                                                     {/*/!*style={{width: '200px', height: '190px'}}/>*!/*/}
+                                                {/*<a className="download"*/}
+                                                   {/*href={`${ROOT_URL}/user/downloadfile/${GoodManufacturPracticesUrl}`}*/}
+                                                   {/*download="allianceFile">*/}
+                                                    {/*<img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>*/}
+                                                    {/*下载附件</a>*/}
+                                            {/*</div>*/}
+                                        {/*</div>*/}
                                         <div className="row">
                                             <div className="col-xs-12 text-center">
                                                 <span className="text-danger ">* 首营资料查询展示的"暂无信息"为企业没有上传附件。</span>
@@ -233,7 +530,172 @@ class Infoquery extends Component {
                         </div>
                     </div>
                 </div>
-            </div>)
+
+                {/*第四页流通企业*/}
+                {/*<div className={`compty-div ${this.state.index == 1 & status != 0?"show" : "hidden"}`}><p className="pppp">暂无权限查看</p></div>*/}
+                <div className={`content-main container ${this.state.index == 1 & status == 0 & this.state.radioValue == "circulation_enterprises"? "show" :"hidden"}`}>
+
+                    <div className={`box stat-box no-border no-shadow`}>
+                        <div className="box-body">
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <div className="form-horizontal">
+                                        <div className="headerpa">首营资料查询</div>
+                                        <div className="">
+                                            <div className="query">
+                                                <span onClick={this.prevpage}>首营资料查询</span>
+                                                <i className="fa fa-angle-right fa-lg" ></i>
+                                            </div>
+                                            <span>{this.state.radioValue =='chanpin'?'产品首营资料':this.state.radioValue =='produce_enterprise'?'生产企业首营资料':'流通企业首营资料'}</span>
+                                        </div>
+                                        <div className={`form-group section`}>
+                                            <label className="col-sm-4 control-label">企业名称 :</label>
+                                            <div className="col-sm-8 control-text">
+                                                {EnterpriseName?EnterpriseName:'暂无数据'}
+                                            </div>
+                                        </div>
+                                        <div className={`form-group section`}>
+                                            <label className="col-sm-4 control-label">区块链编码 :</label>
+                                            <div className="col-sm-8 control-text">
+                                                {txIdqq?txIdqq:'暂无数据' }
+                                            </div>
+                                        </div>
+                                        <div className={`form-group section`}>
+                                            <label className="col-sm-4 control-label">营业执照编号 :</label>
+                                            <div className="col-sm-8 control-text">
+                                                {EnterpriseLicenseNo?EnterpriseLicenseNo:'暂无数据'}
+                                            </div>
+                                            <label className="col-sm-4 control-label"></label>
+                                            <div className="col-sm-8 control-text">
+                                                <img src={`${ROOT_URL}/user/${EnterprisePatentCertificateUrl}/downloadfile`} alt="营业执照编号"
+                                                     style={{width: '200px', height: '190px'}}/>
+                                                <a className="download"
+                                                   href={`${ROOT_URL}/user/${EnterprisePatentCertificateUrl}/downloadfile`}
+                                                   download="allianceFile">
+                                                    <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                    下载附件</a>
+                                            </div>
+                                        </div>
+                                        <div className={`form-group section`}>
+                                            <label className="col-sm-4 control-label">税务登记证编号 :</label>
+                                            <div className="col-sm-8 control-text">
+                                                {TaxRegistrationCode?TaxRegistrationCode:'暂无数据'}
+                                            </div>
+                                            <label className="col-sm-4 control-label"></label>
+                                            <div className="col-sm-8 control-text">
+                                                <img src={`${ROOT_URL}/user/${TaxRegistrationCertificateUrl}/downloadfile`} alt="税务登记证编号"
+                                                     style={{width: '200px', height: '190px'}}/>
+                                                <a className="download"
+                                                   href={`${ROOT_URL}/user/${TaxRegistrationCertificateUrl}/downloadfile`}
+                                                   download="allianceFile">
+                                                    <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                    下载附件</a>
+                                            </div>
+                                        </div>
+                                        <div className={`form-group section`}>
+                                            <label className="col-sm-4 control-label">组织机构代码编号 :</label>
+                                            <div className="col-sm-8 control-text">
+                                                {OrganizationCode?OrganizationCode:'暂无数据'}
+                                            </div>
+                                            <label className="col-sm-4 control-label"></label>
+                                            <div className="col-sm-8 control-text">
+                                                <img src={`${ROOT_URL}/user/${OrganizationCodeCertificateUrl}/downloadfile`} alt="组织机构代码编号"
+                                                     style={{width: '200px', height: '190px'}}/>
+                                                <a className="download"
+                                                   href={`${ROOT_URL}/user/${OrganizationCodeCertificateUrl}/downloadfile`}
+                                                   download="allianceFile">
+                                                    <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                    下载附件</a>
+                                            </div>
+                                        </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">药品经营许可证编号 : </label>
+                                                <div className="col-sm-8 control-text">
+                                                    {DrugOperatingLicenseNo?DrugOperatingLicenseNo:'暂无数据'}
+                                                </div>
+                                                <div className="col-sm-8 control-text">
+                                                    <img src={`${ROOT_URL}/user/${DrugProductionLicenseUrl}/downloadfile`} alt="药品经营许可证编号"
+                                                         style={{width: '200px', height: '190px'}}/>
+                                                    <a className="download"
+                                                       href={`${ROOT_URL}/user/${DrugProductionLicenseUrl}/downloadfile`}
+                                                       download="allianceFile">
+                                                        <img src="/public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                        下载附件</a>
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">开户行 :</label>
+                                                <div className="col-sm-8 control-text">
+                                                    {OpenBank?OpenBank:'暂无数据'}
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">开户行账号 :</label>
+                                                <div className="col-sm-8 control-text">
+                                                    {BankAccountNumber?BankAccountNumber:'暂无数据'}
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">开票单位 :</label>
+                                                <div className="col-sm-8 control-text">
+                                                    {BillingUnit?BillingUnit:'暂无数据'}
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">纳税人识别号 :</label>
+                                                <div className="col-sm-8 control-text">
+                                                    {TaxpayerIdentificationNumber?TaxpayerIdentificationNumber:'暂无数据'}
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">企业电话 :</label>
+                                                <div className="col-sm-8 control-text">
+                                                    {EnterprisePhone?EnterprisePhone:'暂无数据'}
+                                                </div>
+                                            </div>
+                                            <div className={`form-group section`}>
+                                                <label className="col-sm-4 control-label">企业地址 :</label>
+                                                <div className="col-sm-8 control-text">
+                                                    {EnterpriseAdress?EnterpriseAdress:'暂无数据'}
+                                                </div>
+                                            </div>
+                                        <div className={`form-group section`}>
+                                            <label className="col-sm-4 control-label">质量保证书附件 :</label>
+                                            <div className="col-sm-8 control-text">
+                                                <img src={`${ROOT_URL}/user/${QualityAssuranceUrl}/downloadfile`} alt="质量保证书附件"
+                                                     style={{width: '200px', height: '190px'}}/>
+                                                <a className="download"
+                                                   href={`${ROOT_URL}/user/${QualityAssuranceUrl}/downloadfile`}
+                                                   download="allianceFile">
+                                                    <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                    下载附件</a>
+                                            </div>
+                                        </div>
+                                        <div className={`form-group section`}>
+                                            <label className="col-sm-4 control-label">药品生产质量管理规范附件 :</label>
+                                            <div className="col-sm-8 control-text">
+                                                <img src={`${ROOT_URL}/user/${GoodManufacturPracticesUrl}/downloadfile`} alt="药品生产质量管理规范附件"
+                                                     style={{width: '200px', height: '190px'}}/>
+                                                <a className="download"
+                                                   href={`${ROOT_URL}/user/${GoodManufacturPracticesUrl}/downloadfile`}
+                                                   download="allianceFile">
+                                                    <img src="../public/img/download.png" style={{width: '14px', height: '14px'}}/>
+                                                    下载附件</a>
+                                            </div>
+                                        </div>
+                                            <div className="row">
+                                                <div className="col-xs-12 text-center">
+                                                    <span className="text-danger ">* 首营资料查询展示的"暂无信息"为企业没有上传附件。</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        )
     }
 
 }
@@ -254,11 +716,10 @@ var RadioButtons = React.createClass({
 })
 
 function mapStateToProps(state) {
-    console.log(state)
     return {
-
         product: state.query.product,
-        company:state.query.company
+        company:state.query.company,
+        status:state.query.status
     };
 }
 

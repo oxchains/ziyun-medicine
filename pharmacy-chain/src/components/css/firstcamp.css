@@ -8,7 +8,8 @@ img{
     position: relative;
 }
 .download{
-    position: absolute;
+    position: relative;
+    left: 220px;
     bottom:0;
 }
 .section .download img{
@@ -24,9 +25,9 @@ img{
 .control-text{
     word-wrap:break-word
 }
-.undownload{
-    color: #cbcbcb !important;
-}
+/*.undownload{*/
+    /*color: #cbcbcb !important;*/
+/*}*/
 .query{
     display: inline-block;
     color: #10a4e9;
@@ -124,6 +125,16 @@ i{
     margin-left: 70px;
     cursor:pointer;
 }
-.content-wrapper{
-    position: unset;
+
+.compty-div
+{
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+.pppp
+{
+    font-size: 20px;
+    font-weight: bold;
+>>>>>>> 1aed72d5838993f175e7861b5dfb540f61a456fc
 }

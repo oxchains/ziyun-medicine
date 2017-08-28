@@ -4,6 +4,7 @@ import com.oxchains.pharmacy.data.GpsUserRepo;
 import com.oxchains.pharmacy.data.UserRepo;
 import com.oxchains.pharmacy.data.UserTypeRepo;
 import com.oxchains.pharmacy.domain.User;
+import com.oxchains.pharmacy.rest.client.ChaincodeClient;
 import com.oxchains.pharmacy.rest.client.EmailClient;
 import com.oxchains.pharmacy.rest.common.AuthenticateRequest;
 import com.oxchains.pharmacy.rest.common.RegisterRequest;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -41,12 +43,14 @@ public class UserController {
   private UserTypeRepo userTypeRepo;
   private GpsUserRepo gpsUserRepo;
   private EmailClient emailClient;
+  @Resource
+  private ChaincodeClient chaincodeClient;
 
   public UserController(
-      @Autowired UserRepo userRepo,
-      @Autowired UserTypeRepo userTypeRepo,
-      @Autowired EmailClient emailClient,
-      @Autowired GpsUserRepo gpsUserRepo) {
+          @Autowired UserRepo userRepo,
+          @Autowired UserTypeRepo userTypeRepo,
+          @Autowired EmailClient emailClient,
+          @Autowired GpsUserRepo gpsUserRepo) {
     this.userRepo = userRepo;
     this.userTypeRepo = userTypeRepo;
     this.gpsUserRepo = gpsUserRepo;
@@ -58,8 +62,8 @@ public class UserController {
 
   @PostMapping
   public RestResp register(
-      @CookieValue(value = "JSESSIONID") String mockSessionId,
-      @ModelAttribute @Valid RegisterRequest registerRequest, BindingResult bindingResult) {
+          @CookieValue(value = "JSESSIONID") String mockSessionId,
+          @ModelAttribute @Valid RegisterRequest registerRequest, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       FieldError err = bindingResult.getFieldError();
       log.warn("invalid registration request {}: ", registerRequest, err);
@@ -72,24 +76,24 @@ public class UserController {
     }
 
     return userRepo.findByUsernameOrEmail(
-        registerRequest.getUsername(), registerRequest.getEmail()
+            registerRequest.getUsername(), registerRequest.getEmail()
     ).map(
-        existingUser -> fail("user or email exist")
+            existingUser -> fail("user or email exist")
     ).orElseGet(
-        () -> userTypeRepo.findByCode(registerRequest.getType()).map(
-            userType -> registerRequest.toUser(userType, uploadDir).map(
-                newUser -> {
-                  User savedUser = userRepo.save(newUser);
-                  log.info("new registration {}({})", savedUser.getUsername(), savedUser.getId());
-                  return success(null);
-                }).orElse(fail("system error"))
-        ).orElse(fail("invalid type"))
+            () -> userTypeRepo.findByCode(registerRequest.getType()).map(
+                    userType -> registerRequest.toUser(userType, uploadDir).map(
+                            newUser -> {
+                              User savedUser = userRepo.save(newUser);
+                              log.info("new registration {}({})", savedUser.getUsername(), savedUser.getId());
+                              return success(null);
+                            }).orElse(fail("system error"))
+            ).orElse(fail("invalid type"))
     );
   }
 
   @PostMapping("/info")
   public RestResp updateInfo(
-      @ModelAttribute @Valid UpdateUserInfoRequest updateRequest, BindingResult bindingResult) {
+          @ModelAttribute @Valid UpdateUserInfoRequest updateRequest, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       FieldError err = bindingResult.getFieldError();
       log.warn("invalid update request {}: ", updateRequest, err);
@@ -101,7 +105,7 @@ public class UserController {
     }
 
     if(updateRequest.emailModified()
-        && userRepo.findByEmail(updateRequest.getEmail()).isPresent()){
+            && userRepo.findByEmail(updateRequest.getEmail()).isPresent()){
       return fail("email exist");
     }
 
@@ -167,6 +171,12 @@ public class UserController {
     });
   }
 
+
+  @GetMapping("/{uuid}/downloadfile")
+  public void downloadFile(@PathVariable String uuid, HttpServletRequest request, HttpServletResponse response) {
+    chaincodeClient.downloadFile(uuid.toString(),response);
+  }
+
   @GetMapping("/{uid:(?!application).*$}")
   public RestResp user(@PathVariable Long uid) {
     return userRepo.findById(uid).map(RestResp::success).orElse(fail("user not found"));
@@ -179,17 +189,21 @@ public class UserController {
 
   @PutMapping("/{uid}/authentication")
   public RestResp authenticate(
-      @PathVariable Long uid,
-      @RequestBody AuthenticateRequest authenticateRequest) {
+          @PathVariable Long uid,
+          @RequestBody AuthenticateRequest authenticateRequest) {
     return userContext().flatMap(u ->
-        userRepo.findById(uid).map(userToAuthenticate -> {
-          final boolean authenticated = authenticateRequest.getAction() > 0;
-          userToAuthenticate.setAuthenticated(authenticated ? 1 : -1);
-          User savedUser = userRepo.save(userToAuthenticate);
-          emailClient.sendAuthenticationResultAsync(authenticated,
-              userToAuthenticate.getEmail(), userToAuthenticate.getUsername(), authenticateRequest.getRemark());
-          return success(savedUser);
-        })
+            userRepo.findById(uid).map(userToAuthenticate -> {
+              final boolean authenticated = authenticateRequest.getAction() > 0;
+              userToAuthenticate.setAuthenticated(authenticated ? 1 : -1);
+              User savedUser = userRepo.save(userToAuthenticate);
+              //call ziyun-api,register user
+              if(authenticated){//审核通过
+                log.debug("===register==="+chaincodeClient.register(savedUser));
+              }
+              emailClient.sendAuthenticationResultAsync(authenticated,
+                  userToAuthenticate.getEmail(), userToAuthenticate.getUsername(), authenticateRequest.getRemark());
+              return success(savedUser);
+            })
     ).orElse(fail());
   }
 
@@ -203,4 +217,21 @@ public class UserController {
     return success(newArrayList(userTypeRepo.findAll()));
   }
 
+
+  @PostMapping("/auth/allow")
+  public String allow(@RequestBody String body){
+    System.out.println("body==="+body);
+    return chaincodeClient.allow(body,userContext().get().getUsername(),userContext().get().getPassword());
+  }
+
+  @GetMapping("/auth/query")
+  public String query(){
+    return chaincodeClient.query(userContext().get().getUsername(),userContext().get().getPassword());
+  }
+
+
+  @GetMapping("/queryuser")
+  public String queryuser(){
+    return chaincodeClient.queryuser(userContext().get().getUsername(),userContext().get().getPassword());
+  }
 }

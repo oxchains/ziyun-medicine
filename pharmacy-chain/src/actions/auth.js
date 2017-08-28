@@ -16,7 +16,6 @@ import {
  */
 export function signinAction({username, password}, callback) {
   return function (dispatch) {
-      console.log(callback)
 
     axios.post(`${ROOT_URL}/token`, {username, password})
 
@@ -31,7 +30,6 @@ export function signinAction({username, password}, callback) {
 
           dispatch({type: AUTH_USER});
           // - redirect to the route '/'
-          callback();
         } else {//auth fail
           dispatch(authError(response.data.message));
         }

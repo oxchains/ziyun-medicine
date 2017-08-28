@@ -24,7 +24,7 @@ import Query from './components/query';
 import Setting from './components/auth/setting';
 import Forget from './components/forget';
 import Infoquery from './components/infoquery';
-import FirstCampProduct from './components/firstcamp_product'
+import Authorize from './components/auth/authorize';
 
 const createStoreWithMiddleware = compose(
   applyMiddleware(reduxThunk),
@@ -49,8 +49,8 @@ ReactDOM.render(
             <Route path="/signin" component={Signin}/>
             <Route path="/setting" component={Setting}/>
             <Route path="/signup" component={Signup}/>
+            <Route path="/authorize" component={Authorize}/>
             <Route path="/forget" component={Forget}/>
-            <Route path="/infoquery/firstcamp_product" component={FirstCampProduct}/>
             <Route path="/unaudit/user/:uid" component={AuditDetail}/>
             <PrivateRoute path="/unaudit" component={Unaudit}/>
             <PrivateRoute path="/alliance" component={Alliance}/>
@@ -59,7 +59,6 @@ ReactDOM.render(
             <PrivateRoute path="/query" component={Query}/>
             <PrivateRoute path="/stat" component={Stat}/>
             <PrivateRoute path="/" component={Welcome}/>
-
           </Switch>
         </div>
         <Footer/>

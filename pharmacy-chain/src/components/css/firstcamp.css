@@ -4,7 +4,7 @@ a:link, a:visited{
 img{
     vertical-align: text-top;
 }
-div{
+.control-text{
     position: relative;
 }
 .download{
@@ -60,6 +60,7 @@ i{
     display: flex;
     justify-content: center;
     align-content: center;
+    position: unset;
 }
 .headerp
 {
@@ -122,4 +123,7 @@ i{
     background:linear-gradient( to right,#9A68B2,#C976E6);
     margin-left: 70px;
     cursor:pointer;
+}
+.content-wrapper{
+    position: unset;
 }

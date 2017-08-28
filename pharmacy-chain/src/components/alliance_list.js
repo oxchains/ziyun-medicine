@@ -28,6 +28,7 @@ class AllianceList extends Component {
   }
 
   render() {
+    console.log(this.props.all)
     if(this.props.all===null) {
       return <div><section className="content"><h1>Loading...</h1></section></div>
     }

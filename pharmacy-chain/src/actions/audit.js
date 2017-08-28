@@ -2,7 +2,6 @@
  * Created by finch on 6/30/17.
  */
 import axios from 'axios';
-
 import {
   ROOT_URL,
   DOWNLOAD_USER_FILE,
@@ -10,6 +9,8 @@ import {
   AUDIT_DETAIL,
   AUDITLISTS,
   FETCH_NOT_ALLIANCE_LIST,
+    FETCH_AUTHORIZE_COMPANY,
+    UPDATE_AUTHORIZE_ERROR,
   getAuthorizedHeader
 } from './types';
 /**
@@ -70,7 +71,6 @@ export function fetchDetailAudit({uid}, callback) {
           type: AUDIT_DETAIL,
           payload: res.data.data
         })
-
         callback();
       }
     })
@@ -95,3 +95,46 @@ export function fetchImg({img1, img2, img3}, callback) {
     }))
   }
 }
+
+/**
+ * 发送获授权公司信息
+ *
+ * @returns {Function}
+ */
+
+export function updateAuthorize({formData}){
+    return function (dispatch) {
+          axios({
+              method: 'post',
+              url: `${ROOT_URL}/user/auth/allow`,
+              data: formData,
+              headers: getAuthorizedHeader()
+          }).then((res) => {
+              if(res.data.status==0){
+                  dispatch({
+                      type: UPDATE_AUTHORIZE_ERROR,
+                      payload: res.data.message
+                  })
+              }
+          })
+
+    }
+}
+
+/**
+ * 获取授权公司信息
+ *
+ * @returns {Function}
+ */
+export function fetchAuthorizeCompany() {
+    return function (dispatch) {
+        axios.get(`${ROOT_URL}/user/queryuser`, {headers: getAuthorizedHeader()}).then((res) => {
+                dispatch({
+                    type: FETCH_AUTHORIZE_COMPANY,
+                    payload: res.data.data
+                })
+
+        })
+    }
+}
+

@@ -36,7 +36,12 @@ export const UPDATE_USER_SECRET = 'update_user_secret';               //更新�
 export const RESET_USER_SECRET = 'reset_user_secret';                 //重置密码
 export const RESET_CODE = 'reset_code';                               //重置验证码
 
-export const FETCH_FIRST_PRODUCT = 'fetch_first_product';               //获取首营产品数据
+export const FETCH_FIRST_PRODUCT = 'fetch_first_product';            //产品首营资料
+
+export const FETCH_FIRST_COMPANY = 'fetch_first_company';             //企业首营资料
+
+export const FETCH_AUTHORIZE_COMPANY = 'fetch_authorize_company';        //获取授权企业信息
+export const UPDATE_AUTHORIZE_ERROR='update_authorize_error'
 
 export function getAuthorizedHeader() {
   return { authorization: 'Bearer '+localStorage.getItem('token') }

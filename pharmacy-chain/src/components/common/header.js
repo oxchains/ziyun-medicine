@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { NavTop } from './nav_top';
-
+import css from '../css/authorize';
 
 class Header extends  Component {
 
@@ -14,6 +14,7 @@ class Header extends  Component {
         <div className="pull-right">
           <span className="margin-r-10"><i className="fa fa-user"></i> {username}</span>
           <Link to="/setting" className="margin-r-10 link-gray">用户设置</Link>
+          <Link to="/authorize"  className="margin-r-10 link-gray" >授权</Link>
           <Link to="/unaudit" className={`margin-r-10 link-gray ${username == 'ziyun2011' ? "" : "hidden"}`}>待审查列表</Link>
           <Link to="/signout" className="link-gray">退出</Link>
         </div>

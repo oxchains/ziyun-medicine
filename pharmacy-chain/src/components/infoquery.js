@@ -35,9 +35,9 @@ class Infoquery extends Component {
         const InputChoice= this.refs.goodInput.value ;
         const radioChoice= this.state.radioValue ;
         if(this.state.radioValue == "chanpin"){
+            this.props.fetchFirstCampProduct({InputChoice},()=>{
 
-            this.props.fetchFirstCampProduct({InputChoice},()=>{});
-
+            });
         }
         else {
             this.props.fetchFirstCampEnterprise({InputChoice,radioChoice},()=>{});
@@ -54,14 +54,16 @@ class Infoquery extends Component {
         })
     }
     prevpage(){
+        location.reload();
         let {index} = this.state;
         index--;
         this.setState({
             index
-        })
+        });
+
     }
     render() {
-
+        console.log(this.props.product)
             const status = this.props.status
             const product = this.props.product
             const ProductName = product && product.ProductName
@@ -121,7 +123,7 @@ class Infoquery extends Component {
         return (
             <div>
                 {/*第一页*/}
-            <div className={`container ${this.state.index == 0? "show" : "hidden"}`}>
+            <div className={`container ${this.state.index == 0? " " : "hidden"}`}>
                 <section className="content">
                     <div className="widthdiv">
                         <p className="headerp">首营资料查询</p>
@@ -732,8 +734,8 @@ var RadioButtons = React.createClass({
 function mapStateToProps(state) {
     return {
         product: state.query.product,
-        company:state.query.company,
-        status:state.query.status
+        company: state.query.company,
+        status: state.query.status
     };
 }
 

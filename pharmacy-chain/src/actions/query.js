@@ -41,7 +41,6 @@ export function fetchFirstCampProduct({ InputChoice },callback) {
     return function(dispatch) {
         axios.get(`${ROOT_URL}/productGmp/${InputChoice}`, { headers: getAuthorizedHeader() })
             .then(response => {
-                console.log(response)
                 dispatch({ type: FETCH_FIRST_PRODUCT, payload:response });
                 callback();
             })
@@ -57,7 +56,6 @@ export function fetchFirstCampEnterprise({ InputChoice ,radioChoice},callback) {
     return function(dispatch) {
         axios.get(`${ROOT_URL}/enterpriseGmp/${InputChoice}/${radioChoice==='produce_enterprise'?'produce_enterprise':'circulation_enterprises'}`, { headers: getAuthorizedHeader() })
             .then(response => {
-                console.log(response)
                 dispatch({ type: FETCH_FIRST_COMPANY, payload:response });
 
                 callback();

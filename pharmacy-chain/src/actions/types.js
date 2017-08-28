@@ -1,7 +1,10 @@
-export const ROOT_URL = 'http://api.member.oxchains.com:57600';
+// export const ROOT_URL = 'http://api.member.oxchains.com:57600';
 
 
-export const QQQROOT_URL = 'http://192.168.4.121:8080';
+// export const QQQROOT_URL = 'http://192.168.4.121:8080';
+
+export const ROOT_URL = 'http://192.168.1.125:12306';
+export const QQQROOT_URL = 'http://192.168.1.125:8090';
 
 export const AUTH_USER = 'auth_user';                                 //登录
 export const UNAUTH_USER = 'unauth_user';                             //退出登录

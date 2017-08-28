@@ -65,6 +65,7 @@ class Authorize extends  Component {
     }
     render() {
         if(this.props.authorize===null) {
+
             return <div><section className="content"><h1>Loading...</h1></section></div>
         }
         return (

@@ -1,5 +1,5 @@
 /**
- * Created by fxl on 2017/8/24.
+ * Created  on 2017/8/24.
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
@@ -20,6 +20,7 @@ class Infoquery extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handlequery = this.handlequery.bind(this)
         this.prevpage = this.prevpage.bind(this)
+        this.handlelook = this.handlelook.bind(this)
     }
     handleRadio(e) {
         this.setState({
@@ -35,9 +36,7 @@ class Infoquery extends Component {
         const InputChoice= this.refs.goodInput.value ;
         const radioChoice= this.state.radioValue ;
         if(this.state.radioValue == "chanpin"){
-
             this.props.fetchFirstCampProduct({InputChoice},()=>{});
-
         }
         else {
             this.props.fetchFirstCampEnterprise({InputChoice,radioChoice},()=>{});
@@ -54,12 +53,23 @@ class Infoquery extends Component {
         })
     }
     prevpage(){
+        location.reload()
         let {index} = this.state;
         index--;
         this.setState({
             index
         })
     }
+
+    handlelook(){
+        return (
+            <div className={`compty-div ${this.state.index == 1 & status != 0?"show" : "hidden"}`}><p className="pppp">暂无权限查看</p></div>
+        )
+    }
+
+
+
+
     render() {
 
             const status = this.props.status
@@ -142,7 +152,9 @@ class Infoquery extends Component {
                 {/*第二页产品首营*/}
 
 
-                <div className={`compty-div ${this.state.index == 1 & status != 0?"show" : "hidden"}`}><p className="pppp">暂无权限查看</p></div>
+                {/*<div className={`compty-div ${this.state.index == 1 & status != 0?"show" : "hidden"}`}><p className="pppp">暂无权限查看</p></div>*/}
+
+                    {this.handlelook()}
 
                     <div className={`content-main container ${this.state.index == 1 & status == 0 & this.state.radioValue == "chanpin"? "show" :"hidden"}`}>
 
@@ -188,7 +200,7 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">产品批号附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={img2}  alt="产品专利附件"
+                                                    <img src={img2}  alt="产品批号附件"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a  className={`download      ${ApprovalUrl?"show":"hidden"}`}
                                                         href={ApprovalUrl ? img2 :""}
@@ -214,7 +226,7 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">商标文件附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={img4}  alt="产品专利附件"
+                                                    <img src={img4}  alt="商标文件附件"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a  className={`download      ${ProductTrademarkDocumentsUrl?"show":"hidden"}`}
                                                         href={ProductTrademarkDocumentsUrl ? img4 :""}
@@ -227,7 +239,7 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">最小包装图 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={img5}  alt="产品专利附件"
+                                                    <img src={img5}  alt="最小包装图"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a  className={`download      ${ProductMiniPackageUrl?"show":"hidden"}`}
                                                         href={ProductMiniPackageUrl ? img5 :""}
@@ -240,7 +252,7 @@ class Infoquery extends Component {
                                             <div className={`form-group section`}>
                                                 <label className="col-sm-4 control-label">药品说明书附件 :</label>
                                                     <div className="col-sm-8 control-text">
-                                                        <img src={img6}  alt="产品专利附件"
+                                                        <img src={img6}  alt="药品说明书附件"
                                                              style={{width: '200px', height: '190px'}}/>
                                                         <a  className={`download      ${DrugInstructionsUrl?"show":"hidden"}`}
                                                             href={DrugInstructionsUrl ? img6 :""}
@@ -253,7 +265,7 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">一般纳税人认定记录附件:</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={img7}  alt="产品专利附件"
+                                                    <img src={img7}  alt="一般纳税人认定记录附件"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a  className={`download      ${GeneralTaxpayerRecordsUrl?"show":"hidden"}`}
                                                         href={GeneralTaxpayerRecordsUrl ? img7 :""}
@@ -266,7 +278,7 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">法人委托书附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={img8}  alt="产品专利附件"
+                                                    <img src={img8}  alt="法人委托书附件"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a  className={`download      ${LegalPowerOfAttorneyUrl?"show":"hidden"}`}
                                                         href={LegalPowerOfAttorneyUrl ? img8 :""}
@@ -279,7 +291,7 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">身份证附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={img9}  alt="产品专利附件"
+                                                    <img src={img9}  alt="身份证附件"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a  className={`download      ${IdCardUrl?"show":"hidden"}`}
                                                         href={IdCardUrl ? img9 :""}
@@ -292,7 +304,7 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">产品生产标准附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={img12}  alt="产品专利附件"
+                                                    <img src={img12}  alt="产品生产标准附件"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a  className={`download      ${ProudctProduceStandardUrl?"show":"hidden"}`}
                                                         href={ProudctProduceStandardUrl ? img12 :""}
@@ -305,7 +317,7 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">购销合同附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={img10}  alt="产品专利附件"
+                                                    <img src={img10}  alt="购销合同附件"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a  className={`download      ${PurchaseAndSaleContractUrl?"show":"hidden"}`}
                                                         href={PurchaseAndSaleContractUrl ? img10 :""}
@@ -318,7 +330,7 @@ class Infoquery extends Component {
                                                 <label className="col-sm-4 control-label">产品包装说明书附件 :</label>
                                                 <label className="col-sm-4 control-label"></label>
                                                 <div className="col-sm-8 control-text">
-                                                    <img src={img11}  alt="产品专利附件"
+                                                    <img src={img11}  alt="产品包装说明书附件"
                                                          style={{width: '200px', height: '190px'}}/>
                                                     <a  className={`download      ${ProductPackageAndManualUrl?"show":"hidden"}`}
                                                         href={ProductPackageAndManualUrl ? img11 :""}
@@ -451,7 +463,7 @@ class Infoquery extends Component {
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={img19}  alt="产品专利附件"
+                                                <img src={img19}  alt="税务登记证"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a  className={`download      ${TaxRegistrationCertificateUrl?"show":"hidden"}`}
                                                     href={TaxRegistrationCertificateUrl ? img19 :""}
@@ -467,7 +479,7 @@ class Infoquery extends Component {
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={img15}  alt="产品专利附件"
+                                                <img src={img15}  alt="组织机构代码"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a  className={`download      ${OrganizationCodeCertificateUrl?"show":"hidden"}`}
                                                     href={OrganizationCodeCertificateUrl ? img15 :""}
@@ -479,7 +491,7 @@ class Infoquery extends Component {
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">质量保证书附件 :</label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={img16}  alt="质量保证书附件"
+                                                <img src={img16}  alt="质量保证书"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a  className={`download      ${QualityAssuranceUrl?"show":"hidden"}`}
                                                     href={QualityAssuranceUrl ? img16 :""}
@@ -491,7 +503,7 @@ class Infoquery extends Component {
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">药品生产质量管理规范附件 :</label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={img17}  alt="药品生产质量管理规范附件"
+                                                <img src={img17}  alt="药品生产质量管理规范"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a  className={`download      ${GoodManufacturPracticesUrl?"show":"hidden"}`}
                                                     href={GoodManufacturPracticesUrl ? img17 :""}
@@ -545,7 +557,6 @@ class Infoquery extends Component {
                 {/*第四页流通企业*/}
                 {/*<div className={`compty-div ${this.state.index == 1 & status != 0?"show" : "hidden"}`}><p className="pppp">暂无权限查看</p></div>*/}
                 <div className={`content-main container ${this.state.index == 1 & status == 0 & this.state.radioValue == "circulation_enterprises"? "show" :"hidden"}`}>
-
                     <div className={`box stat-box no-border no-shadow`}>
                         <div className="box-body">
                             <div className="row">
@@ -578,7 +589,7 @@ class Infoquery extends Component {
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={img13}  alt="产品专利附件"
+                                                <img src={img13}  alt="营业执照"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a  className={`download      ${EnterprisePatentCertificateUrl?"show":"hidden"}`}
                                                     href={EnterprisePatentCertificateUrl ? img13 :""}
@@ -594,7 +605,7 @@ class Infoquery extends Component {
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={img19}  alt="产品专利附件"
+                                                <img src={img19}  alt="税务登记证"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a  className={`download      ${TaxRegistrationCertificateUrl?"show":"hidden"}`}
                                                     href={TaxRegistrationCertificateUrl ? img19 :""}
@@ -610,7 +621,7 @@ class Infoquery extends Component {
                                             </div>
                                             <label className="col-sm-4 control-label"></label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={img15}  alt="产品专利附件"
+                                                <img src={img15}  alt="组织机构代码"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a  className={`download      ${OrganizationCodeCertificateUrl?"show":"hidden"}`}
                                                     href={OrganizationCodeCertificateUrl ? img15 :""}
@@ -674,7 +685,7 @@ class Infoquery extends Component {
                                         <div className={`form-group section`}>
                                             <label className="col-sm-4 control-label">质量保证书附件 :</label>
                                             <div className="col-sm-8 control-text">
-                                                <img src={img16}  alt="质量保证书附件"
+                                                <img src={img16}  alt="质量保证书"
                                                      style={{width: '200px', height: '190px'}}/>
                                                 <a  className={`download      ${QualityAssuranceUrl?"show":"hidden"}`}
                                                     href={QualityAssuranceUrl ? img16 :""}
@@ -707,11 +718,8 @@ class Infoquery extends Component {
                         </div>
                     </div>
                 </div>
-
         )
-
     }
-
 }
 
 var RadioButtons = React.createClass({

@@ -7,18 +7,21 @@
  *
  */
 
-import React from 'react';
+import React,{ Component }from 'react';
 
-export default () => {
-  return (
-    <footer className="main-footer hidden">
-      <div className="container">
-        <div className="pull-right hidden-xs">
-          <b>Version</b> 0.1.0
-        </div>
-        <strong>Copyright &copy; 2017 <a href="https://www.oxchains.com/">Oxchains</a>.</strong> All rights
-        reserved.
-      </div>
-    </footer>
-  );
+class Footer extends Component{
+
+  render(){
+      return (
+          <div className="nav_footer">
+              <div className="">
+                  <span> © All rights reserved. 豫ICP备16005756号&nbsp;&nbsp; </span>
+                  <span>增值电信业务经营许可证编号：豫B2-20160014 &nbsp;&nbsp;&nbsp;&nbsp;</span>
+              </div>
+          </div>
+      );
+  }
 }
+
+
+export default Footer

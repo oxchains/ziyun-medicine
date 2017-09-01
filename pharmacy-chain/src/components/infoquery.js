@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import css from './css/firstcamp.css';
+import  './css/firstcamp.css';
 
 import {ROOT_URL,QQQROOT_URL} from '../actions/types';
 import {fetchFirstCampProduct,fetchFirstCampEnterprise} from '../actions/query';
@@ -20,7 +20,7 @@ class Infoquery extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handlequery = this.handlequery.bind(this)
         this.prevpage = this.prevpage.bind(this)
-        this.handlelook = this.handlelook.bind(this)
+        // this.handlelook = this.handlelook.bind(this)
     }
     handleRadio(e) {
         this.setState({
@@ -53,25 +53,26 @@ class Infoquery extends Component {
         })
     }
     prevpage(){
-        location.reload()
+
+        location.reload();
+
         let {index} = this.state;
         index--;
         this.setState({
             index
-        })
+        });
     }
-
-    handlelook(){
-        return (
-            <div className={`compty-div ${this.state.index == 1 & status != 0?"show" : "hidden"}`}><p className="pppp">暂无权限查看</p></div>
-        )
-    }
-
-
 
 
     render() {
-
+            // if(this.props.status == 0 ){
+            //     setTimeout( function(){
+            //         return (
+            //             <div className="compty-div"><p className="pppp">暂无权限查看</p></div>
+            //         )
+            //     },1000)
+            // }
+        // console.log(this.props.product)
             const status = this.props.status
             const product = this.props.product
             const ProductName = product && product.ProductName
@@ -131,7 +132,7 @@ class Infoquery extends Component {
         return (
             <div>
                 {/*第一页*/}
-            <div className={`container ${this.state.index == 0? "show" : "hidden"}`}>
+            <div className={`container ${this.state.index == 0? " " : "hidden"}`}>
                 <section className="content">
                     <div className="widthdiv">
                         <p className="headerp">首营资料查询</p>
@@ -152,9 +153,9 @@ class Infoquery extends Component {
                 {/*第二页产品首营*/}
 
 
-                {/*<div className={`compty-div ${this.state.index == 1 & status != 0?"show" : "hidden"}`}><p className="pppp">暂无权限查看</p></div>*/}
+                <div className={`compty-div ${this.state.index == 1 & status != 0?"show" : "hidden"}`}><p className="pppp">暂无权限查看</p></div>
 
-                    {this.handlelook()}
+                    {/*{this.handlelook()}*/}
 
                     <div className={`content-main container ${this.state.index == 1 & status == 0 & this.state.radioValue == "chanpin"? "show" :"hidden"}`}>
 
@@ -740,8 +741,8 @@ var RadioButtons = React.createClass({
 function mapStateToProps(state) {
     return {
         product: state.query.product,
-        company:state.query.company,
-        status:state.query.status
+        company: state.query.company,
+        status: state.query.status
     };
 }
 

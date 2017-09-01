@@ -36,11 +36,7 @@ class Authorize extends  Component {
         });
     }
     renderRows() {
-        // console.log(this.props.authorize)
         const username = localStorage.getItem('username');
-        // if(this.props.authorize===null){
-        //      return;
-        // }
         return this.props.authorize.map((row, idx) => {
             if(row.username==username){
                 return
@@ -65,6 +61,7 @@ class Authorize extends  Component {
     }
     render() {
         if(this.props.authorize===null) {
+
             return <div><section className="content"><h1>Loading...</h1></section></div>
         }
         return (

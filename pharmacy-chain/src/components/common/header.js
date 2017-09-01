@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { NavTop } from './nav_top';
-import css from '../css/authorize';
+import '../css/authorize';
 
 class Header extends  Component {
 
@@ -23,9 +23,7 @@ class Header extends  Component {
       return <div></div>
     }
   }
-
   render() {
-
     return (
       <div className="site-header" role="banner">
         <section data-type="background" data-speed="5">

@@ -1,5 +1,6 @@
 package com.oxchains.pharmacy.rest;
 
+import com.oxchains.pharmacy.auth.JwtAuthentication;
 import com.oxchains.pharmacy.data.GpsUserRepo;
 import com.oxchains.pharmacy.data.UserRepo;
 import com.oxchains.pharmacy.data.UserTypeRepo;
@@ -13,6 +14,7 @@ import com.oxchains.pharmacy.rest.common.UpdateUserInfoRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -221,17 +223,17 @@ public class UserController {
   @PostMapping("/auth/allow")
   public String allow(@RequestBody String body){
     System.out.println("body==="+body);
-    return chaincodeClient.allow(body,userContext().get().getUsername(),userContext().get().getPassword());
+    return chaincodeClient.allow(body);
   }
 
   @GetMapping("/auth/query")
   public String query(){
-    return chaincodeClient.query(userContext().get().getUsername(),userContext().get().getPassword());
+    return chaincodeClient.query();
   }
 
 
   @GetMapping("/queryuser")
   public String queryuser(){
-    return chaincodeClient.queryuser(userContext().get().getUsername(),userContext().get().getPassword());
+    return chaincodeClient.queryuser();
   }
 }

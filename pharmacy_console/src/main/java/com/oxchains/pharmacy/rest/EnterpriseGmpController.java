@@ -27,7 +27,7 @@ public class EnterpriseGmpController {
 
     @RequestMapping(value = "/{EnterpriseName}/{EnterpriseType}", method = RequestMethod.GET)
     public RestResp getEnterpriseGmpByEnterpriseNameAndType(@PathVariable String EnterpriseName,@PathVariable String EnterpriseType){
-        String result = chaincodeClient.getEnterpriseGmpByEnterpriseNameAndType(EnterpriseName,EnterpriseType,userContext().get().getUsername(),userContext().get().getPassword());
+        String result = chaincodeClient.getEnterpriseGmpByEnterpriseNameAndType(EnterpriseName,EnterpriseType);
         log.debug("===result==="+result);
         if("".equals(result)){
             return fail();

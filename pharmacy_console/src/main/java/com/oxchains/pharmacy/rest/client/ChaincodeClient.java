@@ -1,6 +1,9 @@
 package com.oxchains.pharmacy.rest.client;
 
-import com.google.gson.*;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.oxchains.pharmacy.domain.User;
 import com.oxchains.pharmacy.rest.common.ChaincodeResp;
 import com.oxchains.pharmacy.rest.common.PeerInfo;
@@ -11,8 +14,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,16 +23,12 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 import static com.oxchains.pharmacy.utils.ResponseUtil.*;
-import static java.time.LocalDateTime.now;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.empty;
 import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
 
 /**
  * chaincode operations
@@ -112,56 +111,34 @@ public class ChaincodeClient {
     });
   }
 
-  public String getEnterpriseGmpByEnterpriseNameAndType(String EnterpriseName, String EnterpriseType,String username,String password) {
-
-    Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
+  public String getEnterpriseGmpByEnterpriseNameAndType(String EnterpriseName, String EnterpriseType) {
     log.debug("===getEnterpriseGmpByEnterpriseNameAndType===");
-    String loginJson = "{\"Username\":\""+username+"\",\"Password\":\""+password+"\"}";
     try {
-
+      String token = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+      log.debug("===token==="+token);
       restTemplate = new RestTemplate();
-      ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(ziyunUri + "/user/login", loginJson, String.class);
-      String body = stringResponseEntity.getBody();
-      body = body.replace("\":\"{","\":{").replace("}\"}","}}").replace("{\\","{").replace("\\\":\\\"","\":\"").replace("\\\",\\\"","\",\"").replace("\\\":","\":");
-      log.debug("===body===" + body);
-      JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
-      if ("0".equals(jsonObject.get("status").getAsString())) {
-        String token = jsonObject.get("data").getAsJsonObject().get("Token").getAsString();
-        restTemplate = new RestTemplate();
-        ResponseEntity responseEntity = restTemplate.getForEntity(ziyunUri+ "/enterpriseGmp/{EnterpriseName}/{EnterpriseType}?Token=" + token, String.class,EnterpriseName,EnterpriseType);
-        log.error("===getEnterpriseGmpByEnterpriseNameAndType===\n" + responseEntity.getBody());
-        return responseEntity.getBody().toString();
-      }
+      ResponseEntity responseEntity = restTemplate.getForEntity(ziyunUri+ "/enterpriseGmp/{EnterpriseName}/{EnterpriseType}?Token=" + token, String.class,EnterpriseName,EnterpriseType);
+      log.debug("===getEnterpriseGmpByEnterpriseNameAndType===\n" + responseEntity.getBody());
+      return responseEntity.getBody().toString();
     }
     catch(Exception e){
-      log.error(e.toString());
+      log.error("getEnterpriseGmpByEnterpriseNameAndType error: ",e);
     }
     return "";
   }
 
-  public String getProductGmpByProducName(String ProductName,String username,String password) {
-
-    Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
+  public String getProductGmpByProducName(String ProductName) {
     log.debug("===getProductGmpByProducName==="+ProductName);
-    String loginJson = "{\"Username\":\""+username+"\",\"Password\":\""+password+"\"}";
     try {
+      String token = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+      log.debug("===token==="+token);
       restTemplate = new RestTemplate();
-      ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(ziyunUri + "/user/login", loginJson, String.class);
-      String body = stringResponseEntity.getBody();
-      body = body.replace("\":\"{","\":{").replace("}\"}","}}").replace("{\\","{").replace("\\\":\\\"","\":\"").replace("\\\",\\\"","\",\"").replace("\\\":","\":");
-      log.debug("===body===" + body);
-      JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
-      System.out.println(jsonObject);
-      if ("0".equals(jsonObject.get("status").getAsString())) {
-        String token = jsonObject.get("data").getAsJsonObject().get("Token").getAsString();
-        restTemplate = new RestTemplate();
-        ResponseEntity responseEntity = restTemplate.getForEntity(ziyunUri+ "/productGmp/{ProducName}?Token=" + token, String.class,ProductName);
-        log.error("===getProductGmpByProducName===\n" + responseEntity.getBody());
-        return responseEntity.getBody().toString();
-      }
+      ResponseEntity responseEntity = restTemplate.getForEntity(ziyunUri+ "/productGmp/{ProducName}?Token=" + token, String.class,ProductName);
+      log.debug("===getProductGmpByProducName===\n" + responseEntity.getBody());
+      return responseEntity.getBody().toString();
     }
     catch(Exception e){
-      log.error(e.toString());
+      log.error("getProductGmpByProducName error: ",e);
     }
     return "";
   }
@@ -169,54 +146,33 @@ public class ChaincodeClient {
   public boolean register(User user){
     Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
     log.debug("===register===ziyun api===");
-    String loginJson = "{\"Username\":\"ziyun110\",\"Password\":\"ziyun110\"}";
     String registerJson = "{\"Username\":\""+user.getUsername()+"\",\"Password\":\""+user.getPassword()+"\",\"Realname\":\""+user.getUsername()+"\"}";
     try{
+      String token = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+      log.debug("===token==="+token);
       restTemplate = new RestTemplate();
-      ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(ziyunUri+"/user/login",loginJson,String.class);
-      String body = stringResponseEntity.getBody();
-      body = body.replace("\":\"{","\":{").replace("}\"}","}}").replace("{\\","{").replace("\\\":\\\"","\":\"").replace("\\\",\\\"","\",\"").replace("\\\":","\":");
-      log.debug("===body==="+body);
-      JsonObject jsonObject = gson.fromJson(body,JsonObject.class);
+      ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(ziyunUri+ "/user/register?Token="+token,registerJson,String.class);
+      String result = stringResponseEntity.getBody();
+      log.debug("===result==="+result);
+      JsonObject jsonObject = gson.fromJson(result,JsonObject.class);
       if("0".equals(jsonObject.get("status").getAsString())){
-        String Token = jsonObject.get("data").getAsJsonObject().get("Token").getAsString();
-        log.debug("===Token==="+Token);
-        restTemplate = new RestTemplate();
-        stringResponseEntity = restTemplate.postForEntity(ziyunUri+ "/user/register?Token="+Token,registerJson,String.class);
-        String result = stringResponseEntity.getBody();
-        log.debug("===result==="+result);
-        jsonObject = gson.fromJson(result,JsonObject.class);
-        if("0".equals(jsonObject.get("status").getAsString())){
-          return true;
-        }
+        return true;
       }
     }
     catch(Exception e){
-      log.error(e.toString());
+      log.error("register user error: ",e);
     }
     return false;
   }
 
   public void downloadFile(String uuid, HttpServletResponse response){
-    Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
     log.debug("===downloadFile==="+uuid);
-    String loginJson = "{\"Username\":\"ziyun110\",\"Password\":\"ziyun110\"}";
     try {
-      restTemplate = new RestTemplate();
-      ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(ziyunUri + "/user/login", loginJson, String.class);
-      String body = stringResponseEntity.getBody();
-      body = body.replace("\":\"{","\":{").replace("}\"}","}}").replace("{\\","{").replace("\\\":\\\"","\":\"").replace("\\\",\\\"","\",\"").replace("\\\":","\":");
-      log.debug("===body===" + body);
-      JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
-      System.out.println(jsonObject);
-      if ("0".equals(jsonObject.get("status").getAsString())) {
-        String token = jsonObject.get("data").getAsJsonObject().get("Token").getAsString();
-        String url = ziyunUri+ "/user/"+uuid+"/downloadfile?Token=" + token;
-        storeFile(url,response);
-      }
+      String url = ziyunUri+ "/user/"+uuid+"/downloadfile";
+      storeFile(url,response);
     }
     catch(Exception e){
-      log.error(e.toString());
+      log.error("downloadFile error: ",e);
     }
   }
 
@@ -234,7 +190,6 @@ public class ChaincodeClient {
       }
       String head = urlCon.getHeaderField("Content-Disposition");
       String filename = head.split("filename=")[1].replace("\"","");
-      //System.out.println("===head==="+head);
 
       //读文件流
       fis = new BufferedInputStream(urlCon.getInputStream());
@@ -245,7 +200,7 @@ public class ChaincodeClient {
       // 清空response
       response.reset();
       // 设置response的Header
-      System.err.println("length==="+urlCon.getContentLength()+"==filename==="+filename);
+      log.debug("length==="+urlCon.getContentLength()+"==filename==="+filename);
       response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
       response.addHeader("Content-Length", "" + urlCon.getContentLength());
       OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
@@ -255,7 +210,7 @@ public class ChaincodeClient {
       toClient.close();
 
     } catch (Exception e) {
-      log.error(e.toString());
+      log.error("storeFile error: ",e);
     }finally {
       if(fis!=null){
         try {
@@ -268,88 +223,54 @@ public class ChaincodeClient {
     return fileName;
   }
 
-  public String allow(String userlist,String username,String password) {
-
-    Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
-    log.debug("===allow==="+userlist);
-    String loginJson = "{\"Username\":\""+username+"\",\"Password\":\""+password+"\"}";
+  public String allow(String userlist) {
     try {
+      String token = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+      log.debug("===token==="+token);
       restTemplate = new RestTemplate();
-      ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(ziyunUri + "/user/login", loginJson, String.class);
-      String body = stringResponseEntity.getBody();
-      body = body.replace("\":\"{","\":{").replace("}\"}","}}").replace("{\\","{").replace("\\\":\\\"","\":\"").replace("\\\",\\\"","\",\"").replace("\\\":","\":");
-      log.debug("===body===" + body);
-      JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
-      System.out.println(jsonObject);
-      if ("0".equals(jsonObject.get("status").getAsString())) {
-        String token = jsonObject.get("data").getAsJsonObject().get("Token").getAsString();
-        restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
-        headers.setContentType(type);
-        headers.add("Accept", MediaType.APPLICATION_JSON.toString());
-        HttpEntity<String> formEntity = new HttpEntity<String>(userlist,headers);
-        String result =  restTemplate.postForObject(ziyunUri+ "/user/auth/allow?Token=" + token,formEntity,String.class);
-        log.error("===allow===\n" + result);
-        return result;
-      }
+      HttpHeaders headers = new HttpHeaders();
+      MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
+      headers.setContentType(type);
+      headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+      HttpEntity<String> formEntity = new HttpEntity<String>(userlist,headers);
+      String result =  restTemplate.postForObject(ziyunUri+ "/user/auth/allow?Token=" + token,formEntity,String.class);
+      log.debug("===allow===\n" + result);
+      return result;
     }
     catch(Exception e){
-      log.error(e.toString());
+      log.error("user auth allow error: ",e);
     }
     return "";
   }
 
-  public String query(String username,String password) {
-
-    Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
+  public String query() {
     log.debug("===query===");
-    String loginJson = "{\"Username\":\""+username+"\",\"Password\":\""+password+"\"}";
     try {
+      String token = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+      log.debug("===token==="+token);
       restTemplate = new RestTemplate();
-      ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(ziyunUri + "/user/login", loginJson, String.class);
-      String body = stringResponseEntity.getBody();
-      body = body.replace("\":\"{","\":{").replace("}\"}","}}").replace("{\\","{").replace("\\\":\\\"","\":\"").replace("\\\",\\\"","\",\"").replace("\\\":","\":");
-      log.debug("===body===" + body);
-      JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
-      System.out.println(jsonObject);
-      if ("0".equals(jsonObject.get("status").getAsString())) {
-        String token = jsonObject.get("data").getAsJsonObject().get("Token").getAsString();
-        restTemplate = new RestTemplate();
-        String result =  restTemplate.getForObject(ziyunUri+ "/user/auth/query?Token=" + token,String.class);
-        log.error("===query===\n" + result);
-        return result;
-      }
+      String result =  restTemplate.getForObject(ziyunUri+ "/user/auth/query?Token=" + token,String.class);
+      log.debug("===query===\n" + result);
+      return result;
     }
     catch(Exception e){
-      log.error(e.toString());
+      log.error("user auth query error: ",e);
     }
     return "";
   }
 
-  public String queryuser(String username,String password) {
-
-    Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
+  public String queryuser() {
     log.debug("===queryuser===");
-    String loginJson = "{\"Username\":\""+username+"\",\"Password\":\""+password+"\"}";
     try {
+      String token = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+      log.debug("===token==="+token);
       restTemplate = new RestTemplate();
-      ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(ziyunUri + "/user/login", loginJson, String.class);
-      String body = stringResponseEntity.getBody();
-      body = body.replace("\":\"{","\":{").replace("}\"}","}}").replace("{\\","{").replace("\\\":\\\"","\":\"").replace("\\\",\\\"","\",\"").replace("\\\":","\":");
-      log.debug("===body===" + body);
-      JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
-      System.out.println(jsonObject);
-      if ("0".equals(jsonObject.get("status").getAsString())) {
-        String token = jsonObject.get("data").getAsJsonObject().get("Token").getAsString();
-        restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(ziyunUri+ "/user/queryuser?Token=" + token, String.class);
-        log.error("===queryuser===\n" + result);
-        return result;
-      }
+      String result = restTemplate.getForObject(ziyunUri+ "/user/queryuser?Token=" + token, String.class);
+      log.debug("===queryuser===\n" + result);
+      return result;
     }
     catch(Exception e){
-      log.error(e.toString());
+      log.error("queryuser error: ",e);
     }
     return "";
   }

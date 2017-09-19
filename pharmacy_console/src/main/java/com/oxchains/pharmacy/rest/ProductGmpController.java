@@ -23,7 +23,7 @@ public class ProductGmpController {
 
     @RequestMapping(value = "/{ProducName}", method = RequestMethod.GET)
     public RestResp getProductGmpByProducName(@PathVariable String ProducName){
-        String result = chaincodeClient.getProductGmpByProducName(ProducName,userContext().get().getUsername(),userContext().get().getPassword());
+        String result = chaincodeClient.getProductGmpByProducName(ProducName);
         log.debug("===result==="+result);
         if("".equals(result)){
             return fail();

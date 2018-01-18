@@ -35,3 +35,9 @@ Checkout this repo, install dependencies, then start the app with the following:
 > copy files index.html, bundle.js and directory public/  to any web server directory
 > done
 ```
+
++-----------------------------------------------------------------
+ +### Docker 命令
+ +docker build -t oxchains/ziyun-medicine .
+ +
+ +docker run -d --name ziyun-medicine -p 12306:12306 -v /etc/localtime:/etc/localtime -it oxchains/ziyun-medicine
